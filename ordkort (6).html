@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ordkort – Tur-retur Norge</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --fjord-900:#0f2a3b;
+    --fjord-700:#1c4a63;
+    --fjord-500:#3d7591;
+    --mist:#dce8ea;
+    --paper:#f6f3ec;
+    --ember:#c2694a;
+    --moss:#5c7457;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(255,255,255,0.10), transparent 45%),
+      linear-gradient(180deg, var(--fjord-900) 0%, var(--fjord-700) 55%, var(--fjord-500) 100%);
+    font-family:'Inter', sans-serif;
+    color:var(--paper);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 64px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* fjelltopper i bakgrunnen */
+  body::before{
+    content:"";
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:38vh;
+    clip-path: polygon(0% 100%, 0% 62%, 12% 40%, 22% 58%, 34% 22%, 48% 52%, 58% 30%, 70% 55%, 82% 18%, 92% 46%, 100% 30%, 100% 100%);
+    background-color: rgba(255,255,255,0.045);
+    pointer-events:none;
+  }
+
+  header{
+    text-align:center;
+    max-width:560px;
+    margin-bottom:8px;
+    z-index:1;
+  }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--mist);
+    opacity:0.75;
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(32px, 6vw, 46px);
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+
+  header p{
+    color:var(--mist);
+    opacity:0.85;
+    font-size:15px;
+    line-height:1.5;
+    margin:0;
+  }
+
+  .stage{
+    margin-top:34px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    z-index:1;
+    width:100%;
+    max-width:460px;
+  }
+
+  .progress{
+    font-size:13px;
+    color:var(--mist);
+    opacity:0.8;
+    letter-spacing:0.04em;
+  }
+
+  .card{
+    width:100%;
+    height:330px;
+    perspective:1400px;
+    cursor:pointer;
+  }
+
+  .card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 0.55s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+
+  .card.flipped .card-inner{
+    transform:rotateY(180deg);
+  }
+
+  .face{
+    position:absolute;
+    inset:0;
+    border-radius:18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+    backface-visibility:hidden;
+    box-shadow:0 18px 40px rgba(6,20,28,0.35);
+  }
+
+  .front{
+    background:linear-gradient(160deg, var(--paper), #ece6d8);
+    color:var(--fjord-900);
+  }
+
+  .back{
+    background:linear-gradient(160deg, var(--ember), #a24f34);
+    color:var(--paper);
+    transform:rotateY(180deg);
+  }
+
+  .face .tag{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    opacity:0.6;
+    margin-bottom:14px;
+  }
+
+  .face .word{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(24px, 5vw, 32px);
+    text-align:center;
+    line-height:1.15;
+  }
+
+  .face .hint{
+    margin-top:16px;
+    font-size:12.5px;
+    opacity:0.65;
+  }
+
+  .conj{
+    display:none;
+    grid-template-columns:auto 1fr;
+    gap:3px 14px;
+    margin-top:14px;
+    width:100%;
+    max-width:250px;
+    text-align:left;
+  }
+  .conj .cl{
+    font-size:10px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    opacity:0.6;
+    align-self:center;
+  }
+  .conj .cv{
+    font-size:14px;
+    font-weight:600;
+  }
+
+  .example{
+    margin-top:14px;
+    font-size:13.5px;
+    line-height:1.45;
+    text-align:center;
+    opacity:0.92;
+    font-style:italic;
+    max-width:340px;
+  }
+
+  .controls{
+    display:flex;
+    gap:12px;
+    width:100%;
+    max-width:460px;
+  }
+
+  button{
+    flex:1;
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06);
+    color:var(--paper);
+    padding:13px 16px;
+    border-radius:12px;
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    transition:background 0.2s ease, transform 0.15s ease;
+  }
+
+  button:hover{ background:rgba(255,255,255,0.14); }
+  button:active{ transform:scale(0.97); }
+  button:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+
+  button.primary{
+    background:var(--moss);
+    border-color:var(--moss);
+  }
+  button.primary:hover{ background:#6c8865; }
+
+  .footnote{
+    margin-top:26px;
+    font-size:12px;
+    color:var(--mist);
+    opacity:0.55;
+    text-align:center;
+    z-index:1;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card-inner{ transition:none; }
+  }
+
+  /* faner / navigasjon */
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin-top:22px;
+    z-index:1;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:14px;
+    padding:5px;
+  }
+
+  .tab{
+    border:none;
+    background:transparent;
+    color:var(--mist);
+    padding:9px 20px;
+    border-radius:10px;
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    flex:none;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .tab:hover{ background:rgba(255,255,255,0.10); }
+  .tab.active{
+    background:var(--paper);
+    color:var(--fjord-900);
+  }
+
+  .view{ display:none; width:100%; align-items:center; flex-direction:column; }
+  .view.active{ display:flex; }
+
+  /* notater */
+  .notes{
+    width:100%;
+    max-width:560px;
+    margin-top:30px;
+    z-index:1;
+  }
+
+  .note{
+    background:linear-gradient(160deg, var(--paper), #ece6d8);
+    color:var(--fjord-900);
+    border-radius:16px;
+    padding:24px 26px;
+    box-shadow:0 14px 34px rgba(6,20,28,0.30);
+    margin-bottom:18px;
+  }
+
+  .note h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:20px;
+    margin:0 0 12px;
+  }
+
+  .note p{
+    font-size:14.5px;
+    line-height:1.6;
+    margin:0 0 12px;
+  }
+  .note p:last-child{ margin-bottom:0; }
+
+  .note ul{
+    margin:0 0 12px;
+    padding-left:20px;
+  }
+  .note li{
+    font-size:14.5px;
+    line-height:1.7;
+    margin-bottom:4px;
+  }
+
+  .note .ex{ font-style:italic; }
+
+  .note strong{ color:var(--ember); font-weight:600; }
+
+  .note .rule{
+    background:rgba(28,74,99,0.08);
+    border-left:3px solid var(--fjord-500);
+    border-radius:8px;
+    padding:12px 16px;
+    font-size:14.5px;
+    line-height:1.6;
+    margin:0 0 14px;
+  }
+
+  .note .arrow{ color:var(--moss); font-weight:600; }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="eyebrow">Tur–retur Norge · Ordtrening</div>
+    <h1>Ordkort</h1>
+    <p>Trykk på kortet for å se det norske ordet og eksempelet fra boken.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" id="tabCards">Ordkort</button>
+    <button class="tab" id="tabNotes">Notater</button>
+    <button class="tab" id="tabVerbs">Uregelrette verb</button>
+  </div>
+
+  <div class="view active" id="viewCards">
+    <div class="stage">
+      <div class="progress" id="progress">Kort 1 av 61</div>
+
+      <div class="card" id="card">
+        <div class="card-inner">
+          <div class="face front">
+            <div class="tag">Engelsk</div>
+            <div class="word" id="frontWord">still</div>
+            <div class="hint">trykk for å snu</div>
+          </div>
+          <div class="face back">
+            <div class="tag">Norsk</div>
+            <div class="word" id="backWord">fremdeles</div>
+            <div class="conj" id="backConj"></div>
+            <div class="example" id="backExample">"...det kiler fremdeles like mye i magen..."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="prevBtn">← Forrige</button>
+        <button id="shuffleBtn" class="primary">Stokk kortene</button>
+        <button id="nextBtn">Neste →</button>
+      </div>
+    </div>
+
+    <div class="footnote">61 ord · «Tur–retur Norge» og andre kilder</div>
+  </div>
+
+  <div class="view" id="viewNotes">
+    <div class="notes">
+      <div class="note">
+        <h3>Bestemt form av adjektiv: -e-endingen</h3>
+        <p>Hvorfor heter det «den <strong>børstede</strong>» og ikke «den <strong>børstet</strong>»?
+        Fordi «børstet» her fungerer som et adjektiv (perfektum partisipp brukt som adjektiv), og adjektiv får -e-ending i bestemt form.</p>
+
+        <div class="rule">Regel: når et adjektiv står i bestemt form — altså etter <em>den / det / de</em> eller etter et eiendomsord — får det endingen <strong>-e</strong>.</div>
+
+        <ul>
+          <li>en børstet jakke <span class="arrow">→</span> den børsted<strong>e</strong> jakken <span class="ex">("the brushed one")</span></li>
+        </ul>
+
+        <p>Sammenlign med et vanlig adjektiv:</p>
+        <ul>
+          <li>en stor jakke <span class="arrow">→</span> den stor<strong>e</strong> jakken</li>
+          <li>et rødt hus <span class="arrow">→</span> det rød<strong>e</strong> huset</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <h3>å ha med noe</h3>
+        <p class="rule">to bring something</p>
+        <p class="ex">«Dr. Hamster har med noe hun vil vise oss.»</p>
+      </div>
+
+      <div class="note">
+        <h3>å ha noe med … å gjøre</h3>
+        <p class="rule">to have something to do with …</p>
+        <p class="ex">«Denne kassen har noe med dyr å gjøre.»<br>— this box has something to do with animals</p>
+      </div>
+
+      <div class="note">
+        <h3>hvor er det blitt av …?</h3>
+        <p class="rule">where have … gone? / what has become of …?</p>
+        <p class="ex">«Hvor er det blitt av maurene?»<br>— where have the ants gone?</p>
+        <p>Fast uttrykk for at noe har forsvunnet. «Det» er et foreløpig subjekt (som i «det regner»), og «av» er partikkelen som hører til uttrykket.</p>
+      </div>
+
+      <div class="note">
+        <h3>å tenke seg (et sted)</h3>
+        <p class="rule">to be planning to go / to be headed (somewhere)</p>
+        <p class="ex">«Hvor har de tenkt seg (hen)?»<br>— where are they planning to go?</p>
+        <p>Refleksivt uttrykk om reisemål. Bruk <strong>har</strong>, ikke «er»: «hvor <strong>har</strong> de tenkt seg». Man legger ofte til «hen» for å forsterke retningen. Eks.: «Jeg har tenkt meg på hytta.» = I'm planning to go to the cabin.</p>
+      </div>
+
+      <div class="note">
+        <h3>skulle ønske jeg kunne …</h3>
+        <p class="rule">I wish I could …</p>
+        <p class="ex">«Skulle ønske jeg kunne spise min brødskive.»<br>— I wish I could eat my slice of bread.</p>
+        <p>Setningsmal for ønsker man ikke får oppfylt. «Skulle ønske» + «kunne» + verb i infinitiv. En brødskive = a slice of bread.</p>
+      </div>
+
+      <div class="note">
+        <h3>bør · burde · skulle</h3>
+        <p>Engelsk «should» deles på flere norske verb etter betydning:</p>
+        <ul>
+          <li><strong>bør</strong> (råd, nåtid): «Du bør drikke mer vann.» <span class="ex">— you should drink more water</span></li>
+          <li><strong>burde</strong> (anger / mildt råd): «Jeg burde ha dratt tidligere.» <span class="ex">— I should have left earlier</span></li>
+          <li><strong>skulle</strong> (forventning / avtale): «Toget skulle komme klokka tre.» <span class="ex">— the train was supposed to come at three</span></li>
+        </ul>
+        <p><strong>bør/burde</strong> = fornuftig råd («det er lurt»). <strong>skal/skulle</strong> = forventet eller planlagt («slik var det meningen»).</p>
+      </div>
+
+      <div class="note">
+        <h3>«på X år», ikke «i X år»</h3>
+        <p class="rule">Superlativ + tidsrom: bruk <strong>på</strong> (der engelsk bruker «in»).</p>
+        <p class="ex">«Den laveste fyllingsgraden <strong>på</strong> 16 år.»<br>— the lowest fill level <strong>in</strong> 16 years.</p>
+        <p>Flere eksempler: «det varmeste <strong>på</strong> 20 år» = the warmest in 20 years · «beste kampen <strong>på</strong> lenge» = the best game in a long time.</p>
+        <p>Pass på: «<strong>i</strong> X år» betyr noe annet — varighet, altså «for X years» («Jeg har bodd her i 16 år»).</p>
+      </div>
+    </div>
+
+    <div class="footnote">Notater · grammatikk og småting underveis</div>
+  </div>
+
+  <div class="view" id="viewVerbs">
+    <div class="stage">
+      <div class="progress" id="progressV">Kort 1 av 150</div>
+
+      <div class="card" id="cardV">
+        <div class="card-inner">
+          <div class="face front">
+            <div class="tag">Engelsk</div>
+            <div class="word" id="frontWordV">to be</div>
+            <div class="hint">trykk for å snu</div>
+          </div>
+          <div class="face back">
+            <div class="tag">Norsk · uregelrett verb</div>
+            <div class="word" id="backWordV">å være</div>
+            <div class="conj" id="backConjV"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="prevBtnV">← Forrige</button>
+        <button id="shuffleBtnV" class="primary">Stokk kortene</button>
+        <button id="nextBtnV">Neste →</button>
+      </div>
+    </div>
+
+    <div class="footnote">150 uregelrette verb i bokmål · sortert etter frekvens</div>
+  </div>
+
+<script>
+  const words = [
+    { en: "without (something happening)", no: "uten at", ex: "«...enkelt liv uten at materialistiske ting får påvirke opplevelsene...»" },
+    { en: "still", no: "fremdeles", ex: "«...det kiler fremdeles like mye i magen hver gang...»" },
+    { en: "number / quantity", no: "antall", ex: "«...og antall reisedøgn for hvert år.»" },
+    { en: "lucky", no: "heldig", ex: "«Jeg kommer aldri over hvor heldige vi er...»" },
+    { en: "either", no: "enten", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»" },
+    { en: "finally", no: "endelig", ex: "«...kan jeg endelig presentere dere for steder som Steigen...»" },
+    { en: "close", no: "tett", ex: "«...har et så variert og unikt landskap tett på oss.»" },
+    { en: "to affect / influence", no: "påvirke", ex: "«...uten at materialistiske ting får påvirke opplevelsene...»", conj: {inf:"å påvirke", pres:"påvirker", fort:"påvirket", perf:"har påvirket"} },
+    { en: "the stomach", no: "magen", ex: "«...det kiler fremdeles like mye i magen...»" },
+    { en: "the mouth", no: "munnen", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»" },
+    { en: "relaxing", no: "avslappende", ex: "«...som det føles som en totalt stressfri og avslappende ferie.»" },
+    { en: "to contribute", no: "bidra", ex: "«...at den kan bidra til fantastiske opplevelser...»", conj: {inf:"å bidra", pres:"bidrar", fort:"bidro", perf:"har bidratt"} },
+    { en: "narrow", no: "trange", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»" },
+    { en: "to climb", no: "klatre", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»", conj: {inf:"å klatre", pres:"klatrer", fort:"klatret", perf:"har klatret"} },
+    { en: "village / rural settlement", no: "bygd", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»" },
+    { en: "valleys", no: "daler", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»" },
+    { en: "sheep", no: "sauer", ex: "«...kjører kolonne forbi saueflokken som vandrer midt i veien.»" },
+    { en: "mighty / powerful", no: "mektige", ex: "«...mektige fossefall, fire sesonger og en kyst man bare kan drømme om.»" },
+    { en: "to greet", no: "å hilse", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»", conj: {inf:"å hilse", pres:"hilser", fort:"hilste", perf:"har hilst"} },
+    { en: "the towel", no: "håndkleet", ex: "«...hvis håndkleet har rukket å tørke etter det iskalde badet...»" },
+    { en: "has had time to / managed to", no: "har rukket", ex: "«...hvis håndkleet har rukket å tørke...»", conj: {inf:"å rekke", pres:"rekker", fort:"rakk", perf:"har rukket"} },
+    { en: "to tickle", no: "å kile", ex: "«...det kiler fremdeles like mye i magen...»", conj: {inf:"å kile", pres:"kiler", fort:"kilte", perf:"har kilt"} },
+    { en: "evens out / levels out", no: "utjevner", ex: "«...måten det norske friluftslivet utjevner forskjellene mellom oss på.»", conj: {inf:"å utjevne", pres:"utjevner", fort:"utjevnet", perf:"har utjevnet"} },
+    { en: "open plains / highlands", no: "vidder", ex: "«...trange fjorder og vidder, mektige fossefall...»" },
+    { en: "nowhere near / far from", no: "på langt nær", ex: "«Jeg føler meg på langt nær ferdig...»" },
+    { en: "in all its glory", no: "i all sin prakt", ex: "«Et eventyrland i all sin prakt.»" },
+    { en: "travel day(s)", no: "reisedøgn", ex: "«...og antall reisedøgn for hvert år.»" },
+    { en: "brushed", no: "børstet", ex: "«Hun børstet snøen av jakken før hun gikk inn i hytta.»", conj: {inf:"å børste", pres:"børster", fort:"børstet", perf:"har børstet"} },
+    { en: "uneven", no: "ujevn", ex: "«Stien opp til hytta var ujevn og full av røtter.»" },
+    { en: "to exchange", no: "å bytte", ex: "«Jeg måtte bytte genseren i en større størrelse.»", conj: {inf:"å bytte", pres:"bytter", fort:"byttet", perf:"har byttet"} },
+    { en: "a sweater", no: "en genser", ex: "«Han tok på seg en varm genser før turen.»" },
+    { en: "a face", no: "et ansikt", ex: "«Hun hadde et fornøyd ansikt etter fjellturen.»" },
+    { en: "an ant", no: "en maur", ex: "Peppa Gris S12E09" },
+    { en: "a huge TV", no: "en diger TV", ex: "«De hadde en diger TV på hytteveggen.»" },
+    { en: "a mirror", no: "et speil", ex: "«Innsjøen lå blank som et speil.»" },
+    { en: "a whale", no: "en hval", ex: "«Vi så en hval blåse ute i fjorden.»" },
+    { en: "empty", no: "tom", ex: "«Kassen var tom da vi åpnet den.»" },
+    { en: "relation, relationship", no: "forhold", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»" },
+    { en: "the size", no: "størrelsen", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»" },
+    { en: "to feed (an animal)", no: "å fore", ex: "«Vi må fore dyrene før vi drar på tur.»", conj: {inf:"å fore", pres:"forer", fort:"foret", perf:"har foret"} },
+    { en: "to put", no: "å legge på", ex: "«Vi legger dem på gulvet.»", conj: {inf:"å legge på", pres:"legger på", fort:"la på", perf:"har lagt på"} },
+    { en: "to decide", no: "å bestemme", ex: "«Vi må bestemme hvor vi skal på tur i morgen.»", conj: {inf:"å bestemme", pres:"bestemmer", fort:"bestemte", perf:"har bestemt"} },
+    { en: "the transition", no: "overgangen", ex: "«Overgangen fra sommer til høst går fort i fjellet.»" },
+    { en: "put on hold, shelved", no: "stilt", ex: "«Stupetårnet i Stavanger var ferdig tegna, så ble det stilt.»", conj: {inf:"å stille", pres:"stiller", fort:"stilte", perf:"har stilt"} },
+    { en: "to save", no: "å lagre", ex: "«Magasinene lagrer vann til vinteren.»", conj: {inf:"å lagre", pres:"lagrer", fort:"lagret", perf:"har lagret"} },
+    { en: "a hydropower reservoir", no: "et kraftmagasin", ex: "«Kraftmagasinene har den laveste fyllingsgraden på 16 år.»" },
+    { en: "worst", no: "verst", ex: "«Verst er det i sørvest med halvfulle magasin.»" },
+    { en: "properly", no: "skikkelig", ex: "«Vi ble skikkelig våte på turen.»" },
+    { en: "mood", no: "en stemning", ex: "«Nå meldes det om sydenstemning i Sirdal.»" },
+    { en: "to report", no: "å melde", ex: "«Eierne meldte selv fra om brannen.»", conj: {inf:"å melde", pres:"melder", fort:"meldte", perf:"har meldt"} },
+    { en: "to join", no: "å føye seg inn i", ex: "«2026 føyer seg inn i rekka av de tørreste somrene.»", conj: {inf:"å føye seg", pres:"føyer seg", fort:"føyde seg", perf:"har føyd seg"} },
+    { en: "a row", no: "ei rekke", ex: "«...i rekka av de tre tørreste somrene på 20 år.»" },
+    { en: "thus", no: "dermed", ex: "«2026 føyer seg dermed inn i rekka av de tørreste somrene.»" },
+    { en: "far away", no: "langt unna", ex: "«Hytta ligger langt unna nærmeste vei.»" },
+    { en: "it is due to", no: "det skyldes", ex: "«Den lave fyllingsgraden skyldes lite nedbør.»", conj: {inf:"å skyldes", pres:"skyldes", fort:"skyldtes", perf:"har skyldtes"} },
+    { en: "unless", no: "med mindre", ex: "«Vi drar på tur i morgen, med mindre det regner.»" },
+    { en: "to measure", no: "å måle", ex: "«De måler nedbøren på målestasjonen Blåsjø, som ligger 1105 meter over havet.»", conj: {inf:"å måle", pres:"måler", fort:"målte", perf:"har målt"} },
+    { en: "according to", no: "ifølge", ex: "«Ifølge meteorologen blir det tørt hele uka.»" },
+    { en: "to enjoy", no: "å nyte", ex: "«Så er det mange som nyter vannaktiviteter.»", conj: {inf:"å nyte", pres:"nyter", fort:"nøt", perf:"har nytt"} },
+    { en: "to expect", no: "å forvente", ex: "«Vi forventer godt vær i helga.»", conj: {inf:"å forvente", pres:"forventer", fort:"forventet", perf:"har forventet"} },
+    { en: "fundamental", no: "grunnleggende", ex: "«Friluftsliv er en grunnleggende del av norsk kultur.»" }
+  ];
+
+  let order = words.map((_, i) => i);
+  let pos = 0;
+
+  const card = document.getElementById('card');
+  const frontWord = document.getElementById('frontWord');
+  const backWord = document.getElementById('backWord');
+  const backConj = document.getElementById('backConj');
+  const backExample = document.getElementById('backExample');
+  const progress = document.getElementById('progress');
+
+  function render(){
+    const w = words[order[pos]];
+    frontWord.textContent = w.en;
+    backWord.textContent = w.no;
+    if(w.conj){
+      backConj.style.display = 'grid';
+      backConj.innerHTML =
+        '<span class="cl">infinitiv</span><span class="cv">' + w.conj.inf + '</span>' +
+        '<span class="cl">presens</span><span class="cv">' + w.conj.pres + '</span>' +
+        '<span class="cl">fortid</span><span class="cv">' + w.conj.fort + '</span>' +
+        '<span class="cl">perfektum</span><span class="cv">' + w.conj.perf + '</span>';
+    } else {
+      backConj.style.display = 'none';
+      backConj.innerHTML = '';
+    }
+    backExample.textContent = w.ex;
+    progress.textContent = `Kort ${pos + 1} av ${words.length}`;
+    card.classList.remove('flipped');
+  }
+
+  function shuffleOrder(){
+    for(let i = order.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+  }
+
+  function next(){
+    pos = (pos + 1) % words.length;
+    render();
+  }
+
+  function prev(){
+    pos = (pos - 1 + words.length) % words.length;
+    render();
+  }
+
+  function shuffle(){
+    shuffleOrder();
+    pos = 0;
+    render();
+  }
+
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+  document.getElementById('nextBtn').addEventListener('click', next);
+  document.getElementById('prevBtn').addEventListener('click', prev);
+  document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+
+
+
+  // ── Uregelrette verb-stokk ──
+  const verbs = [
+    { en: "to be", no: "å være", conj: {inf:"å være", pres:"er", fort:"var", perf:"har vært"} },
+    { en: "to have", no: "å ha", conj: {inf:"å ha", pres:"har", fort:"hadde", perf:"har hatt"} },
+    { en: "can / to be able to", no: "å kunne", conj: {inf:"å kunne", pres:"kan", fort:"kunne", perf:"har kunnet"} },
+    { en: "shall / to be going to", no: "å skulle", conj: {inf:"å skulle", pres:"skal", fort:"skulle", perf:"har skullet"} },
+    { en: "will / to want to", no: "å ville", conj: {inf:"å ville", pres:"vil", fort:"ville", perf:"har villet"} },
+    { en: "to get / receive", no: "å få", conj: {inf:"å få", pres:"får", fort:"fikk", perf:"har fått"} },
+    { en: "to become / stay", no: "å bli", conj: {inf:"å bli", pres:"blir", fort:"ble", perf:"har blitt"} },
+    { en: "to come", no: "å komme", conj: {inf:"å komme", pres:"kommer", fort:"kom", perf:"har kommet"} },
+    { en: "to go / walk", no: "å gå", conj: {inf:"å gå", pres:"går", fort:"gikk", perf:"har gått"} },
+    { en: "to take", no: "å ta", conj: {inf:"å ta", pres:"tar", fort:"tok", perf:"har tatt"} },
+    { en: "to say", no: "å si", conj: {inf:"å si", pres:"sier", fort:"sa", perf:"har sagt"} },
+    { en: "to see", no: "å se", conj: {inf:"å se", pres:"ser", fort:"så", perf:"har sett"} },
+    { en: "to do / make", no: "å gjøre", conj: {inf:"å gjøre", pres:"gjør", fort:"gjorde", perf:"har gjort"} },
+    { en: "must / to have to", no: "å måtte", conj: {inf:"å måtte", pres:"må", fort:"måtte", perf:"har måttet"} },
+    { en: "to give", no: "å gi", conj: {inf:"å gi", pres:"gir", fort:"ga", perf:"har gitt"} },
+    { en: "to find", no: "å finne", conj: {inf:"å finne", pres:"finner", fort:"fant", perf:"har funnet"} },
+    { en: "to stand", no: "å stå", conj: {inf:"å stå", pres:"står", fort:"sto", perf:"har stått"} },
+    { en: "to know (a fact)", no: "å vite", conj: {inf:"å vite", pres:"vet", fort:"visste", perf:"har visst"} },
+    { en: "to set / put", no: "å sette", conj: {inf:"å sette", pres:"setter", fort:"satte", perf:"har satt"} },
+    { en: "to lay / put", no: "å legge", conj: {inf:"å legge", pres:"legger", fort:"la", perf:"har lagt"} },
+    { en: "to let / allow", no: "å la", conj: {inf:"å la", pres:"lar", fort:"lot", perf:"har latt"} },
+    { en: "to hold / keep", no: "å holde", conj: {inf:"å holde", pres:"holder", fort:"holdt", perf:"har holdt"} },
+    { en: "to lie (be lying down)", no: "å ligge", conj: {inf:"å ligge", pres:"ligger", fort:"lå", perf:"har ligget"} },
+    { en: "to sit", no: "å sitte", conj: {inf:"å sitte", pres:"sitter", fort:"satt", perf:"har sittet"} },
+    { en: "to go / pull", no: "å dra", conj: {inf:"å dra", pres:"drar", fort:"dro", perf:"har dratt"} },
+    { en: "to be called / named", no: "å hete", conj: {inf:"å hete", pres:"heter", fort:"het", perf:"har hett"} },
+    { en: "to think / find (opinion)", no: "å synes", conj: {inf:"å synes", pres:"synes / syns", fort:"syntes", perf:"har syntes"} },
+    { en: "to ask", no: "å spørre", conj: {inf:"å spørre", pres:"spør", fort:"spurte", perf:"har spurt"} },
+    { en: "to tell / narrate", no: "å fortelle", conj: {inf:"å fortelle", pres:"forteller", fort:"fortalte", perf:"har fortalt"} },
+    { en: "to understand", no: "å forstå", conj: {inf:"å forstå", pres:"forstår", fort:"forsto", perf:"har forstått"} },
+    { en: "to write", no: "å skrive", conj: {inf:"å skrive", pres:"skriver", fort:"skrev", perf:"har skrevet"} },
+    { en: "to choose", no: "å velge", conj: {inf:"å velge", pres:"velger", fort:"valgte", perf:"har valgt"} },
+    { en: "ought to / should", no: "å burde", conj: {inf:"å burde", pres:"bør", fort:"burde", perf:"har burdet"} },
+    { en: "to help", no: "å hjelpe", conj: {inf:"å hjelpe", pres:"hjelper", fort:"hjalp", perf:"har hjulpet"} },
+    { en: "to meet / hit (a target)", no: "å treffe", conj: {inf:"å treffe", pres:"treffer", fort:"traff", perf:"har truffet"} },
+    { en: "to follow / accompany", no: "å følge", conj: {inf:"å følge", pres:"følger", fort:"fulgte", perf:"har fulgt"} },
+    { en: "to hit / strike", no: "å slå", conj: {inf:"å slå", pres:"slår", fort:"slo", perf:"har slått"} },
+    { en: "to mean / signify", no: "å bety", conj: {inf:"å bety", pres:"betyr", fort:"betydde", perf:"har betydd"} },
+    { en: "to apply / be valid", no: "å gjelde", conj: {inf:"å gjelde", pres:"gjelder", fort:"gjaldt", perf:"har gjeldt"} },
+    { en: "to fall", no: "å falle", conj: {inf:"å falle", pres:"faller", fort:"falt", perf:"har falt"} },
+    { en: "to sleep", no: "å sove", conj: {inf:"å sove", pres:"sover", fort:"sov", perf:"har sovet"} },
+    { en: "to win", no: "å vinne", conj: {inf:"å vinne", pres:"vinner", fort:"vant", perf:"har vunnet"} },
+    { en: "to drink", no: "å drikke", conj: {inf:"å drikke", pres:"drikker", fort:"drakk", perf:"har drukket"} },
+    { en: "to sell", no: "å selge", conj: {inf:"å selge", pres:"selger", fort:"solgte", perf:"har solgt"} },
+    { en: "to ask / pray", no: "å be", conj: {inf:"å be", pres:"ber", fort:"ba", perf:"har bedt"} },
+    { en: "to pull / draw", no: "å trekke", conj: {inf:"å trekke", pres:"trekker", fort:"trakk", perf:"har trukket"} },
+    { en: "to run", no: "å løpe", conj: {inf:"å løpe", pres:"løper", fort:"løp", perf:"har løpt"} },
+    { en: "to carry", no: "å bære", conj: {inf:"å bære", pres:"bærer", fort:"bar", perf:"har båret"} },
+    { en: "to reach / make it in time", no: "å rekke", conj: {inf:"å rekke", pres:"rekker", fort:"rakk", perf:"har rukket"} },
+    { en: "to drive / run (a business)", no: "å drive", conj: {inf:"å drive", pres:"driver", fort:"drev", perf:"har drevet"} },
+    { en: "to exist", no: "å finnes", conj: {inf:"å finnes", pres:"finnes / fins", fort:"fantes", perf:"har funnes"} },
+    { en: "to let go / avoid", no: "å slippe", conj: {inf:"å slippe", pres:"slipper", fort:"slapp", perf:"har sluppet"} },
+    { en: "to disappear", no: "å forsvinne", conj: {inf:"å forsvinne", pres:"forsvinner", fort:"forsvant", perf:"har forsvunnet"} },
+    { en: "to offer", no: "å tilby", conj: {inf:"å tilby", pres:"tilbyr", fort:"tilbød", perf:"har tilbudt"} },
+    { en: "to receive", no: "å motta", conj: {inf:"å motta", pres:"mottar", fort:"mottok", perf:"har mottatt"} },
+    { en: "to leave / abandon", no: "å forlate", conj: {inf:"å forlate", pres:"forlater", fort:"forlot", perf:"har forlatt"} },
+    { en: "to describe", no: "å beskrive", conj: {inf:"å beskrive", pres:"beskriver", fort:"beskrev", perf:"har beskrevet"} },
+    { en: "to bring", no: "å bringe", conj: {inf:"å bringe", pres:"bringer", fort:"brakte", perf:"har brakt"} },
+    { en: "to thrive / feel at home", no: "å trives", conj: {inf:"å trives", pres:"trives", fort:"trivdes", perf:"har trivdes"} },
+    { en: "to succeed", no: "å lykkes", conj: {inf:"å lykkes", pres:"lykkes", fort:"lyktes", perf:"har lyktes"} },
+    { en: "to hang (intransitive; transitive is regular: hengte)", no: "å henge", conj: {inf:"å henge", pres:"henger", fort:"hang", perf:"har hengt"} },
+    { en: "to burn (intransitive; transitive is regular: brente)", no: "å brenne", conj: {inf:"å brenne", pres:"brenner", fort:"brant", perf:"har brent"} },
+    { en: "to shoot", no: "å skyte", conj: {inf:"å skyte", pres:"skyter", fort:"skjøt", perf:"har skutt"} },
+    { en: "to sing", no: "å synge", conj: {inf:"å synge", pres:"synger", fort:"sang", perf:"har sunget"} },
+    { en: "to freeze / be cold", no: "å fryse", conj: {inf:"å fryse", pres:"fryser", fort:"frøs", perf:"har frosset"} },
+    { en: "to fly", no: "å fly", conj: {inf:"å fly", pres:"flyr", fort:"fløy", perf:"har fløyet"} },
+    { en: "to enjoy", no: "å nyte", conj: {inf:"å nyte", pres:"nyter", fort:"nøt", perf:"har nytt"} },
+    { en: "to count", no: "å telle", conj: {inf:"å telle", pres:"teller", fort:"talte / telte", perf:"har talt / telt"} },
+    { en: "to sting / stick / pop by", no: "å stikke", conj: {inf:"å stikke", pres:"stikker", fort:"stakk", perf:"har stukket"} },
+    { en: "to lie (tell an untruth)", no: "å lyve", conj: {inf:"å lyve", pres:"lyver", fort:"løy", perf:"har løyet"} },
+    { en: "to break", no: "å bryte", conj: {inf:"å bryte", pres:"bryter", fort:"brøt", perf:"har brutt"} },
+    { en: "to run / flow", no: "å renne", conj: {inf:"å renne", pres:"renner", fort:"rant", perf:"har rent"} },
+    { en: "to cry / weep", no: "å gråte", conj: {inf:"å gråte", pres:"gråter", fort:"gråt", perf:"har grått"} },
+    { en: "to laugh", no: "å le", conj: {inf:"å le", pres:"ler", fort:"lo", perf:"har ledd"} },
+    { en: "to dare", no: "å tore / tørre", conj: {inf:"å tore / tørre", pres:"tør", fort:"torde", perf:"har tort"} },
+    { en: "to steal", no: "å stjele", conj: {inf:"å stjele", pres:"stjeler", fort:"stjal", perf:"har stjålet"} },
+    { en: "to be bothered to", no: "å gidde", conj: {inf:"å gidde", pres:"gidder", fort:"gadd", perf:"har giddet"} },
+    { en: "to cut / carve", no: "å skjære", conj: {inf:"å skjære", pres:"skjærer", fort:"skar", perf:"har skåret"} },
+    { en: "to bite", no: "å bite", conj: {inf:"å bite", pres:"biter", fort:"bet / beit", perf:"har bitt"} },
+    { en: "to break (a bone)", no: "å brekke", conj: {inf:"å brekke", pres:"brekker", fort:"brakk", perf:"har brukket"} },
+    { en: "to sink", no: "å synke", conj: {inf:"å synke", pres:"synker", fort:"sank", perf:"har sunket"} },
+    { en: "to attack", no: "å angripe", conj: {inf:"å angripe", pres:"angriper", fort:"angrep", perf:"har angrepet"} },
+    { en: "to stretch", no: "å strekke", conj: {inf:"å strekke", pres:"strekker", fort:"strakk / strakte", perf:"har strukket / strakt"} },
+    { en: "to force", no: "å tvinge", conj: {inf:"å tvinge", pres:"tvinger", fort:"tvang", perf:"har tvunget"} },
+    { en: "to tie / bind", no: "å binde", conj: {inf:"å binde", pres:"binder", fort:"bandt", perf:"har bundet"} },
+    { en: "to grab / seize", no: "å gripe", conj: {inf:"å gripe", pres:"griper", fort:"grep", perf:"har grepet"} },
+    { en: "to tear / rip", no: "å rive", conj: {inf:"å rive", pres:"river", fort:"rev", perf:"har revet"} },
+    { en: "to run / leap", no: "å springe", conj: {inf:"å springe", pres:"springer", fort:"sprang", perf:"har sprunget"} },
+    { en: "to crack / burst", no: "å sprekke", conj: {inf:"å sprekke", pres:"sprekker", fort:"sprakk", perf:"har sprukket"} },
+    { en: "to iron / stroke / fail (an exam)", no: "å stryke", conj: {inf:"å stryke", pres:"stryker", fort:"strøk", perf:"har strøket"} },
+    { en: "to grease / spread (butter)", no: "å smøre", conj: {inf:"å smøre", pres:"smører", fort:"smurte", perf:"har smurt"} },
+    { en: "to crawl / creep", no: "å krype", conj: {inf:"å krype", pres:"kryper", fort:"krøp", perf:"har krøpet"} },
+    { en: "to fall (colloquial)", no: "å dette", conj: {inf:"å dette", pres:"detter", fort:"datt", perf:"har dettet"} },
+    { en: "to struggle / wear out", no: "å slite", conj: {inf:"å slite", pres:"sliter", fort:"slet", perf:"har slitt"} },
+    { en: "to boast / brag", no: "å skryte", conj: {inf:"å skryte", pres:"skryter", fort:"skrøt", perf:"har skrytt"} },
+    { en: "to snap / crack (intransitive; transitive is regular: knekte)", no: "å knekke", conj: {inf:"å knekke", pres:"knekker", fort:"knakk", perf:"har knekket"} },
+    { en: "to pretend", no: "å late (som)", conj: {inf:"å late (som)", pres:"later", fort:"lot", perf:"har latt"} },
+    { en: "to offer / bid", no: "å by", conj: {inf:"å by", pres:"byr", fort:"bød", perf:"har budt"} },
+    { en: "to push / shove", no: "å skyve", conj: {inf:"å skyve", pres:"skyver", fort:"skjøv", perf:"har skjøvet"} },
+    { en: "to sneeze", no: "å nyse", conj: {inf:"å nyse", pres:"nyser", fort:"nøs", perf:"har nyst"} },
+    { en: "to float / flow", no: "å flyte", conj: {inf:"å flyte", pres:"flyter", fort:"fløt", perf:"har flytt"} },
+    { en: "to smoke / snap (break)", no: "å ryke", conj: {inf:"å ryke", pres:"ryker", fort:"røk", perf:"har røket"} },
+    { en: "to cheat; blow one’s nose", no: "å snyte", conj: {inf:"å snyte", pres:"snyter", fort:"snøt", perf:"har snytt"} },
+    { en: "to scream", no: "å skrike", conj: {inf:"å skrike", pres:"skriker", fort:"skrek", perf:"har skreket"} },
+    { en: "to rise / climb", no: "å stige", conj: {inf:"å stige", pres:"stiger", fort:"steg", perf:"har steget"} },
+    { en: "to bounce / spring", no: "å sprette", conj: {inf:"å sprette", pres:"spretter", fort:"spratt", perf:"har sprettet"} },
+    { en: "to be startled / splash", no: "å skvette", conj: {inf:"å skvette", pres:"skvetter", fort:"skvatt", perf:"har skvettet"} },
+    { en: "to bang / slam (intransitive; transitive is regular: smelte)", no: "å smelle", conj: {inf:"å smelle", pres:"smeller", fort:"smalt", perf:"har smelt"} },
+    { en: "to glide / slip", no: "å gli", conj: {inf:"å gli", pres:"glir", fort:"gled / glei", perf:"har glidd"} },
+    { en: "to step (tre inn: to enter)", no: "å tre", conj: {inf:"å tre", pres:"trer", fort:"trådte", perf:"har trådt"} },
+    { en: "to dig", no: "å grave", conj: {inf:"å grave", pres:"graver", fort:"grov / gravde", perf:"har gravd"} },
+    { en: "to chase", no: "å jage", conj: {inf:"å jage", pres:"jager", fort:"jog / jaget", perf:"har jaget"} },
+    { en: "to throw / heave", no: "å hive", conj: {inf:"å hive", pres:"hiver", fort:"hev / hivde", perf:"har hevet / hivd"} },
+    { en: "to chop / hew", no: "å hogge", conj: {inf:"å hogge", pres:"hogger", fort:"hogg / hogde", perf:"har hogd"} },
+    { en: "to suffer", no: "å lide", conj: {inf:"å lide", pres:"lider", fort:"led", perf:"har lidd"} },
+    { en: "to ride (a horse)", no: "å ri", conj: {inf:"å ri", pres:"rir", fort:"red / rei", perf:"har ridd"} },
+    { en: "to grind (mol); to paint is regular (malte)", no: "å male", conj: {inf:"å male", pres:"maler", fort:"mol / malte", perf:"har malt"} },
+    { en: "to tremble / shiver", no: "å skjelve", conj: {inf:"å skjelve", pres:"skjelver", fort:"skalv", perf:"har skjelvet"} },
+    { en: "to spin / purr", no: "å spinne", conj: {inf:"å spinne", pres:"spinner", fort:"spant", perf:"har spunnet"} },
+    { en: "to stink", no: "å stinke", conj: {inf:"å stinke", pres:"stinker", fort:"stank", perf:"har stinket"} },
+    { en: "to strangle / smother", no: "å kvele", conj: {inf:"å kvele", pres:"kveler", fort:"kvalte", perf:"har kvalt"} },
+    { en: "to swear / vow", no: "å sverge", conj: {inf:"å sverge", pres:"sverger", fort:"svor / sverget", perf:"har svoret / sverget"} },
+    { en: "to hang around (intransitive; “to fling” is regular: slengte)", no: "å slenge", conj: {inf:"å slenge", pres:"slenger", fort:"slang", perf:"har slengt"} },
+    { en: "to be silent", no: "å tie", conj: {inf:"å tie", pres:"tier", fort:"tidde", perf:"har tidd"} },
+    { en: "to twist / wring", no: "å vri", conj: {inf:"å vri", pres:"vrir", fort:"vred", perf:"har vridd"} },
+    { en: "to cry / whine", no: "å grine", conj: {inf:"å grine", pres:"griner", fort:"grein / grinte", perf:"har grint"} },
+    { en: "to sneak", no: "å snike", conj: {inf:"å snike", pres:"sniker", fort:"snek", perf:"har sneket"} },
+    { en: "to betray", no: "å svike", conj: {inf:"å svike", pres:"sviker", fort:"svek", perf:"har sveket"} },
+    { en: "to sting / scorch", no: "å svi", conj: {inf:"å svi", pres:"svir", fort:"sved / svidde", perf:"har svidd"} },
+    { en: "to rub", no: "å gni", conj: {inf:"å gni", pres:"gnir", fort:"gned / gnidde", perf:"har gnidd"} },
+    { en: "to travel / rush", no: "å fare", conj: {inf:"å fare", pres:"farer", fort:"for", perf:"har fart"} },
+    { en: "to eat (of animals; coarse)", no: "å ete", conj: {inf:"å ete", pres:"eter", fort:"åt", perf:"har ett"} },
+    { en: "to yield / give way", no: "å vike", conj: {inf:"å vike", pres:"viker", fort:"vek", perf:"har veket"} },
+    { en: "to slip / dart", no: "å smette", conj: {inf:"å smette", pres:"smetter", fort:"smatt", perf:"har smettet"} },
+    { en: "to dwindle / fade", no: "å svinne", conj: {inf:"å svinne", pres:"svinner", fort:"svant", perf:"har svunnet"} },
+    { en: "to beg", no: "å tigge", conj: {inf:"å tigge", pres:"tigger", fort:"tagg / tigget", perf:"har tigget"} },
+    { en: "to gnaw", no: "å gnage", conj: {inf:"å gnage", pres:"gnager", fort:"gnog / gnagde", perf:"har gnagd"} },
+    { en: "to ring / sound", no: "å klinge", conj: {inf:"å klinge", pres:"klinger", fort:"klang", perf:"har klinget"} },
+    { en: "to pinch", no: "å knipe", conj: {inf:"å knipe", pres:"kniper", fort:"knep", perf:"har knepet"} },
+    { en: "to squeak / whistle", no: "å pipe", conj: {inf:"å pipe", pres:"piper", fort:"pep", perf:"har pepet"} },
+    { en: "to snort", no: "å fnyse", conj: {inf:"å fnyse", pres:"fnyser", fort:"fnøs / fnyste", perf:"har fnyst"} },
+    { en: "to shudder", no: "å gyse", conj: {inf:"å gyse", pres:"gyser", fort:"gjøs / gyste", perf:"har gyst"} },
+    { en: "to drift / whirl (snow)", no: "å fyke", conj: {inf:"å fyke", pres:"fyker", fort:"føk", perf:"har føket"} },
+    { en: "to climb / clamber", no: "å klyve", conj: {inf:"å klyve", pres:"klyver", fort:"kløv", perf:"har kløvet"} },
+    { en: "to crow", no: "å gale", conj: {inf:"å gale", pres:"galer", fort:"gol / galte", perf:"har galt"} },
+    { en: "to spawn", no: "å gyte", conj: {inf:"å gyte", pres:"gyter", fort:"gjøt", perf:"har gytt"} },
+    { en: "to slip / sneak", no: "å smyge", conj: {inf:"å smyge", pres:"smyger", fort:"smøg", perf:"har smøget"} },
+    { en: "to sink / settle slowly", no: "å sige", conj: {inf:"å sige", pres:"siger", fort:"seig", perf:"har seget"} },
+    { en: "to ooze / seep", no: "å tyte", conj: {inf:"å tyte", pres:"tyter", fort:"tøt", perf:"har tytt"} },
+    { en: "to stride / proceed", no: "å skride", conj: {inf:"å skride", pres:"skrider", fort:"skred", perf:"har skredet"} }
+  ];
+
+  let orderV = verbs.map((_, i) => i);
+  let posV = 0;
+  const cardV = document.getElementById('cardV');
+  const frontWordV = document.getElementById('frontWordV');
+  const backWordV = document.getElementById('backWordV');
+  const backConjV = document.getElementById('backConjV');
+  const progressV = document.getElementById('progressV');
+
+  function renderV(){
+    const w = verbs[orderV[posV]];
+    frontWordV.textContent = w.en;
+    backWordV.textContent = w.no;
+    backConjV.style.display = 'grid';
+    backConjV.innerHTML =
+      '<span class="cl">infinitiv</span><span class="cv">' + w.conj.inf + '</span>' +
+      '<span class="cl">presens</span><span class="cv">' + w.conj.pres + '</span>' +
+      '<span class="cl">fortid</span><span class="cv">' + w.conj.fort + '</span>' +
+      '<span class="cl">perfektum</span><span class="cv">' + w.conj.perf + '</span>';
+    progressV.textContent = `Kort ${posV + 1} av ${verbs.length}`;
+    cardV.classList.remove('flipped');
+  }
+  function nextV(){ posV = (posV + 1) % verbs.length; renderV(); }
+  function prevV(){ posV = (posV - 1 + verbs.length) % verbs.length; renderV(); }
+  function shuffleV(){
+    for(let i = orderV.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [orderV[i], orderV[j]] = [orderV[j], orderV[i]];
+    }
+    posV = 0; renderV();
+  }
+  cardV.addEventListener('click', () => cardV.classList.toggle('flipped'));
+  document.getElementById('nextBtnV').addEventListener('click', nextV);
+  document.getElementById('prevBtnV').addEventListener('click', prevV);
+  document.getElementById('shuffleBtnV').addEventListener('click', shuffleV);
+  renderV();
+
+  // faner
+  const h1 = document.querySelector('h1');
+  const subtitle = document.querySelector('header p');
+  const tabDefs = [
+    { tab: 'tabCards', view: 'viewCards', title: 'Ordkort',
+      sub: 'Trykk på kortet for å se det norske ordet og eksempelet fra boken.' },
+    { tab: 'tabNotes', view: 'viewNotes', title: 'Notater',
+      sub: 'Grammatikk og forklaringer jeg samler underveis.' },
+    { tab: 'tabVerbs', view: 'viewVerbs', title: 'Uregelrette verb',
+      sub: '150 vanlige uregelrette verb — engelsk på forsiden, bøyning på baksiden.' }
+  ];
+  let activeTab = 'tabCards';
+  function showTab(id){
+    activeTab = id;
+    tabDefs.forEach(d => {
+      const on = d.tab === id;
+      document.getElementById(d.tab).classList.toggle('active', on);
+      document.getElementById(d.view).classList.toggle('active', on);
+      if(on){ h1.textContent = d.title; subtitle.textContent = d.sub; }
+    });
+  }
+  tabDefs.forEach(d => document.getElementById(d.tab).addEventListener('click', () => showTab(d.tab)));
+
+
+  document.addEventListener('keydown', (e) => {
+    const verbsActive = activeTab === 'tabVerbs';
+    const cardsActive = activeTab === 'tabCards';
+    if(!verbsActive && !cardsActive) return;
+    if(e.key === 'ArrowRight'){ verbsActive ? nextV() : next(); }
+    if(e.key === 'ArrowLeft'){ verbsActive ? prevV() : prev(); }
+    if(e.key === ' '){
+      e.preventDefault();
+      (verbsActive ? cardV : card).classList.toggle('flipped');
+    }
+  });
+
+  render();
+</script>
+
+</body>
+</html>
