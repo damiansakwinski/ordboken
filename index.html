@@ -96,6 +96,45 @@
     letter-spacing:0.04em;
   }
 
+  .search{
+    width:100%;
+    max-width:460px;
+    padding:12px 16px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.08);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    outline:none;
+  }
+  .search::placeholder{ color:var(--mist); opacity:0.6; }
+  .search:focus{ border-color:var(--paper); background:rgba(255,255,255,0.12); }
+
+  .catbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    width:100%;
+    max-width:460px;
+  }
+  .catbtn{
+    flex:none;
+    border:1px solid rgba(255,255,255,0.22);
+    background:rgba(255,255,255,0.06);
+    color:var(--mist);
+    padding:7px 14px;
+    border-radius:999px;
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    font-weight:500;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .catbtn:hover{ background:rgba(255,255,255,0.12); }
+  .catbtn.active{ background:var(--paper); color:var(--fjord-900); border-color:var(--paper); }
+
   .card{
     width:100%;
     height:330px;
@@ -344,7 +383,14 @@
 
   <div class="view active" id="viewCards">
     <div class="stage">
-      <div class="progress" id="progress">Kort 1 av 95</div>
+      <input type="search" id="search" class="search" placeholder="Søk etter ord (norsk eller engelsk)…" autocomplete="off">
+      <div class="catbar">
+        <button class="catbtn active" data-cat="Alle">Alle</button>
+        <button class="catbtn" data-cat="Tur-retur">Tur-retur</button>
+        <button class="catbtn" data-cat="Peppa Pig">Peppa Pig</button>
+        <button class="catbtn" data-cat="Andre">Andre</button>
+      </div>
+      <div class="progress" id="progress">Kort 1 av 112</div>
 
       <div class="card" id="card">
         <div class="card-inner">
@@ -369,7 +415,7 @@
       </div>
     </div>
 
-    <div class="footnote">95 ord · «Tur–retur Norge» og andre kilder</div>
+    <div class="footnote">112 ord · «Tur–retur Norge» og andre kilder</div>
   </div>
 
   <div class="view" id="viewNotes">
@@ -479,101 +525,118 @@
 
 <script>
   const words = [
-    { en: "without (something happening)", no: "uten at", ex: "«...enkelt liv uten at materialistiske ting får påvirke opplevelsene...»" },
-    { en: "still", no: "fremdeles", ex: "«...det kiler fremdeles like mye i magen hver gang...»" },
-    { en: "a number, quantity", no: "et antall", ex: "«...og antall reisedøgn for hvert år.»" },
-    { en: "lucky", no: "heldig", ex: "«Jeg kommer aldri over hvor heldige vi er...»" },
-    { en: "either", no: "enten", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»" },
-    { en: "finally", no: "endelig", ex: "«...kan jeg endelig presentere dere for steder som Steigen...»" },
-    { en: "close", no: "tett", ex: "«...har et så variert og unikt landskap tett på oss.»" },
-    { en: "to affect / influence", no: "påvirke", ex: "«...uten at materialistiske ting får påvirke opplevelsene...»", conj: {inf:"å påvirke", pres:"påvirker", fort:"påvirket", perf:"har påvirket"} },
-    { en: "a stomach", no: "en mage", ex: "«...det kiler fremdeles like mye i magen...»" },
-    { en: "a mouth", no: "en munn", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»" },
-    { en: "relaxing", no: "avslappende", ex: "«...som det føles som en totalt stressfri og avslappende ferie.»" },
-    { en: "to contribute", no: "bidra", ex: "«...at den kan bidra til fantastiske opplevelser...»", conj: {inf:"å bidra", pres:"bidrar", fort:"bidro", perf:"har bidratt"} },
-    { en: "narrow", no: "trange", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»" },
-    { en: "to climb", no: "klatre", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»", conj: {inf:"å klatre", pres:"klatrer", fort:"klatret", perf:"har klatret"} },
-    { en: "a village", no: "ei bygd", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»" },
-    { en: "a valley", no: "en dal", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»" },
-    { en: "a sheep", no: "en sau", ex: "«...kjører kolonne forbi saueflokken som vandrer midt i veien.»" },
-    { en: "mighty / powerful", no: "mektige", ex: "«...mektige fossefall, fire sesonger og en kyst man bare kan drømme om.»" },
-    { en: "to greet", no: "å hilse", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»", conj: {inf:"å hilse", pres:"hilser", fort:"hilste", perf:"har hilst"} },
-    { en: "a towel", no: "et håndkle", ex: "«...hvis håndkleet har rukket å tørke etter det iskalde badet...»" },
-    { en: "has had time to / managed to", no: "har rukket", ex: "«...hvis håndkleet har rukket å tørke...»", conj: {inf:"å rekke", pres:"rekker", fort:"rakk", perf:"har rukket"} },
-    { en: "to tickle", no: "å kile", ex: "«...det kiler fremdeles like mye i magen...»", conj: {inf:"å kile", pres:"kiler", fort:"kilte", perf:"har kilt"} },
-    { en: "evens out / levels out", no: "utjevner", ex: "«...måten det norske friluftslivet utjevner forskjellene mellom oss på.»", conj: {inf:"å utjevne", pres:"utjevner", fort:"utjevnet", perf:"har utjevnet"} },
-    { en: "an upland plain", no: "ei vidde", ex: "«...trange fjorder og vidder, mektige fossefall...»" },
-    { en: "nowhere near / far from", no: "på langt nær", ex: "«Jeg føler meg på langt nær ferdig...»" },
-    { en: "in all its glory", no: "i all sin prakt", ex: "«Et eventyrland i all sin prakt.»" },
-    { en: "a travel day", no: "et reisedøgn", ex: "«...og antall reisedøgn for hvert år.»" },
-    { en: "brushed", no: "børstet", ex: "«Hun børstet snøen av jakken før hun gikk inn i hytta.»", conj: {inf:"å børste", pres:"børster", fort:"børstet", perf:"har børstet"} },
-    { en: "uneven", no: "ujevn", ex: "«Stien opp til hytta var ujevn og full av røtter.»" },
-    { en: "to exchange", no: "å bytte", ex: "«Jeg måtte bytte genseren i en større størrelse.»", conj: {inf:"å bytte", pres:"bytter", fort:"byttet", perf:"har byttet"} },
-    { en: "a sweater", no: "en genser", ex: "«Han tok på seg en varm genser før turen.»" },
-    { en: "a face", no: "et ansikt", ex: "«Hun hadde et fornøyd ansikt etter fjellturen.»" },
-    { en: "an ant", no: "en maur", ex: "Peppa Gris S12E09" },
-    { en: "a huge TV", no: "en diger TV", ex: "«De hadde en diger TV på hytteveggen.»" },
-    { en: "a mirror", no: "et speil", ex: "«Innsjøen lå blank som et speil.»" },
-    { en: "a whale", no: "en hval", ex: "«Vi så en hval blåse ute i fjorden.»" },
-    { en: "empty", no: "tom", ex: "«Kassen var tom da vi åpnet den.»" },
-    { en: "a relationship", no: "et forhold", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»" },
-    { en: "a size", no: "en størrelse", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»" },
-    { en: "to feed (an animal)", no: "å fore", ex: "«Vi må fore dyrene før vi drar på tur.»", conj: {inf:"å fore", pres:"forer", fort:"foret", perf:"har foret"} },
-    { en: "to put", no: "å legge på", ex: "«Vi legger dem på gulvet.»", conj: {inf:"å legge på", pres:"legger på", fort:"la på", perf:"har lagt på"} },
-    { en: "to decide", no: "å bestemme", ex: "«Vi må bestemme hvor vi skal på tur i morgen.»", conj: {inf:"å bestemme", pres:"bestemmer", fort:"bestemte", perf:"har bestemt"} },
-    { en: "a transition", no: "en overgang", ex: "«Overgangen fra sommer til høst går fort i fjellet.»" },
-    { en: "put on hold, shelved", no: "stilt", ex: "«Stupetårnet i Stavanger var ferdig tegna, så ble det stilt.»", conj: {inf:"å stille", pres:"stiller", fort:"stilte", perf:"har stilt"} },
-    { en: "to save", no: "å lagre", ex: "«Magasinene lagrer vann til vinteren.»", conj: {inf:"å lagre", pres:"lagrer", fort:"lagret", perf:"har lagret"} },
-    { en: "a hydropower reservoir", no: "et kraftmagasin", ex: "«Kraftmagasinene har den laveste fyllingsgraden på 16 år.»" },
-    { en: "worst", no: "verst", ex: "«Verst er det i sørvest med halvfulle magasin.»" },
-    { en: "properly", no: "skikkelig", ex: "«Vi ble skikkelig våte på turen.»" },
-    { en: "a mood", no: "en stemning", ex: "«Nå meldes det om sydenstemning i Sirdal.»" },
-    { en: "to report", no: "å melde", ex: "«Eierne meldte selv fra om brannen.»", conj: {inf:"å melde", pres:"melder", fort:"meldte", perf:"har meldt"} },
-    { en: "to join", no: "å føye seg inn i", ex: "«2026 føyer seg inn i rekka av de tørreste somrene.»", conj: {inf:"å føye seg", pres:"føyer seg", fort:"føyde seg", perf:"har føyd seg"} },
-    { en: "a row", no: "ei rekke", ex: "«...i rekka av de tre tørreste somrene på 20 år.»" },
-    { en: "thus", no: "dermed", ex: "«2026 føyer seg dermed inn i rekka av de tørreste somrene.»" },
-    { en: "far away", no: "langt unna", ex: "«Hytta ligger langt unna nærmeste vei.»" },
-    { en: "it is due to", no: "det skyldes", ex: "«Den lave fyllingsgraden skyldes lite nedbør.»", conj: {inf:"å skyldes", pres:"skyldes", fort:"skyldtes", perf:"har skyldtes"} },
-    { en: "unless", no: "med mindre", ex: "«Vi drar på tur i morgen, med mindre det regner.»" },
-    { en: "to measure", no: "å måle", ex: "«De måler nedbøren på målestasjonen Blåsjø, som ligger 1105 meter over havet.»", conj: {inf:"å måle", pres:"måler", fort:"målte", perf:"har målt"} },
-    { en: "according to", no: "ifølge", ex: "«Ifølge meteorologen blir det tørt hele uka.»" },
-    { en: "to enjoy", no: "å nyte", ex: "«Så er det mange som nyter vannaktiviteter.»", conj: {inf:"å nyte", pres:"nyter", fort:"nøt", perf:"har nytt"} },
-    { en: "to expect", no: "å forvente", ex: "«Vi forventer godt vær i helga.»", conj: {inf:"å forvente", pres:"forventer", fort:"forventet", perf:"har forventet"} },
-    { en: "fundamental", no: "grunnleggende", ex: "«Friluftsliv er en grunnleggende del av norsk kultur.»" },
-    { en: "everywhere", no: "overalt", ex: "«Det var maur overalt i hytta.»" },
-    { en: "just now", no: "nettopp", ex: "«Vi kom nettopp fram til hytta.»" },
-    { en: "a range", no: "en rekkevidde", ex: "«Toppen var endelig innen rekkevidde.»" },
-    { en: "access", no: "en adgang", ex: "«Turister har adgang til hytta hele sommeren.»" },
-    { en: "to be included in", no: "å være med i", ex: "«Nord-Norge var ikke med i den første boka.»", conj: {inf:"å være med i", pres:"er med i", fort:"var med i", perf:"har vært med i"} },
-    { en: "to cover", no: "å dekke", ex: "«Jeg har konsentrert meg om å dekke landet opp til Troms.»", conj: {inf:"å dekke", pres:"dekker", fort:"dekket", perf:"har dekket"} },
-    { en: "adapted", no: "tilrettelagt", ex: "«...steder som er mest tilrettelagt for turisme.»", conj: {inf:"å tilrettelegge", pres:"tilrettelegger", fort:"tilrettela", perf:"har tilrettelagt"} },
-    { en: "a distance", no: "en avstand", ex: "«Det er store avstander i nord.»" },
-    { en: "to be aware", no: "å være obs", ex: "«Vær obs på at været er røffere i nord.»", conj: {inf:"å være obs", pres:"er obs", fort:"var obs", perf:"har vært obs"} },
-    { en: "spellbound", no: "trollbundet", ex: "«Jeg håper du blir trollbundet av lyset i nord.»", conj: {inf:"å trollbinde", pres:"trollbinder", fort:"trollbandt", perf:"har trollbundet"} },
-    { en: "lushness", no: "en frodighet", ex: "«...trollbundet av fargene og frodigheten i nord.»" },
-    { en: "an expectation", no: "en forventning", ex: "«Senk forventningene og ha en positiv innstilling.»" },
-    { en: "to lower", no: "å senke", ex: "«Senk forventningene og ha en positiv innstilling.»", conj: {inf:"å senke", pres:"senker", fort:"senket", perf:"har senket"} },
-    { en: "a setting", no: "en innstilling", ex: "«Ha en positiv innstilling.»" },
-    { en: "a mind", no: "et sinn", ex: "«Møt problemer med et åpent sinn.»" },
-    { en: "gladly", no: "gjerne", ex: "«En turopplevelse blir gjerne farget av forventningene dine.»" },
-    { en: "to become fixated", no: "å se seg blind", ex: "«Det er fort gjort å se seg blind på flotte glansbilder.»", conj: {inf:"å se seg blind", pres:"ser seg blind", fort:"så seg blind", perf:"har sett seg blind"} },
-    { en: "great", no: "flott", ex: "«Det var en flott tur i fjellet.»" },
-    { en: "a glossy picture", no: "et glansbilde", ex: "«...se seg blind på flotte glansbilder fra eventyrlige steder.»" },
-    { en: "to bet on", no: "å satse", ex: "«...og satse på at man møter på det samme.»", conj: {inf:"å satse", pres:"satser", fort:"satset", perf:"har satset"} },
-    { en: "to put it mildly", no: "mildt sagt", ex: "«Jeg fikk mildt sagt satt tålmodigheten på prøve.»" },
-    { en: "to get something put", no: "å få satt", ex: "«Jeg fikk satt tålmodigheten min på prøve.»", conj: {inf:"å få satt", pres:"får satt", fort:"fikk satt", perf:"har fått satt"} },
-    { en: "patience", no: "en tålmodighet", ex: "«Jeg fikk satt tålmodigheten min på prøve.»" },
-    { en: "endless", no: "endeløs", ex: "«Én uke var det endeløse rosa himler.»" },
-    { en: "pink", no: "rosa", ex: "«Én uke var det endeløse rosa himler.»" },
-    { en: "a dusting of powdered sugar", no: "et melisdryss", ex: "«...melisdryss på fjellene og vindstille.»" },
-    { en: "dead calm", no: "vindstille", ex: "«...melisdryss på fjellene og vindstille.»" },
-    { en: "a power outage", no: "et strømbrudd", ex: "«...stengte veier, strømbrudd i ukevis.»" },
-    { en: "an everyday struggle", no: "en hverdagskamp", ex: "«Gåturen til butikken ble en hverdagskamp.»" },
-    { en: "to appreciate", no: "å sette pris på", ex: "«Da satte man litt ekstra pris på den fine uka.»", conj: {inf:"å sette pris på", pres:"setter pris på", fort:"satte pris på", perf:"har satt pris på"} },
-    { en: "to climb", no: "å bestige", ex: "«Bestige en 2000-meters fjelltopp.»", conj: {inf:"å bestige", pres:"bestiger", fort:"besteg", perf:"har besteget"} },
-    { en: "a Norwegian griddle pancake", no: "ei svele", ex: "«Spise svele i en liten bygd på Vestlandet.»" },
-    { en: "a bag", no: "en sekk", ex: "«Gå en langtur til fots med tung sekk.»" },
-    { en: "to leave behind", no: "å etterlate", ex: "«Ikke etterlate noen spor.»", conj: {inf:"å etterlate", pres:"etterlater", fort:"etterlot", perf:"har etterlatt"} }
+    { en: "without (something happening)", no: "uten at", ex: "«...enkelt liv uten at materialistiske ting får påvirke opplevelsene...»", cat: "Tur-retur" },
+    { en: "still", no: "fremdeles", ex: "«...det kiler fremdeles like mye i magen hver gang...»", cat: "Tur-retur" },
+    { en: "a number, quantity", no: "et antall", ex: "«...og antall reisedøgn for hvert år.»", cat: "Tur-retur" },
+    { en: "lucky", no: "heldig", ex: "«Jeg kommer aldri over hvor heldige vi er...»", cat: "Tur-retur" },
+    { en: "either", no: "enten", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»", cat: "Tur-retur" },
+    { en: "finally", no: "endelig", ex: "«...kan jeg endelig presentere dere for steder som Steigen...»", cat: "Tur-retur" },
+    { en: "close", no: "tett", ex: "«...har et så variert og unikt landskap tett på oss.»", cat: "Tur-retur" },
+    { en: "to affect / influence", no: "påvirke", ex: "«...uten at materialistiske ting får påvirke opplevelsene...»", conj: {inf:"å påvirke", pres:"påvirker", fort:"påvirket", perf:"har påvirket"}, cat: "Tur-retur" },
+    { en: "a stomach", no: "en mage", ex: "«...det kiler fremdeles like mye i magen...»", cat: "Tur-retur" },
+    { en: "a mouth", no: "en munn", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»", cat: "Tur-retur" },
+    { en: "relaxing", no: "avslappende", ex: "«...som det føles som en totalt stressfri og avslappende ferie.»", cat: "Tur-retur" },
+    { en: "to contribute", no: "bidra", ex: "«...at den kan bidra til fantastiske opplevelser...»", conj: {inf:"å bidra", pres:"bidrar", fort:"bidro", perf:"har bidratt"}, cat: "Tur-retur" },
+    { en: "narrow", no: "trange", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»", cat: "Tur-retur" },
+    { en: "to climb", no: "klatre", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»", conj: {inf:"å klatre", pres:"klatrer", fort:"klatret", perf:"har klatret"}, cat: "Tur-retur" },
+    { en: "a village", no: "ei bygd", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»", cat: "Tur-retur" },
+    { en: "a valley", no: "en dal", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»", cat: "Tur-retur" },
+    { en: "a sheep", no: "en sau", ex: "«...kjører kolonne forbi saueflokken som vandrer midt i veien.»", cat: "Tur-retur" },
+    { en: "mighty / powerful", no: "mektige", ex: "«...mektige fossefall, fire sesonger og en kyst man bare kan drømme om.»", cat: "Tur-retur" },
+    { en: "to greet", no: "å hilse", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»", conj: {inf:"å hilse", pres:"hilser", fort:"hilste", perf:"har hilst"}, cat: "Tur-retur" },
+    { en: "a towel", no: "et håndkle", ex: "«...hvis håndkleet har rukket å tørke etter det iskalde badet...»", cat: "Tur-retur" },
+    { en: "has had time to / managed to", no: "har rukket", ex: "«...hvis håndkleet har rukket å tørke...»", conj: {inf:"å rekke", pres:"rekker", fort:"rakk", perf:"har rukket"}, cat: "Tur-retur" },
+    { en: "to tickle", no: "å kile", ex: "«...det kiler fremdeles like mye i magen...»", conj: {inf:"å kile", pres:"kiler", fort:"kilte", perf:"har kilt"}, cat: "Tur-retur" },
+    { en: "evens out / levels out", no: "utjevner", ex: "«...måten det norske friluftslivet utjevner forskjellene mellom oss på.»", conj: {inf:"å utjevne", pres:"utjevner", fort:"utjevnet", perf:"har utjevnet"}, cat: "Tur-retur" },
+    { en: "an upland plain", no: "ei vidde", ex: "«...trange fjorder og vidder, mektige fossefall...»", cat: "Tur-retur" },
+    { en: "nowhere near / far from", no: "på langt nær", ex: "«Jeg føler meg på langt nær ferdig...»", cat: "Tur-retur" },
+    { en: "in all its glory", no: "i all sin prakt", ex: "«Et eventyrland i all sin prakt.»", cat: "Tur-retur" },
+    { en: "a travel day", no: "et reisedøgn", ex: "«...og antall reisedøgn for hvert år.»", cat: "Tur-retur" },
+    { en: "brushed", no: "børstet", ex: "«Hun børstet snøen av jakken før hun gikk inn i hytta.»", conj: {inf:"å børste", pres:"børster", fort:"børstet", perf:"har børstet"}, cat: "Andre" },
+    { en: "uneven", no: "ujevn", ex: "«Stien opp til hytta var ujevn og full av røtter.»", cat: "Andre" },
+    { en: "to exchange", no: "å bytte", ex: "«Jeg måtte bytte genseren i en større størrelse.»", conj: {inf:"å bytte", pres:"bytter", fort:"byttet", perf:"har byttet"}, cat: "Andre" },
+    { en: "a sweater", no: "en genser", ex: "«Han tok på seg en varm genser før turen.»", cat: "Andre" },
+    { en: "a face", no: "et ansikt", ex: "«Hun hadde et fornøyd ansikt etter fjellturen.»", cat: "Andre" },
+    { en: "an ant", no: "en maur", ex: "Peppa Gris S12E09", cat: "Peppa Pig" },
+    { en: "a huge TV", no: "en diger TV", ex: "«De hadde en diger TV på hytteveggen.»", cat: "Peppa Pig" },
+    { en: "a mirror", no: "et speil", ex: "«Innsjøen lå blank som et speil.»", cat: "Peppa Pig" },
+    { en: "a whale", no: "en hval", ex: "«Vi så en hval blåse ute i fjorden.»", cat: "Peppa Pig" },
+    { en: "empty", no: "tom", ex: "«Kassen var tom da vi åpnet den.»", cat: "Andre" },
+    { en: "a relationship", no: "et forhold", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»", cat: "Andre" },
+    { en: "a size", no: "en størrelse", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»", cat: "Andre" },
+    { en: "to feed (an animal)", no: "å fore", ex: "«Vi må fore dyrene før vi drar på tur.»", conj: {inf:"å fore", pres:"forer", fort:"foret", perf:"har foret"}, cat: "Peppa Pig" },
+    { en: "to put", no: "å legge på", ex: "«Vi legger dem på gulvet.»", conj: {inf:"å legge på", pres:"legger på", fort:"la på", perf:"har lagt på"}, cat: "Peppa Pig" },
+    { en: "to decide", no: "å bestemme", ex: "«Vi må bestemme hvor vi skal på tur i morgen.»", conj: {inf:"å bestemme", pres:"bestemmer", fort:"bestemte", perf:"har bestemt"}, cat: "Andre" },
+    { en: "a transition", no: "en overgang", ex: "«Overgangen fra sommer til høst går fort i fjellet.»", cat: "Andre" },
+    { en: "put on hold, shelved", no: "stilt", ex: "«Stupetårnet i Stavanger var ferdig tegna, så ble det stilt.»", conj: {inf:"å stille", pres:"stiller", fort:"stilte", perf:"har stilt"}, cat: "Andre" },
+    { en: "to save", no: "å lagre", ex: "«Magasinene lagrer vann til vinteren.»", conj: {inf:"å lagre", pres:"lagrer", fort:"lagret", perf:"har lagret"}, cat: "Andre" },
+    { en: "a hydropower reservoir", no: "et kraftmagasin", ex: "«Kraftmagasinene har den laveste fyllingsgraden på 16 år.»", cat: "Andre" },
+    { en: "worst", no: "verst", ex: "«Verst er det i sørvest med halvfulle magasin.»", cat: "Andre" },
+    { en: "properly, really", no: "skikkelig", ex: "«Vi ble skikkelig våte på turen.»", cat: "Andre" },
+    { en: "a mood", no: "en stemning", ex: "«Nå meldes det om sydenstemning i Sirdal.»", cat: "Andre" },
+    { en: "to report", no: "å melde", ex: "«Eierne meldte selv fra om brannen.»", conj: {inf:"å melde", pres:"melder", fort:"meldte", perf:"har meldt"}, cat: "Andre" },
+    { en: "to join", no: "å føye seg inn i", ex: "«2026 føyer seg inn i rekka av de tørreste somrene.»", conj: {inf:"å føye seg", pres:"føyer seg", fort:"føyde seg", perf:"har føyd seg"}, cat: "Andre" },
+    { en: "a row", no: "ei rekke", ex: "«...i rekka av de tre tørreste somrene på 20 år.»", cat: "Andre" },
+    { en: "thus", no: "dermed", ex: "«2026 føyer seg dermed inn i rekka av de tørreste somrene.»", cat: "Andre" },
+    { en: "far away", no: "langt unna", ex: "«Hytta ligger langt unna nærmeste vei.»", cat: "Andre" },
+    { en: "it is due to", no: "det skyldes", ex: "«Den lave fyllingsgraden skyldes lite nedbør.»", conj: {inf:"å skyldes", pres:"skyldes", fort:"skyldtes", perf:"har skyldtes"}, cat: "Andre" },
+    { en: "unless", no: "med mindre", ex: "«Vi drar på tur i morgen, med mindre det regner.»", cat: "Andre" },
+    { en: "to measure", no: "å måle", ex: "«De måler nedbøren på målestasjonen Blåsjø, som ligger 1105 meter over havet.»", conj: {inf:"å måle", pres:"måler", fort:"målte", perf:"har målt"}, cat: "Andre" },
+    { en: "according to", no: "ifølge", ex: "«Ifølge meteorologen blir det tørt hele uka.»", cat: "Andre" },
+    { en: "to enjoy", no: "å nyte", ex: "«Så er det mange som nyter vannaktiviteter.»", conj: {inf:"å nyte", pres:"nyter", fort:"nøt", perf:"har nytt"}, cat: "Andre" },
+    { en: "to expect", no: "å forvente", ex: "«Vi forventer godt vær i helga.»", conj: {inf:"å forvente", pres:"forventer", fort:"forventet", perf:"har forventet"}, cat: "Andre" },
+    { en: "fundamental", no: "grunnleggende", ex: "«Friluftsliv er en grunnleggende del av norsk kultur.»", cat: "Andre" },
+    { en: "everywhere", no: "overalt", ex: "«Det var maur overalt i hytta.»", cat: "Andre" },
+    { en: "just now", no: "nettopp", ex: "«Vi kom nettopp fram til hytta.»", cat: "Andre" },
+    { en: "a range", no: "en rekkevidde", ex: "«Toppen var endelig innen rekkevidde.»", cat: "Andre" },
+    { en: "access", no: "en adgang", ex: "«Turister har adgang til hytta hele sommeren.»", cat: "Andre" },
+    { en: "to be included in", no: "å være med i", ex: "«Nord-Norge var ikke med i den første boka.»", conj: {inf:"å være med i", pres:"er med i", fort:"var med i", perf:"har vært med i"}, cat: "Tur-retur" },
+    { en: "to cover", no: "å dekke", ex: "«Jeg har konsentrert meg om å dekke landet opp til Troms.»", conj: {inf:"å dekke", pres:"dekker", fort:"dekket", perf:"har dekket"}, cat: "Tur-retur" },
+    { en: "adapted", no: "tilrettelagt", ex: "«...steder som er mest tilrettelagt for turisme.»", conj: {inf:"å tilrettelegge", pres:"tilrettelegger", fort:"tilrettela", perf:"har tilrettelagt"}, cat: "Tur-retur" },
+    { en: "a distance", no: "en avstand", ex: "«Det er store avstander i nord.»", cat: "Tur-retur" },
+    { en: "to be aware", no: "å være obs", ex: "«Vær obs på at været er røffere i nord.»", conj: {inf:"å være obs", pres:"er obs", fort:"var obs", perf:"har vært obs"}, cat: "Tur-retur" },
+    { en: "spellbound", no: "trollbundet", ex: "«Jeg håper du blir trollbundet av lyset i nord.»", conj: {inf:"å trollbinde", pres:"trollbinder", fort:"trollbandt", perf:"har trollbundet"}, cat: "Tur-retur" },
+    { en: "lushness", no: "en frodighet", ex: "«...trollbundet av fargene og frodigheten i nord.»", cat: "Tur-retur" },
+    { en: "an expectation", no: "en forventning", ex: "«Senk forventningene og ha en positiv innstilling.»", cat: "Tur-retur" },
+    { en: "to lower", no: "å senke", ex: "«Senk forventningene og ha en positiv innstilling.»", conj: {inf:"å senke", pres:"senker", fort:"senket", perf:"har senket"}, cat: "Tur-retur" },
+    { en: "a setting", no: "en innstilling", ex: "«Ha en positiv innstilling.»", cat: "Tur-retur" },
+    { en: "a mind", no: "et sinn", ex: "«Møt problemer med et åpent sinn.»", cat: "Tur-retur" },
+    { en: "gladly", no: "gjerne", ex: "«En turopplevelse blir gjerne farget av forventningene dine.»", cat: "Tur-retur" },
+    { en: "to become fixated", no: "å se seg blind", ex: "«Det er fort gjort å se seg blind på flotte glansbilder.»", conj: {inf:"å se seg blind", pres:"ser seg blind", fort:"så seg blind", perf:"har sett seg blind"}, cat: "Tur-retur" },
+    { en: "great", no: "flott", ex: "«Det var en flott tur i fjellet.»", cat: "Tur-retur" },
+    { en: "a glossy picture", no: "et glansbilde", ex: "«...se seg blind på flotte glansbilder fra eventyrlige steder.»", cat: "Tur-retur" },
+    { en: "to bet on", no: "å satse", ex: "«...og satse på at man møter på det samme.»", conj: {inf:"å satse", pres:"satser", fort:"satset", perf:"har satset"}, cat: "Tur-retur" },
+    { en: "to put it mildly", no: "mildt sagt", ex: "«Jeg fikk mildt sagt satt tålmodigheten på prøve.»", cat: "Tur-retur" },
+    { en: "to get something put", no: "å få satt", ex: "«Jeg fikk satt tålmodigheten min på prøve.»", conj: {inf:"å få satt", pres:"får satt", fort:"fikk satt", perf:"har fått satt"}, cat: "Tur-retur" },
+    { en: "patience", no: "en tålmodighet", ex: "«Jeg fikk satt tålmodigheten min på prøve.»", cat: "Tur-retur" },
+    { en: "endless", no: "endeløs", ex: "«Én uke var det endeløse rosa himler.»", cat: "Tur-retur" },
+    { en: "pink", no: "rosa", ex: "«Én uke var det endeløse rosa himler.»", cat: "Tur-retur" },
+    { en: "a dusting of powdered sugar", no: "et melisdryss", ex: "«...melisdryss på fjellene og vindstille.»", cat: "Tur-retur" },
+    { en: "dead calm", no: "vindstille", ex: "«...melisdryss på fjellene og vindstille.»", cat: "Tur-retur" },
+    { en: "a power outage", no: "et strømbrudd", ex: "«...stengte veier, strømbrudd i ukevis.»", cat: "Tur-retur" },
+    { en: "an everyday struggle", no: "en hverdagskamp", ex: "«Gåturen til butikken ble en hverdagskamp.»", cat: "Tur-retur" },
+    { en: "to appreciate", no: "å sette pris på", ex: "«Da satte man litt ekstra pris på den fine uka.»", conj: {inf:"å sette pris på", pres:"setter pris på", fort:"satte pris på", perf:"har satt pris på"}, cat: "Tur-retur" },
+    { en: "to climb", no: "å bestige", ex: "«Bestige en 2000-meters fjelltopp.»", conj: {inf:"å bestige", pres:"bestiger", fort:"besteg", perf:"har besteget"}, cat: "Tur-retur" },
+    { en: "a Norwegian griddle pancake", no: "ei svele", ex: "«Spise svele i en liten bygd på Vestlandet.»", cat: "Tur-retur" },
+    { en: "a bag", no: "en sekk", ex: "«Gå en langtur til fots med tung sekk.»", cat: "Tur-retur" },
+    { en: "to leave behind", no: "å etterlate", ex: "«Ikke etterlate noen spor.»", conj: {inf:"å etterlate", pres:"etterlater", fort:"etterlot", perf:"har etterlatt"}, cat: "Tur-retur" },
+    { en: "equipment", no: "et utstyr", ex: "«Ikke fortvil om du ikke har alt av utstyr.»", cat: "Tur-retur" },
+    { en: "to despair", no: "å fortvile", ex: "«Fortvil ikke om du ikke har alt utstyret.»", conj: {inf:"å fortvile", pres:"fortviler", fort:"fortvilte", perf:"har fortvilt"}, cat: "Tur-retur" },
+    { en: "to do a big grocery shop", no: "å storhandle", ex: "«...dra til nærmeste sportsbutikk for å storhandle alt du trenger.»", conj: {inf:"å storhandle", pres:"storhandler", fort:"storhandlet", perf:"har storhandlet"}, cat: "Tur-retur" },
+    { en: "than that", no: "enn som så", ex: "«Det kan gjøres billigere og smartere enn som så.»", cat: "Tur-retur" },
+    { en: "by choosing", no: "ved å velge", ex: "«Ved å velge alternativ 1 eller 2 kan du teste utstyret.»", conj: {inf:"å velge", pres:"velger", fort:"valgte", perf:"har valgt"}, cat: "Tur-retur" },
+    { en: "a possibility", no: "en mulighet", ex: "«Du har muligheten til å teste utstyret først.»", cat: "Tur-retur" },
+    { en: "to fit", no: "å passe", ex: "«...en sekk som ikke passer så bra til ryggen din.»", conj: {inf:"å passe", pres:"passer", fort:"passet", perf:"har passet"}, cat: "Tur-retur" },
+    { en: "to avoid", no: "å slippe", ex: "«Da slipper du bomkjøp.»", conj: {inf:"å slippe", pres:"slipper", fort:"slapp", perf:"har sluppet"}, cat: "Tur-retur" },
+    { en: "a bad buy", no: "et bomkjøp", ex: "«Da slipper du bomkjøp.»", cat: "Tur-retur" },
+    { en: "lame", no: "kjipt", ex: "«Det er skikkelig kjipt å legge ut med feil sekk.»", cat: "Tur-retur" },
+    { en: "a back", no: "en rygg", ex: "«Sekken passet ikke så bra til ryggen din.»", cat: "Tur-retur" },
+    { en: "to set off", no: "å legge ut", ex: "«Det er kjipt å legge ut på langtur med feil sekk.»", conj: {inf:"å legge ut", pres:"legger ut", fort:"la ut", perf:"har lagt ut"}, cat: "Tur-retur" },
+    { en: "a hundred-kroner note", no: "en hundrelapp", ex: "«Da sparer du fort en del hundrelapper.»", cat: "Tur-retur" },
+    { en: "quickly", no: "fort", ex: "«Da sparer du fort en del hundrelapper.»", cat: "Tur-retur" },
+    { en: "in my opinion", no: "etter min mening", ex: "«Det bør etter min mening være noe du vil bruke mye.»", cat: "Tur-retur" },
+    { en: "to gather dust", no: "å støve ned", ex: "«...så slipper det å støve ned i boden.»", conj: {inf:"å støve ned", pres:"støver ned", fort:"støvet ned", perf:"har støvet ned"}, cat: "Tur-retur" },
+    { en: "a storage room", no: "en bod", ex: "«Utstyret slipper å støve ned i boden.»", cat: "Tur-retur" }
   ];
 
   let order = words.map((_, i) => i);
@@ -587,6 +650,16 @@
   const progress = document.getElementById('progress');
 
   function render(){
+    if(order.length === 0){
+      frontWord.textContent = 'Ingen treff';
+      backWord.textContent = 'Ingen treff';
+      backConj.style.display = 'none';
+      backConj.innerHTML = '';
+      backExample.textContent = 'Prøv et annet søk';
+      progress.textContent = '0 treff';
+      card.classList.remove('flipped');
+      return;
+    }
     const w = words[order[pos]];
     frontWord.textContent = w.en;
     backWord.textContent = w.no;
@@ -602,7 +675,9 @@
       backConj.innerHTML = '';
     }
     backExample.textContent = w.ex;
-    progress.textContent = `Kort ${pos + 1} av ${words.length}`;
+    progress.textContent = order.length === words.length
+      ? `Kort ${pos + 1} av ${words.length}`
+      : `Kort ${pos + 1} av ${order.length} (filtrert)`;
     card.classList.remove('flipped');
   }
 
@@ -614,12 +689,14 @@
   }
 
   function next(){
-    pos = (pos + 1) % words.length;
+    if(order.length === 0) return;
+    pos = (pos + 1) % order.length;
     render();
   }
 
   function prev(){
-    pos = (pos - 1 + words.length) % words.length;
+    if(order.length === 0) return;
+    pos = (pos - 1 + order.length) % order.length;
     render();
   }
 
@@ -628,6 +705,31 @@
     pos = 0;
     render();
   }
+
+  // søk + kategori
+  const searchInput = document.getElementById('search');
+  let currentCat = 'Alle';
+  function applyFilter(){
+    const q = searchInput.value.trim().toLowerCase();
+    order = words.map((_, i) => i).filter(i => {
+      const w = words[i];
+      if(currentCat !== 'Alle' && w.cat !== currentCat) return false;
+      if(q === '') return true;
+      const hay = (w.en + ' ' + w.no + ' ' + (w.ex || '')).toLowerCase();
+      return hay.includes(q);
+    });
+    pos = 0;
+    render();
+  }
+  searchInput.addEventListener('input', applyFilter);
+
+  document.querySelectorAll('.catbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentCat = btn.dataset.cat;
+      document.querySelectorAll('.catbtn').forEach(b => b.classList.toggle('active', b === btn));
+      applyFilter();
+    });
+  });
 
   card.addEventListener('click', () => card.classList.toggle('flipped'));
   document.getElementById('nextBtn').addEventListener('click', next);
