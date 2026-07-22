@@ -829,9 +829,9 @@
   }
   const keyOf = w => w.no;
 
-  function applyFilter(){
+  function computeOrder(){
     const q = searchInput.value.trim().toLowerCase();
-    order = words.map((_, i) => i).filter(i => {
+    return words.map((_, i) => i).filter(i => {
       const w = words[i];
       if(currentCat !== 'Alle' && w.cat !== currentCat) return false;
       if(learnFilter === 'lart' && !known.has(keyOf(w))) return false;
@@ -840,6 +840,10 @@
       const hay = (w.en + ' ' + w.no + ' ' + (w.ex || '')).toLowerCase();
       return hay.includes(q);
     });
+  }
+
+  function applyFilter(){
+    order = computeOrder();
     pos = 0;
     render();
   }
@@ -864,12 +868,21 @@
   const knownBtn = document.getElementById('knownBtn');
   knownBtn.addEventListener('click', () => {
     if(order.length === 0) return;
-    const w = words[order[pos]];
+    const currentIndex = order[pos];   // ordet vi står på nå
+    const w = words[currentIndex];
     const k = keyOf(w);
     if(known.has(k)) known.delete(k); else known.add(k);
     saveKnown();
-    // hvis vi er i et filter der kortet ikke lenger hører hjemme, oppdater lista
-    if(learnFilter !== 'alle'){ applyFilter(); } else { render(); }
+    // bygg lista på nytt, men behold posisjonen
+    order = computeOrder();
+    if(order.length === 0){ pos = 0; render(); return; }
+    const stillThere = order.indexOf(currentIndex);
+    if(stillThere !== -1){
+      pos = stillThere;               // kortet er fortsatt i lista → bli stående
+    } else {
+      pos = Math.min(pos, order.length - 1); // kortet forsvant ut av filteret → neste kort
+    }
+    render();
   });
 
   card.addEventListener('click', () => card.classList.toggle('flipped'));
