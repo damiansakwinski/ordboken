@@ -135,6 +135,34 @@
   .catbtn:hover{ background:rgba(255,255,255,0.12); }
   .catbtn.active{ background:var(--paper); color:var(--fjord-900); border-color:var(--paper); }
 
+  .lbl{ font-size:12px; color:var(--mist); opacity:0.7; align-self:center; }
+  .lbtn{
+    flex:none;
+    border:1px solid rgba(255,255,255,0.22);
+    background:rgba(255,255,255,0.06);
+    color:var(--mist);
+    padding:6px 12px;
+    border-radius:999px;
+    font-family:'Inter', sans-serif;
+    font-size:12.5px;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .lbtn:hover{ background:rgba(255,255,255,0.12); }
+  .lbtn.active{ background:var(--moss); color:var(--paper); border-color:var(--moss); }
+
+  #knownBtn.known{ background:var(--moss); border-color:var(--moss); color:var(--paper); }
+
+  .card.is-known .front::after{
+    content:"✓ lært";
+    position:absolute;
+    top:12px; right:14px;
+    font-size:11px;
+    letter-spacing:0.06em;
+    color:var(--moss);
+    font-weight:600;
+  }
+
   .card{
     width:100%;
     height:330px;
@@ -391,7 +419,13 @@
         <button class="catbtn" data-cat="Distriktsnyheter Rogaland">Distriktsnyheter</button>
         <button class="catbtn" data-cat="Andre">Andre</button>
       </div>
-      <div class="progress" id="progress">Kort 1 av 154</div>
+      <div class="catbar">
+        <span class="lbl">Vis:</span>
+        <button class="lbtn active" data-learn="alle">Alle</button>
+        <button class="lbtn" data-learn="ikke">Ikke lært</button>
+        <button class="lbtn" data-learn="lart">Lært</button>
+      </div>
+      <div class="progress" id="progress">Kort 1 av 159</div>
 
       <div class="card" id="card">
         <div class="card-inner">
@@ -414,9 +448,13 @@
         <button id="shuffleBtn" class="primary">Stokk kortene</button>
         <button id="nextBtn">Neste →</button>
       </div>
+
+      <div class="controls" style="margin-top:-8px;">
+        <button id="knownBtn">✓ Marker som lært</button>
+      </div>
     </div>
 
-    <div class="footnote">154 ord · «Tur–retur Norge» og andre kilder</div>
+    <div class="footnote">159 ord · «Tur–retur Norge» og andre kilder</div>
   </div>
 
   <div class="view" id="viewNotes">
@@ -616,7 +654,7 @@
     { en: "lushness", no: "en frodighet", ex: "«...trollbundet av fargene og frodigheten i nord.»", cat: "Tur-retur" },
     { en: "an expectation", no: "en forventning", ex: "«Senk forventningene og ha en positiv innstilling.»", cat: "Tur-retur" },
     { en: "to lower", no: "å senke", ex: "«Senk forventningene og ha en positiv innstilling.»", conj: {inf:"å senke", pres:"senker", fort:"senket", perf:"har senket"}, cat: "Tur-retur" },
-    { en: "a setting", no: "en innstilling", ex: "«Ha en positiv innstilling.»", cat: "Tur-retur" },
+    { en: "a mindset", no: "en innstilling", ex: "«Ha en positiv innstilling.»", cat: "Tur-retur" },
     { en: "a mind", no: "et sinn", ex: "«Møt problemer med et åpent sinn.»", cat: "Tur-retur" },
     { en: "gladly", no: "gjerne", ex: "«En turopplevelse blir gjerne farget av forventningene dine.»", cat: "Tur-retur" },
     { en: "to become fixated", no: "å se seg blind", ex: "«Det er fort gjort å se seg blind på flotte glansbilder.»", conj: {inf:"å se seg blind", pres:"ser seg blind", fort:"så seg blind", perf:"har sett seg blind"}, cat: "Tur-retur" },
@@ -644,7 +682,7 @@
     { en: "by choosing", no: "ved å velge", ex: "«Ved å velge alternativ 1 eller 2 kan du teste utstyret.»", conj: {inf:"å velge", pres:"velger", fort:"valgte", perf:"har valgt"}, cat: "Tur-retur" },
     { en: "a possibility", no: "en mulighet", ex: "«Du har muligheten til å teste utstyret først.»", cat: "Tur-retur" },
     { en: "to fit", no: "å passe", ex: "«...en sekk som ikke passer så bra til ryggen din.»", conj: {inf:"å passe", pres:"passer", fort:"passet", perf:"har passet"}, cat: "Tur-retur" },
-    { en: "to not have to", no: "å slippe", ex: "«Da slipper du bomkjøp.»", conj: {inf:"å slippe", pres:"slipper", fort:"slapp", perf:"har sluppet"}, cat: "Tur-retur" },
+    { en: "to not have to", no: "å slippe", ex: "«Da slipper du bomkjøp.» · «Hvis du tar bussen, slipper du å lete etter parkering.» · «Endelig slipper vi å stå opp tidlig i ferien.»", conj: {inf:"å slippe", pres:"slipper", fort:"slapp", perf:"har sluppet"}, cat: "Tur-retur" },
     { en: "a bad buy", no: "et bomkjøp", ex: "«Da slipper du bomkjøp.»", cat: "Tur-retur" },
     { en: "lame", no: "kjipt", ex: "«Det er skikkelig kjipt å legge ut med feil sekk.»", cat: "Tur-retur" },
     { en: "a back", no: "en rygg", ex: "«Sekken passet ikke så bra til ryggen din.»", cat: "Tur-retur" },
@@ -695,7 +733,12 @@
     { en: "beach fun", no: "en strandkos", ex: "«Det blir strandkos i helga.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to repeat", no: "å gjenta", ex: "«Kan du gjenta det?»", conj: {inf:"å gjenta", pres:"gjentar", fort:"gjentok", perf:"har gjentatt"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to arrest", no: "å pågripe", ex: "«En mann er pågrepet.»", conj: {inf:"å pågripe", pres:"pågriper", fort:"pågrep", perf:"har pågrepet"}, cat: "Distriktsnyheter Rogaland" },
-    { en: "guilty", no: "skyldig", ex: "«Han ble funnet skyldig.»", cat: "Distriktsnyheter Rogaland" }
+    { en: "guilty", no: "skyldig", ex: "«Han ble funnet skyldig.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a hard-to-sell colour", no: "ukurant farge", ex: "«Pigmentert ull regnes ofte som ukurant farge.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a colour deviation", no: "et fargeavvik", ex: "«Ulla hadde et fargeavvik.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "an emergency room", no: "et akuttmottak", ex: "«Han ble kjørt til akuttmottaket.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a selection", no: "et utvalg", ex: "«Ekstra stort utvalg til ekstra lave priser.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "to deliver", no: "å levere", ex: "«Bilen leveres med Apple CarPlay.»", conj: {inf:"å levere", pres:"leverer", fort:"leverte", perf:"har levert"}, cat: "Distriktsnyheter Rogaland" }
   ];
 
   let order = words.map((_, i) => i);
@@ -738,6 +781,11 @@
       ? `Kort ${pos + 1} av ${words.length}`
       : `Kort ${pos + 1} av ${order.length} (filtrert)`;
     card.classList.remove('flipped');
+    // lært-tilstand
+    const isKnown = known.has(w.no);
+    card.classList.toggle('is-known', isKnown);
+    knownBtn.textContent = isKnown ? '✓ Lært (trykk for å angre)' : '✓ Marker som lært';
+    knownBtn.classList.toggle('known', isKnown);
   }
 
   function shuffleOrder(){
@@ -765,14 +813,29 @@
     render();
   }
 
-  // søk + kategori
+  // søk + kategori + lært
   const searchInput = document.getElementById('search');
   let currentCat = 'Alle';
+  let learnFilter = 'alle';
+
+  // lagring av lærte ord (localStorage der det er tilgjengelig, ellers bare i minnet)
+  let known = new Set();
+  try {
+    const saved = localStorage.getItem('ordbok_known');
+    if(saved) known = new Set(JSON.parse(saved));
+  } catch(e) { /* preview: ingen localStorage */ }
+  function saveKnown(){
+    try { localStorage.setItem('ordbok_known', JSON.stringify([...known])); } catch(e) {}
+  }
+  const keyOf = w => w.no;
+
   function applyFilter(){
     const q = searchInput.value.trim().toLowerCase();
     order = words.map((_, i) => i).filter(i => {
       const w = words[i];
       if(currentCat !== 'Alle' && w.cat !== currentCat) return false;
+      if(learnFilter === 'lart' && !known.has(keyOf(w))) return false;
+      if(learnFilter === 'ikke' && known.has(keyOf(w))) return false;
       if(q === '') return true;
       const hay = (w.en + ' ' + w.no + ' ' + (w.ex || '')).toLowerCase();
       return hay.includes(q);
@@ -788,6 +851,25 @@
       document.querySelectorAll('.catbtn').forEach(b => b.classList.toggle('active', b === btn));
       applyFilter();
     });
+  });
+
+  document.querySelectorAll('.lbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      learnFilter = btn.dataset.learn;
+      document.querySelectorAll('.lbtn').forEach(b => b.classList.toggle('active', b === btn));
+      applyFilter();
+    });
+  });
+
+  const knownBtn = document.getElementById('knownBtn');
+  knownBtn.addEventListener('click', () => {
+    if(order.length === 0) return;
+    const w = words[order[pos]];
+    const k = keyOf(w);
+    if(known.has(k)) known.delete(k); else known.add(k);
+    saveKnown();
+    // hvis vi er i et filter der kortet ikke lenger hører hjemme, oppdater lista
+    if(learnFilter !== 'alle'){ applyFilter(); } else { render(); }
   });
 
   card.addEventListener('click', () => card.classList.toggle('flipped'));
