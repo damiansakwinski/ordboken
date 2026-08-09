@@ -153,6 +153,8 @@
 
   #knownBtn.known{ background:var(--moss); border-color:var(--moss); color:var(--paper); }
 
+  #dirBtn.active-dir{ background:var(--fjord-500); border-color:var(--fjord-500); color:var(--paper); }
+
   .card.is-known .front::after{
     content:"✓ lært";
     position:absolute;
@@ -431,12 +433,12 @@
       <div class="card" id="card">
         <div class="card-inner">
           <div class="face front">
-            <div class="tag">Engelsk</div>
+            <div class="tag" id="frontTag">Engelsk</div>
             <div class="word" id="frontWord">still</div>
             <div class="hint">trykk for å snu</div>
           </div>
           <div class="face back">
-            <div class="tag">Norsk</div>
+            <div class="tag" id="backTag">Norsk</div>
             <div class="word" id="backWord">fremdeles</div>
             <div class="conj" id="backConj"></div>
             <div class="example" id="backExample">"...det kiler fremdeles like mye i magen..."</div>
@@ -451,6 +453,7 @@
       </div>
 
       <div class="controls" style="margin-top:-8px;">
+        <button id="dirBtn">🔁 Norsk først</button>
         <button id="knownBtn">✓ Marker som lært</button>
       </div>
     </div>
@@ -869,9 +872,12 @@
   const card = document.getElementById('card');
   const frontWord = document.getElementById('frontWord');
   const backWord = document.getElementById('backWord');
+  const frontTag = document.getElementById('frontTag');
+  const backTag = document.getElementById('backTag');
   const backConj = document.getElementById('backConj');
   const backExample = document.getElementById('backExample');
   const progress = document.getElementById('progress');
+  let direction = 'en'; // 'en' = engelsk først, 'no' = norsk først
 
   function render(){
     if(order.length === 0){
@@ -885,8 +891,17 @@
       return;
     }
     const w = words[order[pos]];
-    frontWord.textContent = w.en;
-    backWord.textContent = w.no;
+    if(direction === 'no'){
+      frontTag.textContent = 'Norsk';
+      backTag.textContent = 'Engelsk';
+      frontWord.textContent = w.no;
+      backWord.textContent = w.en;
+    } else {
+      frontTag.textContent = 'Engelsk';
+      backTag.textContent = 'Norsk';
+      frontWord.textContent = w.en;
+      backWord.textContent = w.no;
+    }
     if(w.conj){
       backConj.style.display = 'grid';
       backConj.innerHTML =
@@ -985,6 +1000,14 @@
       document.querySelectorAll('.lbtn').forEach(b => b.classList.toggle('active', b === btn));
       applyFilter();
     });
+  });
+
+  const dirBtn = document.getElementById('dirBtn');
+  dirBtn.addEventListener('click', () => {
+    direction = (direction === 'en') ? 'no' : 'en';
+    dirBtn.textContent = (direction === 'no') ? '🔁 Engelsk først' : '🔁 Norsk først';
+    dirBtn.classList.toggle('active-dir', direction === 'no');
+    render();
   });
 
   const knownBtn = document.getElementById('knownBtn');
