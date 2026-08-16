@@ -241,8 +241,16 @@ Write ONE short story built around that word.
 - No abbreviations whatsoever. Write "for eksempel", never "f.eks."; "og så videre", never "osv."; "klokka" and the hour in words, never "kl. 14".
 - No parentheses, quotation marks, guillemets, colons, semicolons, asterisks, dashes used as punctuation, markdown, or emoji.
 - The only punctuation you may use is the period, the comma, the question mark and the exclamation mark.
-- The stories share one small cast, and you may use ONLY these names. The woman is Aleksandra. The man is Damian. The dog is Sonia. Never invent another first name and never use a name for anyone outside this cast — other people are referred to by their role instead: naboen, læreren, sjefen, moren, en venn.
-- Not every story needs a name at all. Use one or two of the cast when the scene wants a person, and leave them out when it does not. Sonia only appears when there is actually a dog in the scene.
+- The stories share one small cast, and you may use ONLY these names. Never invent another first name and never use a name for anyone outside this cast — other people are referred to by their role instead: naboen, læreren, sjefen, moren, en venn.
+- Not every story needs a name at all. Use one or two of the cast when the scene wants a person, and leave them out when it does not.
+
+## The cast
+
+- **Damian**, twenty-seven, a software engineer. Quiet and soft-spoken. He dreams, he travels, he plays guitar and bass, he listens to a lot of music, and he is happiest outdoors.
+- **Aleksandra**, his girlfriend, the same age. Artsy and dreamy. She does handcraft, bakes elaborate cakes, travels, cares about clothes, and loves cats.
+- **Sonia**, a dog. She belongs to Damian's parents, not to Damian and Aleksandra, so she turns up when they visit them. She is five years old and full of energy.
+
+Treat this as background, not as a checklist. A story does not have to mention anyone's job or hobby — most should not. The details are there so that when a scene needs a reason for someone to be somewhere, it is a reason that fits them: Damian on a mountain path or with a guitar, Aleksandra in the kitchen with a cake or in a fabric shop, Sonia pulling at the leash at his parents' house. Never let a character detail drag in rare vocabulary; the words around the target word stay high-frequency no matter who is in the scene.
 
 ## Style
 

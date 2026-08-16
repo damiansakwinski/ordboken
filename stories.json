@@ -147,6 +147,13 @@
     "hash": "3a911d72",
     "locked": false
   },
+  "aa-kreve": {
+    "no": "å kreve",
+    "en": "to require",
+    "story": "Jobben til Damian krever at han sitter foran skjermen mange timer hver dag. I går krevde sjefen at alle skulle bli ferdig før helgen. Det har krevd mye energi av hele teamet denne uka. Aleksandra sa at det å bake en stor kake også kan kreve like mye tålmodighet som programmering.",
+    "hash": "a25b5160",
+    "locked": false
+  },
   "aa-lansere": {
     "no": "å lansere",
     "en": "to launch",
@@ -159,6 +166,13 @@
     "en": "to drop (a case)",
     "story": "Damian jobber som politimann og må noen ganger legge vekk saker som ikke har nok bevis. Forrige uke la vekk politiet en sak om en sykkel som ble stjålet fra en nabo. Sjefen hans legger vekk flere saker enn før fordi de har for lite tid. Damian har lagt vekk tre saker bare denne måneden, og det føles rart hver gang.",
     "hash": "710995ac",
+    "locked": false
+  },
+  "aa-lekke": {
+    "no": "å lekke",
+    "en": "to leak",
+    "story": "Taket på hytta begynte å lekke i natt da regnet kom. Damian våknet fordi det dryppet vann på gulvet, og han skjønte at taket lekker. Han satte en bøtte under stedet som lekket verst. Moren sa at det har lekket fra samme sted i flere år uten at noen har fikset det. Nå må de endelig reparere taket før det lekker igjen.",
+    "hash": "aa99712d",
     "locked": false
   },
   "aa-levere": {
@@ -219,6 +233,13 @@
     "en": "to arrest",
     "story": "Politiet pågrep en mann utenfor butikken i går kveld. De måtte pågripe ham fordi han hadde stjålet flere ting. Nå har de pågrepet to personer i samme sak. Når politiet pågriper noen, må de alltid forklare hvorfor.",
     "hash": "8bf32bf4",
+    "locked": false
+  },
+  "aa-paaregne": {
+    "no": "å påregne",
+    "en": "to expect",
+    "story": "Damian må påregne ventetid når han bestiller deler til gitaren sin. Han påregner vanligvis to uker, men denne gangen tok det lenger. I forrige måned påregnet han tre dager for en pakke, og den kom etter ti. Aleksandra har påregnet det samme når hun bestiller stoff på nett, så hun planlegger alltid i god tid.",
+    "hash": "4b4e2ff6",
     "locked": false
   },
   "aa-perse": {
@@ -406,6 +427,13 @@
     "hash": "a7920ba3",
     "locked": false
   },
+  "ansvarsbevisst": {
+    "no": "ansvarsbevisst",
+    "en": "responsible",
+    "story": "Damian er alltid ansvarsbevisst når han jobber på prosjekter. Sjefen sa i møtet at de trenger en ansvarsbevisst person til det nye teamet. Aleksandra synes det er fint at han er så ansvarsbevisst, fordi da kan hun stole på ham. Selv med små oppgaver hjemme prøver Damian å være ansvarsbevisst og gjøre alt ferdig i tide.",
+    "hash": "7215ad34",
+    "locked": false
+  },
   "bekymringsfull": {
     "no": "bekymringsfull",
     "en": "worrying",
@@ -545,11 +573,32 @@
     "hash": "31f286d4",
     "locked": false
   },
+  "en-erfaring": {
+    "no": "en erfaring",
+    "en": "an experience",
+    "story": "Damian søkte en ny jobb i forrige uke, og de ønsket søkere med erfaring. Han hadde heldigvis mange erfaringer fra tidligere prosjekter. Den viktigste erfaringen var fra et stort prosjekt han jobbet med i to år. Nå håper han at all denne erfaringen er nok til å få jobben.",
+    "hash": "94cc07df",
+    "locked": false
+  },
   "en-fare": {
     "no": "en fare",
     "en": "a danger",
     "story": "Damian så et skilt som advarte om en fare ved elva. Det er fare for flom når det regner mye, sa han til Aleksandra. I går var faren så stor at veien ble stengt. De gikk hjem en annen vei fordi farene langs elva var for mange.",
     "hash": "e663956e",
+    "locked": false
+  },
+  "en-ferdighet": {
+    "no": "en ferdighet",
+    "en": "a skill",
+    "story": "Damian ønsket å lære en ny ferdighet i sommer, så han begynte å øve på fingerspill på gitaren. Etter noen uker følte han at ferdigheten vokste litt hver dag. Aleksandra sa at hennes beste ferdighet var å dekorere kaker, og det var hun stolt av. Gode ferdigheter krever tid og tålmodighet, men det er verdt det til slutt.",
+    "hash": "e1051aca",
+    "locked": false
+  },
+  "en-forgasser": {
+    "no": "en forgasser",
+    "en": "a carburettor",
+    "story": "Damian hjalp faren med en gammel bil i garasjen. Forgasseren var skitten, og motoren ville ikke starte. De tok forgasseren av og la den i en bøtte med varmt vann. Faren sa at forgassere i gamle biler ofte må renses. Etter en time var forgasseren ren, og motoren startet med en gang.",
+    "hash": "1b0e6b81",
     "locked": false
   },
   "en-forsker": {
@@ -574,6 +623,13 @@
     "en": "an incident",
     "story": "Damian jobbet som vakt på et hotell da en hendelse skjedde sent på kvelden. En gjest hadde mistet nøkkelen sin, og hendelsen skapte mye stress i resepsjonen. Slike hendelser var ikke uvanlige, men denne gangen tok det lang tid å løse problemet. Dagen etter skrev Damian en rapport om hendelsen og sendte den til sjefen sin.",
     "hash": "ec5feb8e",
+    "locked": false
+  },
+  "en-henger": {
+    "no": "en henger",
+    "en": "a trailer",
+    "story": "Damian lånte en henger av naboen for å frakte møbler til hytta. Hengeren var tung, men bilen klarte den fint opp bakken. De lastet tre stoler og et bord inn i hengeren før de kjørte. Aleksandra hadde aldri rygget med henger før, så Damian tok seg av parkeringen. Til slutt leverte de hengeren tilbake samme kveld.",
+    "hash": "115d0112",
     "locked": false
   },
   "en-heteboelge": {
@@ -742,6 +798,13 @@
     "en": "a citizen",
     "story": "Damian ble norsk statsborger i fjor etter mange år i Norge. Han var så stolt da han fikk brevet om at han var statsborger. Kona hans har vært statsborger hele livet, så hun lo litt av gleden hans. Nå er de begge statsborgere i samme land, og det gjør hverdagen enklere.",
     "hash": "4fc12684",
+    "locked": false
+  },
+  "en-stilling": {
+    "no": "en stilling",
+    "en": "a position",
+    "story": "Damian søkte på en stilling som utvikler i forrige uke. Stillingen var fast, og lønnen var bedre enn han hadde nå. Han fortalte Aleksandra at mange stillinger krever erfaring han ikke har ennå. Men denne stillingen passet perfekt, så han sendte søknaden samme kveld.",
+    "hash": "928131dc",
     "locked": false
   },
   "en-strandkos": {
@@ -968,6 +1031,13 @@
     "hash": "3ee7f537",
     "locked": false
   },
+  "inntil": {
+    "no": "inntil",
+    "en": "until",
+    "story": "Damian ventet inntil bussen kom. Han sto ved holdeplassen i regnet og ville ikke gå inntil han var sikker på at den ikke kom. Aleksandra sa at hun kunne vente inntil klokka fem, men ikke lenger. Til slutt sto de der inntil døren åpnet seg og de endelig kunne sette seg ned.",
+    "hash": "785ba08d",
+    "locked": false
+  },
   "kjaerkommen": {
     "no": "kjærkommen",
     "en": "welcome",
@@ -1027,6 +1097,13 @@
     "hash": "a07e5d27",
     "locked": false
   },
+  "nysgjerrig": {
+    "no": "nysgjerrig",
+    "en": "curious",
+    "story": "Aleksandra er alltid nysgjerrig når Damian åpner en pakke. I går var hun så nysgjerrig at hun løftet lokket før han rakk å se selv. Sonia er også nysgjerrig hver gang noen kommer til døra. Damian liker at de begge er nysgjerrige, for det gjør hverdagen litt morsommere.",
+    "hash": "d54ce239",
+    "locked": false
+  },
   "oedelagt": {
     "no": "ødelagt",
     "en": "broken",
@@ -1050,6 +1127,13 @@
     "en": "almost",
     "story": "Damian skulle møte Aleksandra klokka fem, men han var omtrent ti minutter forsinket. Hun hadde ventet omtrent like lenge forrige gang også. Det var omtrent tjue personer i køen foran kafeen. De brukte omtrent en time på å spise før de gikk hjem.",
     "hash": "263c57e8",
+    "locked": false
+  },
+  "paa-vegne-av": {
+    "no": "på vegne av",
+    "en": "on behalf of",
+    "story": "Damian måtte signere et brev på vegne av sjefen sin i dag. Han har aldri skrevet under på vegne av noen andre før. Aleksandra sa at hun en gang ringte banken på vegne av moren sin. Det føles litt rart å snakke på vegne av en annen person, men noen ganger må man det.",
+    "hash": "8f1956cf",
     "locked": false
   },
   "regjerende": {
