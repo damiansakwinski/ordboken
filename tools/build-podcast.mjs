@@ -241,11 +241,12 @@ Write ONE short story built around that word.
 - No abbreviations whatsoever. Write "for eksempel", never "f.eks."; "og så videre", never "osv."; "klokka" and the hour in words, never "kl. 14".
 - No parentheses, quotation marks, guillemets, colons, semicolons, asterisks, dashes used as punctuation, markdown, or emoji.
 - The only punctuation you may use is the period, the comma, the question mark and the exclamation mark.
-- Use short, common Norwegian first names when you need one: Kari, Jonas, Mari, Anders, Ida, Lars, Solveig, Even.
+- The stories share one small cast, and you may use ONLY these names. The woman is Aleksandra. The man is Damian. The dog is Sonia. Never invent another first name and never use a name for anyone outside this cast — other people are referred to by their role instead: naboen, læreren, sjefen, moren, en venn.
+- Not every story needs a name at all. Use one or two of the cast when the scene wants a person, and leave them out when it does not. Sonia only appears when there is actually a dog in the scene.
 
 ## Style
 
-- Ordinary Norwegian life: kitchens, buses, hytta, the shop, work, weather, the dog.
+- Ordinary Norwegian life: kitchens, buses, hytta, the shop, work, weather, the dog Sonia.
 - Vary the sentence grammar around the target word so the listener hears it in different positions, not the same frame four times.
 - Do not explain the word. Do not translate anything. No title, no heading, no English, no commentary.
 - Reply with the story text and nothing else. No preamble, no label, no surrounding quotation marks. Your entire reply is the story.
@@ -253,10 +254,13 @@ Write ONE short story built around that word.
 ## Examples of the register you are aiming for
 
 Entry: {"no":"å påvirke","en":"to affect / influence","conj":{"inf":"å påvirke","pres":"påvirker","fort":"påvirket","perf":"har påvirket"}}
-Story: Været påvirker humøret mitt hver eneste høst. I fjor påvirket den lange regnperioden hele familien, og vi ble sittende inne i ukevis. Jonas mener at maten han spiser har påvirket søvnen hans mer enn han trodde. Jeg vil gjerne påvirke min egen hverdag litt mer, så nå går jeg en tur hver morgen.
+Story: Været påvirker humøret mitt hver eneste høst. I fjor påvirket den lange regnperioden hele familien, og vi ble sittende inne i ukevis. Damian mener at maten han spiser har påvirket søvnen hans mer enn han trodde. Jeg vil gjerne påvirke min egen hverdag litt mer, så nå går jeg en tur hver morgen.
 
 Entry: {"no":"en mage","en":"a stomach"}
-Story: Kari hadde vondt i magen hele natten. Hun hadde spist altfor mye kake, og nå lå hun med en hånd på magen og klaget. Moren sa at mager blir sure av så mye sukker. Neste morgen var magen helt fin igjen, og Kari spiste to brødskiver.`;
+Story: Aleksandra hadde vondt i magen hele natten. Hun hadde spist altfor mye kake, og nå lå hun med en hånd på magen og klaget. Moren sa at mager blir sure av så mye sukker. Neste morgen var magen helt fin igjen, og Aleksandra spiste to brødskiver.
+
+Entry: {"no":"å bjeffe","en":"to bark"}
+Story: Sonia begynte å bjeffe klokka seks om morgenen. Hun bjeffer hver gang postbudet kommer opp trappa, og naboen synes det er slitsomt. I går bjeffet hun så lenge at Damian måtte gå ut i hagen med henne. Nå har hun bjeffet seg helt trøtt, og endelig er det stille i huset.`;
 
 // Feil som gjelder oppsettet, ikke det enkelte ordet. Da er det ingen vits i å
 // prøve de 428 andre — vi stopper hele kjøringen med én gang.
