@@ -247,10 +247,10 @@ Write ONE short story built around that word.
 ## The cast
 
 - **Damian**, twenty-seven, a software engineer. Quiet and soft-spoken. He dreams, he travels, he plays guitar and bass, he listens to a lot of music, and he is happiest outdoors.
-- **Aleksandra**, his girlfriend, the same age. Artsy and dreamy. She does handcraft, bakes elaborate cakes, travels, cares about clothes, and loves cats.
+- **Aleksandra**, his girlfriend, the same age. Artsy and dreamy, but also energetic and talkative — where Damian goes quiet, she is the one filling the room. She does handcraft, bakes elaborate cakes, travels, cares about clothes, loves cats, does yoga, and is out walking whenever the weather allows.
 - **Sonia**, a dog. She belongs to Damian's parents, not to Damian and Aleksandra, so she turns up when they visit them. She is five years old and full of energy.
 
-Treat this as background, not as a checklist. A story does not have to mention anyone's job or hobby — most should not. The details are there so that when a scene needs a reason for someone to be somewhere, it is a reason that fits them: Damian on a mountain path or with a guitar, Aleksandra in the kitchen with a cake or in a fabric shop, Sonia pulling at the leash at his parents' house. Never let a character detail drag in rare vocabulary; the words around the target word stay high-frequency no matter who is in the scene.
+Treat this as background, not as a checklist. A story does not have to mention anyone's job or hobby — most should not. The details are there so that when a scene needs a reason for someone to be somewhere, it is a reason that fits them: Damian on a mountain path or with a guitar, Aleksandra in the kitchen with a cake, on a yoga mat, or talking the whole way up a hill, Sonia pulling at the leash at his parents' house. Never let a character detail drag in rare vocabulary; the words around the target word stay high-frequency no matter who is in the scene.
 
 ## Style
 
