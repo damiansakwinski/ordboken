@@ -261,6 +261,49 @@
     max-width:340px;
   }
 
+  /* Historien legger seg over hele baksiden i stedet for å presse kortet
+     større — alle kort er like høye. Rulles innvendig hvis teksten er lang. */
+  .story{
+    position:absolute;
+    inset:0;
+    display:none;
+    border-radius:18px;
+    /* Toppen holdes av til knappene, som ligger oppå historien. */
+    padding:48px 24px 26px;
+    background:linear-gradient(160deg, var(--ember), #a24f34);
+    font-size:14px;
+    line-height:1.6;
+    text-align:left;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .story.vis{ display:block; }
+
+  /* Knappene ligger utenfor .story så de er synlige i begge tilstandene. */
+  .storyBtn, .playBtn{
+    position:absolute;
+    top:12px;
+    z-index:2;
+    border:1px solid rgba(255,255,255,0.28);
+    background:rgba(0,0,0,0.16);
+    color:var(--paper);
+    font:inherit;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+
+  .storyBtn{ right:14px; }
+  .playBtn{ left:14px; }
+
+  .storyBtn:hover, .playBtn:hover{ background:rgba(0,0,0,0.28); }
+  .playBtn.spiller{ background:rgba(0,0,0,0.34); border-color:rgba(255,255,255,0.5); }
+  .storyBtn[hidden], .playBtn[hidden]{ display:none; }
+
   .controls{
     display:flex;
     gap:12px;
@@ -442,6 +485,9 @@
             <div class="word" id="backWord">fremdeles</div>
             <div class="conj" id="backConj"></div>
             <div class="example" id="backExample">"...det kiler fremdeles like mye i magen..."</div>
+            <button type="button" class="storyBtn" id="storyBtn" hidden>Historie</button>
+            <button type="button" class="playBtn" id="playBtn" hidden>▶ Spill</button>
+            <div class="story" id="backStory"></div>
           </div>
         </div>
       </div>
@@ -899,6 +945,58 @@
   const backTag = document.getElementById('backTag');
   const backConj = document.getElementById('backConj');
   const backExample = document.getElementById('backExample');
+  const backStory = document.getElementById('backStory');
+  const storyBtn = document.getElementById('storyBtn');
+  const playBtn = document.getElementById('playBtn');
+  const player = new Audio();
+  player.preload = 'none';
+  let clipSrc = null;
+
+  // Kortet snus på pointerup (se addSwipe), ikke på click. Derfor må pointer-
+  // hendelsene stoppes her — en click-handler kommer for sent til å hindre
+  // vendingen, og et strøk over historien skal heller ikke bla videre.
+  for(const el of [storyBtn, playBtn, backStory]){
+    for(const type of ['pointerdown','pointerup','pointermove','pointercancel']){
+      el.addEventListener(type, (e) => e.stopPropagation());
+    }
+  }
+
+  function stopClip(){
+    player.pause();
+    player.currentTime = 0;
+    playBtn.classList.remove('spiller');
+    playBtn.textContent = '▶ Spill';
+  }
+
+  player.addEventListener('ended', stopClip);
+  player.addEventListener('error', () => {
+    stopClip();
+    playBtn.textContent = 'Fant ikke lyd';
+  });
+
+  playBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if(player.paused){
+      player.play();
+      playBtn.classList.add('spiller');
+      playBtn.textContent = '❚❚ Pause';
+    } else {
+      player.pause();
+      playBtn.classList.remove('spiller');
+      playBtn.textContent = '▶ Spill';
+    }
+  });
+
+  storyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = backStory.classList.toggle('vis');
+    storyBtn.textContent = open ? 'Lukk' : 'Historie';
+    // Spilleknappen hører til historien: den vises bare når historien er åpen,
+    // og bare når ordet faktisk har et klipp i ord/.
+    playBtn.hidden = !open || !clipSrc;
+    if(open) backStory.scrollTop = 0;
+    else stopClip();
+  });
   const progress = document.getElementById('progress');
   let direction = 'en'; // 'en' = engelsk først, 'no' = norsk først
 
@@ -909,6 +1007,12 @@
       backConj.style.display = 'none';
       backConj.innerHTML = '';
       backExample.textContent = 'Prøv et annet søk';
+      backStory.textContent = '';
+      backStory.classList.remove('vis');
+      storyBtn.hidden = true;
+      stopClip();
+      clipSrc = null;
+      playBtn.hidden = true;
       progress.textContent = '0 treff';
       card.classList.remove('flipped');
       return;
@@ -937,6 +1041,22 @@
       backConj.innerHTML = '';
     }
     backExample.textContent = w.ex;
+    // Historien starter alltid skjult, også når man blar videre.
+    const key = storyKey(w.no);
+    const story = stories[key];
+    backStory.textContent = story || '';
+    backStory.classList.remove('vis');
+    backStory.scrollTop = 0;
+    storyBtn.hidden = !story;
+    storyBtn.textContent = 'Historie';
+
+    // Klippet lastes først når man trykker spill — src settes nå, men preload
+    // er «none», så det koster ingenting å bla forbi et ord man ikke hører på.
+    stopClip();
+    clipSrc = clips[key] || null;
+    if(clipSrc) player.src = encodeURI(clipSrc);
+    else player.removeAttribute('src');
+    playBtn.hidden = true;
     progress.textContent = order.length === words.length
       ? `Kort ${pos + 1} av ${words.length}`
       : `Kort ${pos + 1} av ${order.length} (filtrert)`;
@@ -1241,6 +1361,268 @@
     { en: "to ooze / seep", no: "å tyte", conj: {inf:"å tyte", pres:"tyter", fort:"tøt", perf:"har tytt"} },
     { en: "to stride / proceed", no: "å skride", conj: {inf:"å skride", pres:"skrider", fort:"skred", perf:"har skredet"} }
   ];
+
+  // ── historier: generert, ikke rediger for hånd ───────────────────────────
+  // Skriv om med:  node tools/build-podcast.mjs --sync-app
+  // Kilden er stories.json; rett teksten der og kjør kommandoen på nytt.
+  const stories = {
+    "adskilt": "Kari og søsteren ble adskilt på flyplassen fordi de havnet i forskjellige køer. En vakt adskilte dem uten å tenke seg om. Det er vanskelig å adskille to små barn fra hverandre når de er redde. Heldigvis har ingen adskilt dem siden den dagen, og nå holder de alltid hender når de reiser.",
+    "altfor": "Lars ville kjøpe en ny jakke, men den kostet altfor mye. Han gikk til en annen butikk, men der var jakkene altfor store for ham. Ida sa at han brukte altfor lang tid på å lete. Til slutt fant han en fin jakke på salg, og den var ikke altfor dyr.",
+    "bekymringsfull": "Lars så på værmeldingen og syntes den var bekymringsfull. Det skulle bli storm hele helgen, og det var en bekymringsfull beskjed for alle som hadde planer ute. Kari ringte og sa at veien til hytta var bekymringsfull å kjøre på grunn av is. De bestemte seg for å bli hjemme, fordi situasjonen var for bekymringsfull til å ta noen sjanser.",
+    "ei-bot": "Anders kjørte for fort og fikk ei bot på vei hjem fra jobben. Bota var på to tusen kroner, og han ble veldig irritert. Han fortalte Kari at han aldri har fått ei bot før. Kari lo og sa at bøter er noe alle som kjører for fort må betale. Neste gang skal Anders passe farten så han slipper en ny bot.",
+    "ei-leppe": "Mari våknet med tørre lepper etter en lang natt. Hun fant en leppepomade i veska og smurte den over leppa. Ute var det kaldt, og vinden gjorde leppene enda tørrere. Hun la hånda over ei leppe for å beskytte den mot kulda på vei til bussen.",
+    "ei-sak": "Politiet åpnet ei sak mot naboen til Lars i forrige uke. Saka ble lagt vekk etter bare tre dager fordi det ikke fantes bevis. Lars syntes det var rart at en så alvorlig sak kunne forsvinne så fort. Han har lest om mange saker i avisen som tok mye lengre tid.",
+    "ei-sending": "Kari satte seg ned foran fjernsynet for å se kveldens sending. Dagens sending handlet om varmebølgen som hadde rammet hele landet. Hun likte at sendingene på denne kanalen alltid var korte og enkle å forstå. Etter at sendinga var ferdig, gikk hun ut i hagen for å nyte solen.",
+    "ei-tevling": "Ida meldte seg på ei tevling i løping forrige helg. Tevlinga startet klokka ti om morgenen, og det var mange folk der. Hun hadde aldri vært med i slike tevlinger før, så hun var nervøs. Etter tevlinga var ferdig, fant hun ut at hun kom på tredjeplass, og hun smilte hele veien hjem.",
+    "ei-trapp": "Lars bar en tung eske opp ei trapp til andre etasje. Trappa i blokka var smal, så han måtte gå sakte. Halvveis oppe i trappa stoppet han for å puste. Han tenkte at trapper burde være bredere i gamle bygg. Til slutt nådde han toppen og satte esken ned med et sukk.",
+    "en-avgjoerelse": "Lars sto foran kjøleskapet og måtte ta en avgjørelse. Skulle han lage pasta eller suppe til middag. Avgjørelsen var vanskelig fordi begge var gode valg. Han tenkte at små avgjørelser som dette ikke burde ta så lang tid. Til slutt tok han avgjørelsen og valgte pasta med ost.",
+    "en-avling": "Lars stod på jordet og så på avlingen sin i juli. Det hadde ikke regnet på flere uker, og avlingene begynte å tørke. Han bestemte seg for å vanne hver kveld for å redde avlingen. Naboen hadde mistet hele sin avling året før på grunn av tørke. Nå så avlingene til Lars mye bedre ut, og han pustet lettet ut.",
+    "en-beboer": "Lars er beboer i en liten blokk nær sentrum. I går klaget en annen beboer på støy fra tredje etasje. Beboerne hadde et møte i kveld for å snakke om problemet. Etter møtet var alle beboerne enige om nye regler for ro etter klokka ti.",
+    "en-bonde": "Lars er en bonde som bor like ved elva. Hver morgen står bonden opp klokka fem for å mate dyrene sine. I bygda finnes det mange bønder, men Lars har den største gården. Forrige uke solgte bonden melk og ost på torget i sentrum. Han er stolt av å være bonde, akkurat som faren hans var.",
+    "en-bydel": "Lars flyttet til en ny bydel på østsiden av byen i fjor. Bydelen har mange små kafeer og en fin park. Han liker å gå rundt i bydelen etter jobb og se på de gamle husene. Noen bydeler er rolige, men hans bydel er alltid full av folk og musikk.",
+    "en-doedsaarsak": "Politiet undersøker dødsårsaken etter at en eldre mann ble funnet i leiligheten sin. Legen sa at en dødsårsak ikke alltid er enkel å fastslå. De ventet på svar fra laboratoriet for å bekrefte dødsårsaken. Etter tre dager fant de endelig den riktige dødsårsaken, og familien ble informert.",
+    "en-drift": "Lars jobbet med driften av et lite sykehus i mange år. Hver dag tenkte han på hvordan han kunne gjøre driften bedre. Det kostet mye penger å holde en drift i gang uten nok ansatte. Til slutt fikk han mer penger fra kommunen, og driften gikk mye lettere etter det.",
+    "en-fare": "Lars så et skilt som advarte om en fare ved elva. Det er fare for flom når det regner mye, sa han til Kari. I går var faren så stor at veien ble stengt. De gikk hjem en annen vei fordi farene langs elva var for mange.",
+    "en-forsker": "Lars er en forsker som jobber ved universitetet i Oslo. Hver dag sitter forskeren på kontoret sitt og leser artikler om klima. I går møtte han to andre forskere fra Bergen for å diskutere et nytt prosjekt. Mari spurte hva en forsker egentlig gjør hele dagen, og Lars lo og sa at han mest drikker kaffe og tenker.",
+    "en-hendelse": "Lars jobbet som vakt på et hotell da en hendelse skjedde sent på kvelden. En gjest hadde mistet nøkkelen sin, og hendelsen skapte mye stress i resepsjonen. Slike hendelser var ikke uvanlige, men denne gangen tok det lang tid å løse problemet. Dagen etter skrev Lars en rapport om hendelsen og sendte den til sjefen sin.",
+    "en-heteboelge": "Forrige sommer kom en hetebølge til Oslo, og alle åpnet vinduene. Hetebølgen varte i nesten to uker, og folk satt i skyggen hele dagen. Lars husker at hetebølger var sjeldne da han var liten. Etter hetebølgen kom endelig regnet, og alle var glade igjen.",
+    "en-innenriksminister": "Lars så på nyhetene og hørte at en innenriksminister hadde holdt en tale om sikkerhet. Innenriksministeren snakket om nye regler for politiet. Mari spurte hva en innenriksminister egentlig gjør, og Lars forklarte at det handler om ting inne i landet. Senere på kvelden leste de mer om innenriksministeren på nettet.",
+    "en-innhoesting": "Lars sto opp tidlig fordi en innhøsting ventet på gården. Alle naboene snakket om innhøstingen denne uka. I fjor var innhøstingen sen på grunn av regnet. Nå var kornet klart, og Lars gledet seg til å starte sin beste innhøsting på mange år.",
+    "en-kraftmangel": "Lars våknet tidlig fordi varmen hadde slått seg av i natt. På nyhetene sa de at en kraftmangel rammet hele byen. Han husket at det var fare for kraftmangel til vinteren, men han trodde ikke det ville skje så snart. Naboen Ida banket på døra og spurte om han også merket kraftmangelen. De satte seg sammen med tepper og stearinlys og håpet at kraftmangelen snart ville være over.",
+    "en-kreftsykdom": "Lars hadde en kreftsykdom som ble oppdaget tidlig. Legen sa at kreftsykdommen kunne behandles med medisin. På sykehuset møtte han andre med kreftsykdommer, og de snakket sammen hver dag. Etter et halvt år var kreftsykdommen borte, og Lars kunne endelig gå tilbake til jobben sin.",
+    "en-lettelse": "Mari ventet på svar fra legen i flere dager. Da telefonen endelig ringte, følte hun en stor lettelse. Lettelsen var så sterk at hun begynte å gråte. Hun ringte moren sin og sa at lettelsen hun kjente var vanskelig å beskrive. Moren svarte at slike lettelser kommer når man har vært redd lenge.",
+    "en-medelev": "Lars satt på bussen og så en medelev fra klassen sin. Medeleven vinket og satte seg ved siden av ham. De snakket om prøven de skulle ha senere, og Lars var glad for at medelever kunne hjelpe hverandre. På skolen møtte de enda en medelev som hadde glemt boka si, så Lars lånte henne sin.",
+    "en-myndighet": "Lars jobbet i en myndighet som hadde ansvar for matsikkerhet. Hver dag måtte han svare på spørsmål fra folk som ikke forsto hva myndigheten bestemte. Andre myndigheter i landet sendte ham lange brev om nye regler. Han tenkte ofte at det var vanskelig å jobbe for en myndighet når alle var uenige med deg.",
+    "en-noedetat": "Lars så en ulykke på veien og ringte en nødetat med en gang. Alle nødetatene kom raskt til stedet, både politi og ambulanse. Han hadde aldri trengt å ringe en nødetat før, så hendene skalv litt. Nødetaten på telefonen var rolig og ba ham vente ved bilen.",
+    "en-oppmerksomhet": "Lars satt i klasserommet og prøvde å gi læreren sin fulle oppmerksomhet. Det var vanskelig fordi telefonen lyste, og oppmerksomheten hans gled bort hele tiden. Læreren sa at oppmerksomheter er som muskler, de blir sterkere med trening. Etter pausen klarte Lars å holde oppmerksomheten på tavla helt til timen var ferdig.",
+    "en-paatalemyndighet": "Påtalemyndigheten tok ut tiltale mot mannen i forrige uke. Lars leste om saken i avisen og lurte på hva en påtalemyndighet egentlig gjør. Kari forklarte at påtalemyndigheten bestemmer hvem som skal stilles for retten. I Norge har vi en påtalemyndighet som jobber tett med politiet hver dag.",
+    "en-sannsynlighet": "Det var stor sannsynlighet for regn, så Kari tok med seg paraplyen. Hun sjekket appen og så at sannsynligheten for sol var veldig lav. Anders sa at sannsynligheter ikke alltid stemmer, men i dag hadde appen rett. Regnet kom etter lunsj, akkurat som sannsynligheten tilsa.",
+    "en-sats": "Lars jobbet i banken og måtte forklare den nye satsen til kundene. En kunde spurte hvorfor satsen hadde gått opp siden forrige måned. Lars forklarte at satser endrer seg når økonomien endrer seg. Kunden var ikke fornøyd med den høye satsen, men Lars kunne ikke gjøre noe med det.",
+    "en-seier": "Lars så kampen på TV og håpet på en seier for laget sitt. Etter nitti minutter kom seieren endelig, og han jublet høyt i stua. Det var lagets tredje seier denne sesongen. Ida sa at en slik seier fortjente feiring, så de bestilte pizza.",
+    "en-sjanger": "Mari liker å lese, men hun har aldri funnet en sjanger hun elsker mest. I går spurte Lars hvilken sjanger hun foretrakk, og hun svarte at krim var spennende. Sjangeren har mange forskjellige forfattere å velge mellom. På biblioteket fant hun en hel hylle med bøker i samme sjanger, og hun lånte tre stykker med hjem.",
+    "en-skaal": "Lars tok en skål fra skapet og fylte den med varm suppe. Skålen var stor nok til to porsjoner. Han satte skålen på bordet og hentet en skje. Ida ville også ha suppe, så han fant fram enda en skål til henne. De hadde fire skåler hjemme, men de to andre var i oppvaskmaskinen.",
+    "en-slokking": "Brannbilen kom til huset like etter klokka sju. En slokking av en liten brann i garasjen var allerede i gang. Slokkingen tok lengre tid enn brannfolkene hadde trodd. Naboen stod og så på mens slokkingen pågikk. Til slutt var slokkingen ferdig, og alle kunne puste ut.",
+    "en-sorg": "Lars mistet katten sin i forrige uke, og sorgen var tung å bære. Hver morgen kjente han en sorg i brystet når han så den tomme kurven. Vennene hans forsto sorgen og kom på besøk med mat og varme ord. Etter noen dager ble sorgene lettere, og Lars begynte å smile igjen når han så bilder av katten.",
+    "en-statsborger": "Lars ble norsk statsborger i fjor etter mange år i Norge. Han var så stolt da han fikk brevet om at han var statsborger. Kona hans har vært statsborger hele livet, så hun lo litt av gleden hans. Nå er de begge statsborgere i samme land, og det gjør hverdagen enklere.",
+    "en-strandkos": "Mari pakket en bag med håndklær fordi det skulle bli strandkos i helga. Hele familien gledet seg til strandkosen ved hytta. Barna snakket om strandkos hver dag den uka. Da sola endelig kom fram på lørdag, sa Lars at dette var den beste strandkosen de hadde hatt på lenge.",
+    "en-takknemlighet": "Lars kjente en stor takknemlighet da naboen hjalp ham med å flytte sofaen. Han sa at takknemligheten hans var vanskelig å uttrykke med ord. Dagen etter bakte han en kake for å vise sin takknemlighet. Naboen smilte og sa at slike takknemligheter gjorde hverdagen finere for alle.",
+    "en-uforutsigbarhet": "Lars jobbet som bonde og var vant til værets uforutsigbarhet. Hver vår klaget han over at en slik uforutsigbarhet gjorde det vanskelig å planlegge. Naboene hans snakket også om uforutsigbarheten når de møttes på butikken. I går sa Lars at han hadde lært å leve med denne uforutsigbarheten etter mange år på gården.",
+    "en-vannfoering": "Lars stod ved elva og så at vannføringen var mye høyere enn vanlig. Etter all regnet i forrige uke hadde vannføringen økt kraftig. Han ringte kommunen for å spørre om de ville gjøre noe for å øke vannføringen videre ned mot jordet. En stor vannføring kunne være farlig for broen, så de bestemte seg for å sjekke den hver dag.",
+    "en-varmeboelge": "Forrige sommer kom en varmebølge til Norge som varte i to uker. Varmebølgen gjorde at alle i nabolaget satt ute med is og vann. Lars sa han aldri hadde opplevd en varmebølge så sterk før. Denne uka fortsetter varmebølgen, så Mari har kjøpt tre nye vifter til huset.",
+    "en-vekker": "Lars sov alltid lenge og kom for sent på jobb. En dag sa sjefen at dette var siste sjanse, og det ble en vekker for ham. Naboens hus brant forrige uke, og det var en vekker for hele gata om brannvarsler. Nå sjekker Lars røykvarsleren hver måned fordi han trengte den vekkeren. Slike vekkere gjør at folk tar livet litt mer alvorlig.",
+    "en-vending": "Lars syklet langs veien da han tok en skarp vending til høyre. Vendingen kom så brått at han nesten mistet balansen. Saken på jobben tok også en uventet vending i går, og sjefen ble veldig overrasket. Noen vendinger i livet er vanskelige, men denne gangen gikk alt bra til slutt.",
+    "en-voldshendelse": "Politiet fikk melding om en voldshendelse i sentrum sent på kvelden. Lars hørte om voldshendelsen på nyhetene mens han spiste frokost. Han tenkte at slike voldshendelser skjer oftere nå enn før. Heldigvis ble ingen alvorlig skadet i voldshendelsen denne gangen.",
+    "en-vaar": "Etter en lang og kald vår var Kari glad for at solen endelig kom. Denne våren hadde det regnet nesten hver dag i april. Hun husket at våren i fjor var mye varmere og tørrere. Nå plantet hun blomster i hagen fordi vårer i Norge kan være korte.",
+    "et-akuttmottak": "Lars falt på isen utenfor huset og slo hodet sitt hardt. Naboen kjørte ham rett til akuttmottaket. De ventet i to timer på et akuttmottak fullt av folk. En lege på akuttmottaket sa at alt så bra ut. Lars håper han aldri trenger å besøke et akuttmottak igjen.",
+    "et-budskap": "Lars fant et budskap i postkassa fra naboen. Budskapet handlet om et møte i gården neste uke. Han syntes det var et viktig budskap og viste det til Kari. Hun sa at slike budskap bør deles med alle i oppgangen.",
+    "et-fargeavvik": "Kari jobbet i en butikk som solgte maling. En kunde kom tilbake med en boks og sa at det var et fargeavvik mellom malingen og prøven på veggen. Kari så på boksen og fant fargeavviket med en gang. Hun hadde sett mange fargeavvik før, så hun visste hva hun skulle gjøre. Kunden fikk en ny boks uten noe fargeavvik denne gangen.",
+    "et-lag": "Jonas spiller på et lag som trener hver tirsdag. Laget vant kampen forrige uke, og alle var glade etterpå. Det er fem lag i serien deres, men bare to kan gå videre. Han er stolt av laget sitt og vil ikke bytte til en annen klubb.",
+    "et-landsstevne": "Ida gleder seg til landsstevnet i sommer. Hun har vært på et landsstevne én gang før, og da møtte hun folk fra alle kanter av Norge. I år samler landsstevnet over tusen deltakere i en liten by ved sjøen. Faren hennes sier at landsstevner alltid gir gode minner og nye venner.",
+    "et-sammenstoet": "Lars så et sammenstøt mellom to biler på vei til jobb. Sammenstøtet skjedde rett foran lyskrysset, og alle stoppet opp. Heldigvis var det et lite sammenstøt, så ingen ble skadet. Politiet kom raskt og sa at slike sammenstøt ofte skjer på glatte veier.",
+    "et-skjelett": "Mari fant et skjelett av en fugl i hagen. Skjelettet var hvitt og lite, og hun la det forsiktig i en eske. På skolen hadde læreren vist dem skjeletter av mange dyr. Mari tok med esken for å vise klassen sitt eget skjelett.",
+    "et-tap": "Lars sitt fotballag hadde et stort tap i helgen. Tapet overrasket alle, fordi laget hadde vunnet fem kamper på rad. Etter kampen snakket treneren om tap og hvordan man kan lære av dem. Mari sa at slike tap gjør laget sterkere til neste gang.",
+    "et-utvalg": "Mari gikk inn i den nye butikken og ble overrasket over utvalget av ost. Hun hadde aldri sett et utvalg så stort i en liten butikk før. Lars sa at utvalg er viktig når man skal velge middag. De valgte tre oster fra utvalget og gikk hjem for å lage pizza.",
+    "et-vippepunkt": "Lars hadde ryddet garasjen i flere timer, men rotet bare ble verre. Til slutt nådde han et vippepunkt og bestemte seg for å kaste alt det gamle. Kari sa at hun også hadde nådd et vippepunkt med alle bøkene sine i stua. Vippepunktet kom da de ikke fant plass til skoene ved døra. Etter den dagen var huset mye ryddigere, og begge var glade for at de hadde passert vippepunktet sammen.",
+    "fastklemt": "En person satt fastklemt i bilen etter ulykken. Lars ringte nødnummeret og sa at sjåføren var fastklemt bak rattet. Brannmannskapet kom fort for å hjelpe den fastklemte mannen. Etter ti minutter var han ikke fastklemt lenger, og de kunne flytte ham til ambulansen.",
+    "forbundet-med": "Lars visste at røyking er forbundet med helseproblemer. Likevel tenkte han ikke så mye på det før legen sa at smertene hans var forbundet med stress på jobben. Mangel på søvn er også forbundet med dårlig konsentrasjon, forklarte legen. Nå prøver Lars å unngå alt som er forbundet med for mye press i hverdagen.",
+    "foreloepig": "Lars fikk en foreløpig rapport fra legen etter blodprøven. Resultatene var bare foreløpige, så han måtte vente på de endelige svarene. Han ringte kona og sa at den foreløpige beskjeden var god. Neste uke skulle de få vite mer, men foreløpig kunne de slappe av.",
+    "gjev": "Anders søkte på en gjev stilling ved universitetet i Oslo. Jobben var den gjeveste i hele avdelingen, og mange ville ha den. Kari sa at prisen de delte ut i fjor også var svært gjev. Til slutt fikk Anders tilbudet, og han følte seg stolt over å ha fått en så gjev posisjon.",
+    "i-fjor": "Lars solgte bilen sin i fjor. Han kjøpte en sykkel i stedet, og i fjor syklet han til jobben hver dag. Kari begynte også å trene i fjor, og de to ble gode venner på sykkelstien. Nå snakker de ofte om hvor mye som forandret seg i fjor.",
+    "kjaerkommen": "Etter en lang og kald vinter var sola svært kjærkommen i byen. Lars satte seg ute med en kopp kaffe, og varmen var kjærkommen mot ansiktet hans. Naboen Ida kom med ei kjærkommen flaske brus til ham. Selv den lille vinden som kom om ettermiddagen føltes kjærkommen etter så mange grå uker.",
+    "kjoelig": "Det er kjølig ute i dag, så Mari tar på seg en tykk jakke. Hun liker ikke når været er så kjølig om morgenen. På bussen merker hun at lufta fra vinduet også er kjølig. Senere på dagen blir det varmere, men kvelden blir kjølig igjen, og hun er glad hun tok med jakka.",
+    "kred": "Treneren ga kred til spillerne etter kampen. Alle på laget fortjener kred for den gode innsatsen. Jonas fikk spesiell kred fordi han scoret to mål. Uten kred fra treneren ville ingen følt seg sett.",
+    "mest-sannsynlig": "Anders så at bussen ikke kom til vanlig tid. Den er mest sannsynlig forsinket på grunn av snøen, tenkte han. Kari ringte og sa at veien var stengt, så bussen kommer mest sannsynlig ikke i det hele tatt. De bestemte seg for å gå, og mest sannsynlig var det raskere enn å vente. Da de kom fram, så de at bussen sto fast i en bakke, og det var mest sannsynlig derfor den aldri dukket opp.",
+    "noensinne": "Har du noensinne smakt brunost, spurte Mari venninnen sin på kjøkkenet. Ida sa at hun ikke noensinne hadde prøvd det før. Mari mente det var den beste osten hun noensinne hadde spist. Ida tok en bit og sa at hun noensinne måtte komme tilbake for å få mer.",
+    "omfattende": "Brannen i nabolaget førte til omfattende skader på tre hus. Lars så at taket var helt ødelagt, og skadene var mer omfattende enn noen hadde trodd. Forsikringsselskapet sa at så omfattende ødeleggelser ville ta mange måneder å reparere. Hele familien måtte flytte, fordi arbeidet med huset ble svært omfattende.",
+    "omtrent": "Lars skulle møte Kari klokka fem, men han var omtrent ti minutter forsinket. Hun hadde ventet omtrent like lenge forrige gang også. Det var omtrent tjue personer i køen foran kafeen. De brukte omtrent en time på å spise før de gikk hjem.",
+    "regjerende": "Lars så på TV da de viste de regjerende mesterne i curling. Han fortalte Kari at de regjerende vinnerne hadde spilt sammen i mange år. Kari lurte på om det regjerende laget ville vinne igjen i år. De så kampen ferdig, og de regjerende mesterne vant nok en gang.",
+    "savnet": "Katten til Mari har vært savnet siden forrige uke. Hun savner den lille katten hver eneste kveld. Naboene hjalp henne å lete, og alle savnet dyret like mye som henne. I går fant de katten bak garasjen, og Mari sa at hun aldri har savnet noe så mye i hele sitt liv.",
+    "skyldig": "Lars visste at han var skyldig. Han hadde spist den siste sjokoladen som tilhørte Ida. Da Ida spurte hvem som var skyldig, ble ansiktet hans rødt. Han følte seg skyldig hele kvelden og til slutt sa han sannheten. Ida lo og sa at den skyldige måtte kjøpe ny sjokolade neste dag.",
+    "straalende": "Ida våknet og så ut av vinduet. Det var strålende vær, og himmelen var helt blå. Hun ringte Mari og sa at dagen var strålende for en tur i fjellet. De møttes ved bussen, og humøret var strålende hos begge to. Turen ble lang og fin, og de kom hjem med strålende smil.",
+    "svaert": "Lars syklet svært fort nedover bakken i dag. Det var svært kaldt ute, så han hadde på seg lue og votter. Fingene hans ble svært kalde likevel, og han stoppet ved butikken for å varme seg. Kaffen han kjøpte var svært varm, og det føltes godt.",
+    "til-sammen": "Lars kjøpte tre skjorter og to bukser, og til sammen kostet det åtte hundre kroner. Familien hans har fem medlemmer til sammen. De spiste til sammen tolv brødskiver til frokost i dag. Kari regnet ut at de hadde gått femten kilometer til sammen etter helgens turer.",
+    "uaktsom-forvoldelse": "Lars leste i avisen om en sjåfør som var tiltalt for uaktsom forvoldelse av død. Saken handlet om en ulykke på motorveien i fjor. Politiet mente at uaktsom forvoldelse var riktig tiltale fordi sjåføren ikke hadde vært oppmerksom. Dommeren forklarte at uaktsom forvoldelse er noe av det mest alvorlige man kan bli dømt for. Lars la fra seg avisen og tenkte at han alltid måtte kjøre forsiktig, for uaktsom forvoldelse kan skje når man minst venter det.",
+    "ukurant-farge": "Lars jobbet i en klesbutikk og hadde mange gensere i ukurant farge på lageret. Ingen ville kjøpe dem fordi en ukurant farge er vanskelig å selge. Sjefen sa at de måtte sette ned prisen på alt i ukurant farge før sommeren. Til slutt solgte de alle genserne med femti prosent rabatt, men ukurant farge var fortsatt et problem hver sesong.",
+    "vel-moett": "Vel møtt til alle som kom til møtet i dag. Lars åpnet døra og sa vel møtt til hver eneste gjest. Det var hyggelig å høre vel møtt da vi kom inn fra regnet. Etter middagen reiste Kari seg og sa vel møtt neste gang også.",
+    "verneverdig": "Anders gikk forbi det gamle huset i sentrum og stoppet. Fasaden var verneverdig, men noen hadde satt inn nye vinduer likevel. Kommunen sa at bygningen var verneverdig allerede for ti år siden. Mange verneverdige hus i byen har mistet de originale detaljene sine. Anders syntes det var trist at noe så verneverdig ikke ble tatt bedre vare på.",
+    "aa-anke": "Lars fikk et brev fra retten og bestemte seg for å anke avgjørelsen med en gang. Han anker fordi han mener dommeren tok feil. Advokaten hans anket en lignende sak i fjor og vant. Nå har Lars anket, og han venter spent på svar hjemme ved kjøkkenbordet.",
+    "aa-anslaa": "Lars skulle male huset og trengte å anslå hvor mye maling han måtte kjøpe. Han anslo at det ville ta ti liter for hele veggen. Naboen sa at hun hadde anslått femten liter da hun malte sitt eget hus i fjor. Til slutt anslo Lars at tolv liter var nok, og han kjørte til butikken.",
+    "aa-bekrefte": "Mari bestilte bord på en restaurant og ventet på svar. Dagen etter ringte hun for å bekrefte reservasjonen. Servitøren bekreftet at bordet var klart til lørdag. Mari har bekreftet mange bestillinger før, men denne gangen glemte hun nesten. Hun sendte også en melding til Lars, og han bekreftet at han kunne komme.",
+    "aa-beregne": "Lars satt på kjøkkenet og prøvde å beregne hvor mye den nye sofaen ville koste. Han beregner alltid prisene nøye før han handler noe stort. I går beregnet han også strømutgiftene for hele vinteren. Nå har han beregnet alt sammen, og han føler seg trygg på at pengene strekker til.",
+    "aa-dette": "Lars datt på isen foran huset i går morges. Han detter nesten hver vinter på det samme stedet. Kari så ham falle og sa at hun også har dettet der mange ganger. De bestemte seg for å strø sand så ingen skulle dette igjen.",
+    "aa-drive-med": "Kari så Lars i garasjen og spurte hva han drev med. Han sa at han driver med å reparere sykkelen sin hver helg. Hun ville gjerne drive med noe lignende, men hadde aldri prøvd. Lars fortalte at han har drevet med sykkelreparasjon siden han var tolv år. Nå skal Kari også drive med det sammen med ham.",
+    "aa-dyrke": "Lars dyrker tomater og urter i hagen hver sommer. I fjor dyrket han også poteter for første gang. Han har dyrket grønnsaker siden han var liten gutt på gården. Nå vil naboen også prøve å dyrke noe, så Lars ga henne frø og jord.",
+    "aa-erkjenne": "Lars visste at han hadde gjort en feil på jobben, men det var vanskelig å erkjenne det foran alle. Sjefen erkjenner alltid sine egne feil med en gang, og det liker folk. Til slutt erkjente Lars at han hadde glemt å sende rapporten i tide. Kollegaen hans sa at hun har erkjent lignende tabber før, og at det alltid føles bedre etterpå.",
+    "aa-erklaere": "Lars kom hjem fra jobben og erklærte at han ville slutte å spise søtsaker. Kari lo og sa at han har erklært det samme minst ti ganger før. Å erklære noe høyt i stua er lett, men å holde løftet er vanskeligere. Neste dag erklærer Lars at han allerede har gitt opp, og tar et stort stykke sjokolade fra skapet.",
+    "aa-fastslaa": "Politiet kom til huset tidlig om morgenen for å fastslå hva som hadde skjedd. En brannmann fastslo at brannen startet på kjøkkenet. Etter noen timer har de fastslått at en gammel komfyr var årsaken. Nå fastslår rapporten at ingen ble skadet, og familien kan puste ut.",
+    "aa-gjenta": "Læreren gjentok spørsmålet fordi ingen svarte første gang. Kan du gjenta det, spurte Mari fra bakerste rad. Hver dag gjentar vi de samme ordene helt til alle husker dem. Nå har klassen gjentatt setningen så mange ganger at alle kan den utenat.",
+    "aa-gjoere-reint": "Mari gjorde reint på kjøkkenet etter frokost i dag. Hun gjør reint hver lørdag, men denne uka var det ekstra skittent. Gulvet under bordet hadde ikke blitt gjort reint på to uker. Nå vil hun gjøre reint i stua også før gjestene kommer i kveld.",
+    "aa-godkjenne": "Lars sendte søknaden sin på mandag og håpet at sjefen ville godkjenne den raskt. Allerede på tirsdag godkjente sjefen planen uten å stille spørsmål. Nå godkjenner firmaet alle nye prosjekter mye raskere enn før. Kari var glad fordi lederen har godkjent ferien hennes også.",
+    "aa-heve": "Lars jobber i en butikk, og sjefen vil heve prisene på melk og brød. I går hevet de prisen på kaffe med ti kroner. Nå hever sjefen også lønnen til alle ansatte, noe som gjør Lars glad. Banken har hevet renta tre ganger i år, og det merker alle som har lån. Lars håper de ikke vil heve prisene enda mer neste måned.",
+    "aa-knuse": "Lars mistet et glass på kjøkkengulvet og knuste det i mange biter. Hver gang han tømmer oppvaskmaskinen, er han redd for å knuse noe. Ida ropte fra stua at hun har knust en vase ved et uhell. Det er lett å knuse ting når man har det travelt, sa moren deres.",
+    "aa-lansere": "Mari jobber i et lite firma som lanserer apper for barn. I går lanserte de en ny app som lærer barn å lese. Sjefen sa at de har lansert fire apper det siste året. Nå vil Mari lansere sin egen idé til neste måned, og hun gleder seg veldig.",
+    "aa-legge-vekk": "Anders jobber som politimann og må noen ganger legge vekk saker som ikke har nok bevis. Forrige uke la vekk politiet en sak om en sykkel som ble stjålet fra en nabo. Sjefen hans legger vekk flere saker enn før fordi de har for lite tid. Anders har lagt vekk tre saker bare denne måneden, og det føles rart hver gang.",
+    "aa-levere": "Lars jobber som sjåfør og leverer pakker hver dag. I går leverte han over tretti pakker før lunsj. Han har levert til det samme nabolaget i flere år nå. Noen ganger er det vanskelig å levere pakker når folk ikke er hjemme. Da legger han en lapp i postkassa og prøver igjen neste dag.",
+    "aa-mangle": "Lars åpnet kjøleskapet og så at de manglet melk. Han ville lage pannekaker, men uten melk var det umulig å mangle så mye. Butikken hadde manglet smør hele uka, så han visste at det kunne bli vanskelig. Vi mangler ofte noe hjemme, sa Kari, så hun gikk ut for å handle. Melken har manglet siden tirsdag, men i dag fant hun alt de trengte.",
+    "aa-nekte": "Lars ville låne bilen til broren, men broren nektet å gi ham nøkkelen. Han har nektet hver gang Lars spør, selv om Lars alltid kjører forsiktig. I går nekter Lars å bli sint, og han tok bussen i stedet. Å nekte noen en tjeneste er ikke alltid lett, men broren hadde sine grunner.",
+    "aa-naa": "Mari prøvde å nå hylla øverst på kjøkkenet, men hun var for kort. Hun nådde bare den nederste hylla uten å stå på tå. Hver gang hun når opp til glasset, føler hun seg stolt. Nå har hun endelig nådd målet sitt ved å bruke en liten krakk.",
+    "aa-omkomme": "Lars hørte på nyhetene mens han spiste frokost. En mann omkom i en ulykke på motorveien i natt. Hvert år omkommer mange mennesker i trafikken, sa reporteren. To personer har omkommet i branner denne måneden også. Lars tenkte at han ikke ville omkomme ung, så han kjørte alltid forsiktig til jobb.",
+    "aa-prege": "Regnet har preget hele ferien deres i år. Hver dag preger det grå været humøret til familien når de sitter inne på hytta. I fjor preget sol og varme dagene, men denne sommeren er helt annerledes. Kari ønsker å prege neste ferie med bedre planer, så hun vil reise sørover.",
+    "aa-paadra-seg": "Lars syklet fort nedover bakken og pådro seg en stygg skade i kneet da han falt. På sykehuset sa legen at man kan pådra seg slike skader hvis man ikke bruker hjelm. Lars har pådratt seg småskader før, men denne gangen var det verre. Nå pådrar seg mange syklister skader om våren fordi veiene er glatte.",
+    "aa-paagripe": "Politiet pågrep en mann utenfor butikken i går kveld. De måtte pågripe ham fordi han hadde stjålet flere ting. Nå har de pågrepet to personer i samme sak. Når politiet pågriper noen, må de alltid forklare hvorfor.",
+    "aa-rasere": "Stormen raserte hagen til Lars i natt. Trær og blomster lå overalt, og gjerdet var helt ødelagt. En slik vind kan rasere alt man har bygget opp over mange år. Naboen sa at stormer har rasert flere hus i bygda før. Lars ser ut over hagen og tenker at naturen raserer uten å spørre noen først.",
+    "aa-redde": "Lars så at katten satt fast i treet, og han ville redde den med en gang. Han redder ofte dyr i nabolaget fordi han liker å hjelpe. I går reddet han en liten fugl som hadde falt fra redet. Naboen sa at Lars har reddet mange dyr gjennom årene, og katten kom trygt ned.",
+    "aa-sikre": "Lars ville sikre sykkelen sin før han gikk inn i butikken. Han sikrer alltid sykkelen med en solid lås når han handler. I går sikret han også barnas sykler utenfor skolen. Nå har han sikret alle syklene, og familien kan slappe av.",
+    "aa-skape": "Mari ville skape noe fint til bursdagen til moren sin. Hun skapte en liten kurv med blomster og kort. Resultatet skaper alltid glede når noen lager noe med hendene. Da moren kom hjem, sa hun at Mari har skapt den fineste gaven hun noen gang har fått.",
+    "aa-skifte-ut": "Lars ville skifte ut den gamle lampen på kjøkkenet. Han skiftet ut pæren først, men det hjalp ikke. Så han skifter ut hele lampen i dag, og den nye er mye bedre. Naboen har også skiftet ut vinduene sine denne høsten.",
+    "aa-slaa": "Lars slo ballen hardt over nettet da han spilte badminton i går. Hver gang han slår, lager det en høy lyd i hallen. Ida har slått ham mange ganger før, men i dag ville Lars prøve å slå henne tilbake. Til slutt vant Lars for første gang, og han var veldig glad.",
+    "aa-snu-paa-hodet": "Lars snudde hele planen på hodet da han foreslo å feire bursdagen ute i stedet for inne. Nyheten snur på hodet alt vi hadde bestemt, sa Kari. De har snudd på hodet hele listen med gjester også. Nå vil Mari snu på hodet tidspunktet og begynne festen om morgenen. Alt ble bedre etter at de snudde på hodet den gamle ideen.",
+    "aa-straffe": "Læreren straffer aldri elevene uten grunn. I går straffet hun Jonas fordi han kastet papir på de andre barna. Hun har straffet ham før, men han glemmer reglene fort. Kari synes det er vanskelig å straffe hunden sin når den ser på henne med store øyne.",
+    "aa-utgi-seg-for": "Even utga seg for å være elektriker da han ringte på døra til naboen. Han utgir seg for å være noe han ikke er nesten hver uke. Naboen skjønte til slutt at Even har utgitt seg for å være flere forskjellige håndverkere denne måneden. Kari sa at det er dumt å utgi seg for noen man ikke er, og Even ble rød i ansiktet.",
+    "aa-utnytte": "Ida ville utnytte den fine sommerdagen til å male huset. Hun utnytter alltid fridagene sine til noe nyttig. I går utnyttet hun hele ettermiddagen på hagearbeid også. Nå har hun utnyttet hver eneste soltime denne uka, og huset ser helt nytt ut.",
+    "aa-vare": "Møtet på jobben varte i to timer, og alle ble slitne. Vanligvis varer slike møter bare én time. Ida lurte på hvor lenge det ville vare denne gangen. Regnet ute har vart hele uka, så ingen ville gå ut etterpå.",
+    "aa-varsle": "Lars fant en vannlekkasje i kjelleren og måtte varsle vaktmesteren med en gang. Han varsler alltid naboene når noe skjer i bygningen. I går varslet han også forsikringsselskapet om skaden. Nå har han varslet alle som trenger å vite om det, og han føler seg roligere.",
+    "aa-veie": "Lars skulle veie kofferten sin før han dro til flyplassen. Den veier vanligvis under tjue kilo, men denne gangen var han usikker. Han løftet den opp på badevekten og så at den veide tjuetre kilo. Ida har veid sin egen koffert mange ganger før, og hun lo da Lars måtte ta ut to gensere.",
+  };
+
+  // Lydklipp fra ord/ — bare de som faktisk ligger på disk. Kjør
+  // --per-word for å lage dem, og --sync-app på nytt for å ta dem inn.
+  const clips = {
+    "adskilt": "ord/distriktsnyheter-rogaland/119 adskilt.mp3",
+    "altfor": "ord/distriktsnyheter-rogaland/101 altfor.mp3",
+    "bekymringsfull": "ord/distriktsnyheter-rogaland/046 bekymringsfull.mp3",
+    "det-skjaerer-i-hjertet": "ord/distriktsnyheter-rogaland/092 det skjærer i hjertet.mp3",
+    "ei-bot": "ord/distriktsnyheter-rogaland/001 ei bot.mp3",
+    "ei-leppe": "ord/distriktsnyheter-rogaland/095 ei leppe.mp3",
+    "ei-sak": "ord/distriktsnyheter-rogaland/006 ei sak.mp3",
+    "ei-sending": "ord/distriktsnyheter-rogaland/003 ei sending.mp3",
+    "ei-tevling": "ord/distriktsnyheter-rogaland/036 ei tevling.mp3",
+    "ei-trapp": "ord/distriktsnyheter-rogaland/044 ei trapp.mp3",
+    "ekkel": "ord/distriktsnyheter-rogaland/042 ekkel.mp3",
+    "en-avgjoerelse": "ord/distriktsnyheter-rogaland/072 en avgjørelse.mp3",
+    "en-avling": "ord/distriktsnyheter-rogaland/066 en avling.mp3",
+    "en-beboer": "ord/distriktsnyheter-rogaland/045 en beboer.mp3",
+    "en-bonde": "ord/distriktsnyheter-rogaland/064 en bonde.mp3",
+    "en-bydel": "ord/distriktsnyheter-rogaland/041 en bydel.mp3",
+    "en-doedsaarsak": "ord/distriktsnyheter-rogaland/019 en dødsårsak.mp3",
+    "en-drift": "ord/distriktsnyheter-rogaland/112 en drift.mp3",
+    "en-fare": "ord/distriktsnyheter-rogaland/082 en fare.mp3",
+    "en-forsker": "ord/distriktsnyheter-rogaland/059 en forsker.mp3",
+    "en-grensekrangel": "ord/distriktsnyheter-rogaland/102 en grensekrangel.mp3",
+    "en-hendelse": "ord/distriktsnyheter-rogaland/094 en hendelse.mp3",
+    "en-heteboelge": "ord/distriktsnyheter-rogaland/078 en hetebølge.mp3",
+    "en-innenriksminister": "ord/distriktsnyheter-rogaland/105 en innenriksminister.mp3",
+    "en-innhoesting": "ord/distriktsnyheter-rogaland/063 en innhøsting.mp3",
+    "en-kraftmangel": "ord/distriktsnyheter-rogaland/096 en kraftmangel.mp3",
+    "en-kreftsykdom": "ord/distriktsnyheter-rogaland/113 en kreftsykdom.mp3",
+    "en-lettelse": "ord/distriktsnyheter-rogaland/008 en lettelse.mp3",
+    "en-medelev": "ord/distriktsnyheter-rogaland/088 en medelev.mp3",
+    "en-myndighet": "ord/distriktsnyheter-rogaland/060 en myndighet.mp3",
+    "en-noedetat": "ord/distriktsnyheter-rogaland/057 en nødetat.mp3",
+    "en-oppmerksomhet": "ord/distriktsnyheter-rogaland/069 en oppmerksomhet.mp3",
+    "en-paatalemyndighet": "ord/distriktsnyheter-rogaland/085 en påtalemyndighet.mp3",
+    "en-sannsynlighet": "ord/distriktsnyheter-rogaland/070 en sannsynlighet.mp3",
+    "en-sats": "ord/distriktsnyheter-rogaland/123 en sats.mp3",
+    "en-seier": "ord/distriktsnyheter-rogaland/076 en seier.mp3",
+    "en-sjanger": "ord/distriktsnyheter-rogaland/058 en sjanger.mp3",
+    "en-skaal": "ord/distriktsnyheter-rogaland/007 en skål.mp3",
+    "en-slokking": "ord/distriktsnyheter-rogaland/074 en slokking.mp3",
+    "en-sorg": "ord/distriktsnyheter-rogaland/089 en sorg.mp3",
+    "en-statsborger": "ord/distriktsnyheter-rogaland/013 en statsborger.mp3",
+    "en-strandkos": "ord/distriktsnyheter-rogaland/025 en strandkos.mp3",
+    "en-takknemlighet": "ord/distriktsnyheter-rogaland/051 en takknemlighet.mp3",
+    "en-uforutsigbarhet": "ord/distriktsnyheter-rogaland/111 en uforutsigbarhet.mp3",
+    "en-vannfoering": "ord/distriktsnyheter-rogaland/080 en vannføring.mp3",
+    "en-varmeboelge": "ord/distriktsnyheter-rogaland/021 en varmebølge.mp3",
+    "en-vekker": "ord/distriktsnyheter-rogaland/040 en vekker.mp3",
+    "en-vending": "ord/distriktsnyheter-rogaland/011 en vending.mp3",
+    "en-voldshendelse": "ord/distriktsnyheter-rogaland/093 en voldshendelse.mp3",
+    "en-vaar": "ord/distriktsnyheter-rogaland/067 en vår.mp3",
+    "et-akuttmottak": "ord/distriktsnyheter-rogaland/031 et akuttmottak.mp3",
+    "et-budskap": "ord/distriktsnyheter-rogaland/071 et budskap.mp3",
+    "et-fargeavvik": "ord/distriktsnyheter-rogaland/030 et fargeavvik.mp3",
+    "et-lag": "ord/distriktsnyheter-rogaland/116 et lag.mp3",
+    "et-landsstevne": "ord/distriktsnyheter-rogaland/037 et landsstevne.mp3",
+    "et-sammenstoet": "ord/distriktsnyheter-rogaland/091 et sammenstøt.mp3",
+    "et-skjelett": "ord/distriktsnyheter-rogaland/114 et skjelett.mp3",
+    "et-tap": "ord/distriktsnyheter-rogaland/110 et tap.mp3",
+    "et-utvalg": "ord/distriktsnyheter-rogaland/032 et utvalg.mp3",
+    "et-vippepunkt": "ord/distriktsnyheter-rogaland/055 et vippepunkt.mp3",
+    "fastklemt": "ord/distriktsnyheter-rogaland/056 fastklemt.mp3",
+    "forbundet-med": "ord/distriktsnyheter-rogaland/108 forbundet med.mp3",
+    "foreloepig": "ord/distriktsnyheter-rogaland/017 foreløpig.mp3",
+    "gjev": "ord/distriktsnyheter-rogaland/035 gjev.mp3",
+    "i-fjor": "ord/distriktsnyheter-rogaland/014 i fjor.mp3",
+    "kjaerkommen": "ord/distriktsnyheter-rogaland/022 kjærkommen.mp3",
+    "kjekk": "ord/distriktsnyheter-rogaland/049 kjekk.mp3",
+    "kjoelig": "ord/distriktsnyheter-rogaland/118 kjølig.mp3",
+    "kred": "ord/distriktsnyheter-rogaland/050 kred.mp3",
+    "mest-sannsynlig": "ord/distriktsnyheter-rogaland/117 mest sannsynlig.mp3",
+    "noensinne": "ord/distriktsnyheter-rogaland/073 noensinne.mp3",
+    "oedelagt": "ord/distriktsnyheter-rogaland/034 ødelagt.mp3",
+    "omfattende": "ord/distriktsnyheter-rogaland/047 omfattende.mp3",
+    "omtrent": "ord/distriktsnyheter-rogaland/053 omtrent.mp3",
+    "regjerende": "ord/distriktsnyheter-rogaland/038 regjerende.mp3",
+    "savnet": "ord/distriktsnyheter-rogaland/015 savnet.mp3",
+    "skyldig": "ord/distriktsnyheter-rogaland/028 skyldig.mp3",
+    "straalende": "ord/distriktsnyheter-rogaland/024 strålende.mp3",
+    "svaert": "ord/distriktsnyheter-rogaland/020 svært.mp3",
+    "til-sammen": "ord/distriktsnyheter-rogaland/010 til sammen.mp3",
+    "uaktsom-forvoldelse": "ord/distriktsnyheter-rogaland/087 uaktsom forvoldelse.mp3",
+    "ukurant-farge": "ord/distriktsnyheter-rogaland/029 ukurant farge.mp3",
+    "vel-moett": "ord/distriktsnyheter-rogaland/039 vel møtt.mp3",
+    "verneverdig": "ord/distriktsnyheter-rogaland/002 verneverdig.mp3",
+    "aa-anke": "ord/distriktsnyheter-rogaland/098 å anke.mp3",
+    "aa-anslaa": "ord/distriktsnyheter-rogaland/100 å anslå.mp3",
+    "aa-bekrefte": "ord/distriktsnyheter-rogaland/077 å bekrefte.mp3",
+    "aa-belage-seg-paa": "ord/distriktsnyheter-rogaland/106 å belage seg på.mp3",
+    "aa-beregne": "ord/distriktsnyheter-rogaland/109 å beregne.mp3",
+    "aa-dette": "ord/distriktsnyheter-rogaland/012 å dette.mp3",
+    "aa-drive-med": "ord/distriktsnyheter-rogaland/120 å drive med.mp3",
+    "aa-dyrke": "ord/distriktsnyheter-rogaland/107 å dyrke.mp3",
+    "aa-erkjenne": "ord/distriktsnyheter-rogaland/052 å erkjenne.mp3",
+    "aa-erklaere": "ord/distriktsnyheter-rogaland/081 å erklære.mp3",
+    "aa-fastslaa": "ord/distriktsnyheter-rogaland/018 å fastslå.mp3",
+    "aa-gjenta": "ord/distriktsnyheter-rogaland/026 å gjenta.mp3",
+    "aa-gjoere-reint": "ord/distriktsnyheter-rogaland/048 å gjøre reint.mp3",
+    "aa-godkjenne": "ord/distriktsnyheter-rogaland/099 å godkjenne.mp3",
+    "aa-heve": "ord/distriktsnyheter-rogaland/122 å heve.mp3",
+    "aa-knuse": "ord/distriktsnyheter-rogaland/115 å knuse.mp3",
+    "aa-lansere": "ord/distriktsnyheter-rogaland/121 å lansere.mp3",
+    "aa-legge-vekk": "ord/distriktsnyheter-rogaland/005 å legge vekk.mp3",
+    "aa-levere": "ord/distriktsnyheter-rogaland/033 å levere.mp3",
+    "aa-mangle": "ord/distriktsnyheter-rogaland/083 å mangle.mp3",
+    "aa-nekte": "ord/distriktsnyheter-rogaland/104 å nekte.mp3",
+    "aa-naa": "ord/distriktsnyheter-rogaland/054 å nå.mp3",
+    "aa-oeke": "ord/distriktsnyheter-rogaland/079 å øke.mp3",
+    "aa-omkomme": "ord/distriktsnyheter-rogaland/086 å omkomme.mp3",
+    "aa-prege": "ord/distriktsnyheter-rogaland/062 å prege.mp3",
+    "aa-paadra-seg": "ord/distriktsnyheter-rogaland/090 å pådra seg.mp3",
+    "aa-paagripe": "ord/distriktsnyheter-rogaland/027 å pågripe.mp3",
+    "aa-rasere": "ord/distriktsnyheter-rogaland/097 å rasere.mp3",
+    "aa-redde": "ord/distriktsnyheter-rogaland/065 å redde.mp3",
+    "aa-sikre": "ord/distriktsnyheter-rogaland/075 å sikre.mp3",
+    "aa-skape": "ord/distriktsnyheter-rogaland/061 å skape.mp3",
+    "aa-skifte-ut": "ord/distriktsnyheter-rogaland/004 å skifte ut.mp3",
+    "aa-slaa": "ord/distriktsnyheter-rogaland/103 å slå.mp3",
+    "aa-snu-paa-hodet": "ord/distriktsnyheter-rogaland/124 å snu på hodet.mp3",
+    "aa-straffe": "ord/distriktsnyheter-rogaland/009 å straffe.mp3",
+    "aa-utgi-seg-for": "ord/distriktsnyheter-rogaland/084 å utgi seg for.mp3",
+    "aa-utnytte": "ord/distriktsnyheter-rogaland/023 å utnytte.mp3",
+    "aa-vare": "ord/distriktsnyheter-rogaland/068 å vare.mp3",
+    "aa-varsle": "ord/distriktsnyheter-rogaland/016 å varsle.mp3",
+    "aa-veie": "ord/distriktsnyheter-rogaland/043 å veie.mp3",
+  };
+  // ── slutt historier ──────────────────────────────────────────────────────
+
+  // Samme nøkkel som tools/build-podcast.mjs bruker.
+  function storyKey(s){
+    return s.toLowerCase()
+      .replace(/æ/g,'ae').replace(/ø/g,'oe').replace(/å/g,'aa')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/^-|-$/g,'')
+      .slice(0,40);
+  }
 
   let orderV = verbs.map((_, i) => i);
   let posV = 0;

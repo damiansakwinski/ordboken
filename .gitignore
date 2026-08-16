@@ -1,0 +1,11 @@
+# hemmeligheter
+.env
+
+# generert innhold
+.cache/
+episodes/
+
+# verktøy
+node_modules/
+.idea/
+.DS_Store

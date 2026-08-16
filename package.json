@@ -1,0 +1,15 @@
+{
+  "name": "ordboken-podkast",
+  "private": true,
+  "type": "module",
+  "description": "Genererer en norsk lyttepodkast fra ordene i index.html",
+  "scripts": {
+    "stories": "node tools/build-podcast.mjs --stories-only",
+    "audio": "node tools/build-podcast.mjs --audio-only",
+    "episodes": "node tools/build-podcast.mjs --episodes-only",
+    "build": "node tools/build-podcast.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/bedrock-sdk": "^0.32.4"
+  }
+}

@@ -1,0 +1,895 @@
+{
+  "aa-anke": {
+    "no": "å anke",
+    "en": "to appeal",
+    "story": "Lars fikk et brev fra retten og bestemte seg for å anke avgjørelsen med en gang. Han anker fordi han mener dommeren tok feil. Advokaten hans anket en lignende sak i fjor og vant. Nå har Lars anket, og han venter spent på svar hjemme ved kjøkkenbordet.",
+    "hash": "0246722f",
+    "locked": false
+  },
+  "aa-anslaa": {
+    "no": "å anslå",
+    "en": "to estimate",
+    "story": "Lars skulle male huset og trengte å anslå hvor mye maling han måtte kjøpe. Han anslo at det ville ta ti liter for hele veggen. Naboen sa at hun hadde anslått femten liter da hun malte sitt eget hus i fjor. Til slutt anslo Lars at tolv liter var nok, og han kjørte til butikken.",
+    "hash": "0e2c0a7d",
+    "locked": false
+  },
+  "aa-bekrefte": {
+    "no": "å bekrefte",
+    "en": "to confirm",
+    "story": "Mari bestilte bord på en restaurant og ventet på svar. Dagen etter ringte hun for å bekrefte reservasjonen. Servitøren bekreftet at bordet var klart til lørdag. Mari har bekreftet mange bestillinger før, men denne gangen glemte hun nesten. Hun sendte også en melding til Lars, og han bekreftet at han kunne komme.",
+    "hash": "1579a55d",
+    "locked": false
+  },
+  "aa-belage-seg-paa": {
+    "no": "å belage seg på",
+    "en": "to prepare oneself for",
+    "story": "Kari belager seg på mye regn i morgen, så hun pakker sekken med ekstra klær. I går belaget hun seg på en lang tur til hytta, men bussen ble forsinket. Jonas har belaget seg på kulde hele uka og kjøpte ny jakke. De vil begge belage seg på dårlig vær resten av høsten.",
+    "hash": "e60c16ec",
+    "locked": false,
+    "needsReview": [
+      "inneholder forkortelse",
+      "ordet forekommer 3 ganger, trenger fire",
+      "bare 0 av fire bøyningsformer brukt"
+    ]
+  },
+  "aa-beregne": {
+    "no": "å beregne",
+    "en": "to calculate",
+    "story": "Lars satt på kjøkkenet og prøvde å beregne hvor mye den nye sofaen ville koste. Han beregner alltid prisene nøye før han handler noe stort. I går beregnet han også strømutgiftene for hele vinteren. Nå har han beregnet alt sammen, og han føler seg trygg på at pengene strekker til.",
+    "hash": "07798031",
+    "locked": false
+  },
+  "aa-dette": {
+    "no": "å dette",
+    "en": "to fall",
+    "story": "Lars datt på isen foran huset i går morges. Han detter nesten hver vinter på det samme stedet. Kari så ham falle og sa at hun også har dettet der mange ganger. De bestemte seg for å strø sand så ingen skulle dette igjen.",
+    "hash": "a1a2a53e",
+    "locked": false
+  },
+  "aa-drive-med": {
+    "no": "å drive med",
+    "en": "to be occupied with",
+    "story": "Kari så Lars i garasjen og spurte hva han drev med. Han sa at han driver med å reparere sykkelen sin hver helg. Hun ville gjerne drive med noe lignende, men hadde aldri prøvd. Lars fortalte at han har drevet med sykkelreparasjon siden han var tolv år. Nå skal Kari også drive med det sammen med ham.",
+    "hash": "64c6ddd2",
+    "locked": false
+  },
+  "aa-dyrke": {
+    "no": "å dyrke",
+    "en": "to grow",
+    "story": "Lars dyrker tomater og urter i hagen hver sommer. I fjor dyrket han også poteter for første gang. Han har dyrket grønnsaker siden han var liten gutt på gården. Nå vil naboen også prøve å dyrke noe, så Lars ga henne frø og jord.",
+    "hash": "45d6f8ad",
+    "locked": false
+  },
+  "aa-erkjenne": {
+    "no": "å erkjenne",
+    "en": "to acknowledge",
+    "story": "Lars visste at han hadde gjort en feil på jobben, men det var vanskelig å erkjenne det foran alle. Sjefen erkjenner alltid sine egne feil med en gang, og det liker folk. Til slutt erkjente Lars at han hadde glemt å sende rapporten i tide. Kollegaen hans sa at hun har erkjent lignende tabber før, og at det alltid føles bedre etterpå.",
+    "hash": "6d6c572f",
+    "locked": false
+  },
+  "aa-erklaere": {
+    "no": "å erklære",
+    "en": "to declare",
+    "story": "Lars kom hjem fra jobben og erklærte at han ville slutte å spise søtsaker. Kari lo og sa at han har erklært det samme minst ti ganger før. Å erklære noe høyt i stua er lett, men å holde løftet er vanskeligere. Neste dag erklærer Lars at han allerede har gitt opp, og tar et stort stykke sjokolade fra skapet.",
+    "hash": "ae1d7854",
+    "locked": false
+  },
+  "aa-fastslaa": {
+    "no": "å fastslå",
+    "en": "to establish (the cause)",
+    "story": "Politiet kom til huset tidlig om morgenen for å fastslå hva som hadde skjedd. En brannmann fastslo at brannen startet på kjøkkenet. Etter noen timer har de fastslått at en gammel komfyr var årsaken. Nå fastslår rapporten at ingen ble skadet, og familien kan puste ut.",
+    "hash": "dfff1329",
+    "locked": false
+  },
+  "aa-gjenta": {
+    "no": "å gjenta",
+    "en": "to repeat",
+    "story": "Læreren gjentok spørsmålet fordi ingen svarte første gang. Kan du gjenta det, spurte Mari fra bakerste rad. Hver dag gjentar vi de samme ordene helt til alle husker dem. Nå har klassen gjentatt setningen så mange ganger at alle kan den utenat.",
+    "hash": "ea5a8821",
+    "locked": false
+  },
+  "aa-gjoere-reint": {
+    "no": "å gjøre reint",
+    "en": "to clean",
+    "story": "Mari gjorde reint på kjøkkenet etter frokost i dag. Hun gjør reint hver lørdag, men denne uka var det ekstra skittent. Gulvet under bordet hadde ikke blitt gjort reint på to uker. Nå vil hun gjøre reint i stua også før gjestene kommer i kveld.",
+    "hash": "40b59c13",
+    "locked": false
+  },
+  "aa-godkjenne": {
+    "no": "å godkjenne",
+    "en": "to approve",
+    "story": "Lars sendte søknaden sin på mandag og håpet at sjefen ville godkjenne den raskt. Allerede på tirsdag godkjente sjefen planen uten å stille spørsmål. Nå godkjenner firmaet alle nye prosjekter mye raskere enn før. Kari var glad fordi lederen har godkjent ferien hennes også.",
+    "hash": "3ca76cbe",
+    "locked": false
+  },
+  "aa-heve": {
+    "no": "å heve",
+    "en": "to raise (increase)",
+    "story": "Lars jobber i en butikk, og sjefen vil heve prisene på melk og brød. I går hevet de prisen på kaffe med ti kroner. Nå hever sjefen også lønnen til alle ansatte, noe som gjør Lars glad. Banken har hevet renta tre ganger i år, og det merker alle som har lån. Lars håper de ikke vil heve prisene enda mer neste måned.",
+    "hash": "10c62e51",
+    "locked": false
+  },
+  "aa-knuse": {
+    "no": "å knuse",
+    "en": "to crush",
+    "story": "Lars mistet et glass på kjøkkengulvet og knuste det i mange biter. Hver gang han tømmer oppvaskmaskinen, er han redd for å knuse noe. Ida ropte fra stua at hun har knust en vase ved et uhell. Det er lett å knuse ting når man har det travelt, sa moren deres.",
+    "hash": "60f30699",
+    "locked": false
+  },
+  "aa-lansere": {
+    "no": "å lansere",
+    "en": "to launch",
+    "story": "Mari jobber i et lite firma som lanserer apper for barn. I går lanserte de en ny app som lærer barn å lese. Sjefen sa at de har lansert fire apper det siste året. Nå vil Mari lansere sin egen idé til neste måned, og hun gleder seg veldig.",
+    "hash": "a0956695",
+    "locked": false
+  },
+  "aa-legge-vekk": {
+    "no": "å legge vekk",
+    "en": "to drop (a case)",
+    "story": "Anders jobber som politimann og må noen ganger legge vekk saker som ikke har nok bevis. Forrige uke la vekk politiet en sak om en sykkel som ble stjålet fra en nabo. Sjefen hans legger vekk flere saker enn før fordi de har for lite tid. Anders har lagt vekk tre saker bare denne måneden, og det føles rart hver gang.",
+    "hash": "710995ac",
+    "locked": false
+  },
+  "aa-levere": {
+    "no": "å levere",
+    "en": "to deliver",
+    "story": "Lars jobber som sjåfør og leverer pakker hver dag. I går leverte han over tretti pakker før lunsj. Han har levert til det samme nabolaget i flere år nå. Noen ganger er det vanskelig å levere pakker når folk ikke er hjemme. Da legger han en lapp i postkassa og prøver igjen neste dag.",
+    "hash": "ae7bb2bf",
+    "locked": false
+  },
+  "aa-mangle": {
+    "no": "å mangle",
+    "en": "to lack",
+    "story": "Lars åpnet kjøleskapet og så at de manglet melk. Han ville lage pannekaker, men uten melk var det umulig å mangle så mye. Butikken hadde manglet smør hele uka, så han visste at det kunne bli vanskelig. Vi mangler ofte noe hjemme, sa Kari, så hun gikk ut for å handle. Melken har manglet siden tirsdag, men i dag fant hun alt de trengte.",
+    "hash": "ccdf9bb4",
+    "locked": false
+  },
+  "aa-naa": {
+    "no": "å nå",
+    "en": "to reach",
+    "story": "Mari prøvde å nå hylla øverst på kjøkkenet, men hun var for kort. Hun nådde bare den nederste hylla uten å stå på tå. Hver gang hun når opp til glasset, føler hun seg stolt. Nå har hun endelig nådd målet sitt ved å bruke en liten krakk.",
+    "hash": "64b4ef0b",
+    "locked": false
+  },
+  "aa-nekte": {
+    "no": "å nekte",
+    "en": "to deny",
+    "story": "Lars ville låne bilen til broren, men broren nektet å gi ham nøkkelen. Han har nektet hver gang Lars spør, selv om Lars alltid kjører forsiktig. I går nekter Lars å bli sint, og han tok bussen i stedet. Å nekte noen en tjeneste er ikke alltid lett, men broren hadde sine grunner.",
+    "hash": "b1431d5a",
+    "locked": false
+  },
+  "aa-oeke": {
+    "no": "å øke",
+    "en": "to increase",
+    "story": "Lars ville øke farten sin på jogging, så han begynte å trene hver dag. Etter to uker økte han tempoet med ett minutt per kilometer. Nå øker han litt hver uke, og det føles bra. Treneren sa at han har økt utholdenheten sin mye siden i fjor.",
+    "hash": "cf11b1f9",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 0 ganger, trenger fire",
+      "bare 0 av fire bøyningsformer brukt"
+    ]
+  },
+  "aa-omkomme": {
+    "no": "å omkomme",
+    "en": "to die",
+    "story": "Lars hørte på nyhetene mens han spiste frokost. En mann omkom i en ulykke på motorveien i natt. Hvert år omkommer mange mennesker i trafikken, sa reporteren. To personer har omkommet i branner denne måneden også. Lars tenkte at han ikke ville omkomme ung, så han kjørte alltid forsiktig til jobb.",
+    "hash": "e298cbe3",
+    "locked": false
+  },
+  "aa-paadra-seg": {
+    "no": "å pådra seg",
+    "en": "to sustain",
+    "story": "Lars syklet fort nedover bakken og pådro seg en stygg skade i kneet da han falt. På sykehuset sa legen at man kan pådra seg slike skader hvis man ikke bruker hjelm. Lars har pådratt seg småskader før, men denne gangen var det verre. Nå pådrar seg mange syklister skader om våren fordi veiene er glatte.",
+    "hash": "91749f3d",
+    "locked": false
+  },
+  "aa-paagripe": {
+    "no": "å pågripe",
+    "en": "to arrest",
+    "story": "Politiet pågrep en mann utenfor butikken i går kveld. De måtte pågripe ham fordi han hadde stjålet flere ting. Nå har de pågrepet to personer i samme sak. Når politiet pågriper noen, må de alltid forklare hvorfor.",
+    "hash": "8bf32bf4",
+    "locked": false
+  },
+  "aa-prege": {
+    "no": "å prege",
+    "en": "to characterize",
+    "story": "Regnet har preget hele ferien deres i år. Hver dag preger det grå været humøret til familien når de sitter inne på hytta. I fjor preget sol og varme dagene, men denne sommeren er helt annerledes. Kari ønsker å prege neste ferie med bedre planer, så hun vil reise sørover.",
+    "hash": "d30c1df5",
+    "locked": false
+  },
+  "aa-rasere": {
+    "no": "å rasere",
+    "en": "to devastate",
+    "story": "Stormen raserte hagen til Lars i natt. Trær og blomster lå overalt, og gjerdet var helt ødelagt. En slik vind kan rasere alt man har bygget opp over mange år. Naboen sa at stormer har rasert flere hus i bygda før. Lars ser ut over hagen og tenker at naturen raserer uten å spørre noen først.",
+    "hash": "3e723540",
+    "locked": false
+  },
+  "aa-redde": {
+    "no": "å redde",
+    "en": "to save",
+    "story": "Lars så at katten satt fast i treet, og han ville redde den med en gang. Han redder ofte dyr i nabolaget fordi han liker å hjelpe. I går reddet han en liten fugl som hadde falt fra redet. Naboen sa at Lars har reddet mange dyr gjennom årene, og katten kom trygt ned.",
+    "hash": "82a96085",
+    "locked": false
+  },
+  "aa-sikre": {
+    "no": "å sikre",
+    "en": "to secure",
+    "story": "Lars ville sikre sykkelen sin før han gikk inn i butikken. Han sikrer alltid sykkelen med en solid lås når han handler. I går sikret han også barnas sykler utenfor skolen. Nå har han sikret alle syklene, og familien kan slappe av.",
+    "hash": "9a373a4a",
+    "locked": false
+  },
+  "aa-skape": {
+    "no": "å skape",
+    "en": "to create",
+    "story": "Mari ville skape noe fint til bursdagen til moren sin. Hun skapte en liten kurv med blomster og kort. Resultatet skaper alltid glede når noen lager noe med hendene. Da moren kom hjem, sa hun at Mari har skapt den fineste gaven hun noen gang har fått.",
+    "hash": "f2374914",
+    "locked": false
+  },
+  "aa-skifte-ut": {
+    "no": "å skifte ut",
+    "en": "to replace",
+    "story": "Lars ville skifte ut den gamle lampen på kjøkkenet. Han skiftet ut pæren først, men det hjalp ikke. Så han skifter ut hele lampen i dag, og den nye er mye bedre. Naboen har også skiftet ut vinduene sine denne høsten.",
+    "hash": "201b0312",
+    "locked": false
+  },
+  "aa-slaa": {
+    "no": "å slå",
+    "en": "to hit",
+    "story": "Lars slo ballen hardt over nettet da han spilte badminton i går. Hver gang han slår, lager det en høy lyd i hallen. Ida har slått ham mange ganger før, men i dag ville Lars prøve å slå henne tilbake. Til slutt vant Lars for første gang, og han var veldig glad.",
+    "hash": "0d33a79b",
+    "locked": false
+  },
+  "aa-snu-paa-hodet": {
+    "no": "å snu på hodet",
+    "en": "to turn upside down",
+    "story": "Lars snudde hele planen på hodet da han foreslo å feire bursdagen ute i stedet for inne. Nyheten snur på hodet alt vi hadde bestemt, sa Kari. De har snudd på hodet hele listen med gjester også. Nå vil Mari snu på hodet tidspunktet og begynne festen om morgenen. Alt ble bedre etter at de snudde på hodet den gamle ideen.",
+    "hash": "1340fdac",
+    "locked": false
+  },
+  "aa-straffe": {
+    "no": "å straffe",
+    "en": "to punish",
+    "story": "Læreren straffer aldri elevene uten grunn. I går straffet hun Jonas fordi han kastet papir på de andre barna. Hun har straffet ham før, men han glemmer reglene fort. Kari synes det er vanskelig å straffe hunden sin når den ser på henne med store øyne.",
+    "hash": "7aea9c9d",
+    "locked": false
+  },
+  "aa-utgi-seg-for": {
+    "no": "å utgi seg for",
+    "en": "to pose as",
+    "story": "Even utga seg for å være elektriker da han ringte på døra til naboen. Han utgir seg for å være noe han ikke er nesten hver uke. Naboen skjønte til slutt at Even har utgitt seg for å være flere forskjellige håndverkere denne måneden. Kari sa at det er dumt å utgi seg for noen man ikke er, og Even ble rød i ansiktet.",
+    "hash": "f4d272ae",
+    "locked": false
+  },
+  "aa-utnytte": {
+    "no": "å utnytte",
+    "en": "to make use of",
+    "story": "Ida ville utnytte den fine sommerdagen til å male huset. Hun utnytter alltid fridagene sine til noe nyttig. I går utnyttet hun hele ettermiddagen på hagearbeid også. Nå har hun utnyttet hver eneste soltime denne uka, og huset ser helt nytt ut.",
+    "hash": "1efd296e",
+    "locked": false
+  },
+  "aa-vare": {
+    "no": "å vare",
+    "en": "to last",
+    "story": "Møtet på jobben varte i to timer, og alle ble slitne. Vanligvis varer slike møter bare én time. Ida lurte på hvor lenge det ville vare denne gangen. Regnet ute har vart hele uka, så ingen ville gå ut etterpå.",
+    "hash": "7317831b",
+    "locked": false
+  },
+  "aa-varsle": {
+    "no": "å varsle",
+    "en": "to notify",
+    "story": "Lars fant en vannlekkasje i kjelleren og måtte varsle vaktmesteren med en gang. Han varsler alltid naboene når noe skjer i bygningen. I går varslet han også forsikringsselskapet om skaden. Nå har han varslet alle som trenger å vite om det, og han føler seg roligere.",
+    "hash": "518fd207",
+    "locked": false
+  },
+  "aa-veie": {
+    "no": "å veie",
+    "en": "to weigh",
+    "story": "Lars skulle veie kofferten sin før han dro til flyplassen. Den veier vanligvis under tjue kilo, men denne gangen var han usikker. Han løftet den opp på badevekten og så at den veide tjuetre kilo. Ida har veid sin egen koffert mange ganger før, og hun lo da Lars måtte ta ut to gensere.",
+    "hash": "4df34141",
+    "locked": false
+  },
+  "adskilt": {
+    "no": "adskilt",
+    "en": "separated",
+    "story": "Kari og søsteren ble adskilt på flyplassen fordi de havnet i forskjellige køer. En vakt adskilte dem uten å tenke seg om. Det er vanskelig å adskille to små barn fra hverandre når de er redde. Heldigvis har ingen adskilt dem siden den dagen, og nå holder de alltid hender når de reiser.",
+    "hash": "71808759",
+    "locked": false
+  },
+  "altfor": {
+    "no": "altfor",
+    "en": "far too",
+    "story": "Lars ville kjøpe en ny jakke, men den kostet altfor mye. Han gikk til en annen butikk, men der var jakkene altfor store for ham. Ida sa at han brukte altfor lang tid på å lete. Til slutt fant han en fin jakke på salg, og den var ikke altfor dyr.",
+    "hash": "a7920ba3",
+    "locked": false
+  },
+  "bekymringsfull": {
+    "no": "bekymringsfull",
+    "en": "worrying",
+    "story": "Lars så på værmeldingen og syntes den var bekymringsfull. Det skulle bli storm hele helgen, og det var en bekymringsfull beskjed for alle som hadde planer ute. Kari ringte og sa at veien til hytta var bekymringsfull å kjøre på grunn av is. De bestemte seg for å bli hjemme, fordi situasjonen var for bekymringsfull til å ta noen sjanser.",
+    "hash": "9ff719c8",
+    "locked": false
+  },
+  "det-skjaerer-i-hjertet": {
+    "no": "det skjærer i hjertet",
+    "en": "it's heartbreaking",
+    "story": "Ida så den gamle hunden sitte alene i regnet, og det skar i hjertet hennes. Det skjærer i hjertet hver gang hun tenker på dyr som ingen vil ha. Hun fortalte Lars om hunden, og han sa at det skar i hjertet hans også. Nå har de hentet hunden hjem, men det skjærer i hjertet å vite at mange andre fortsatt venter.",
+    "hash": "580abb35",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 2 ganger, trenger fire"
+    ]
+  },
+  "ei-bot": {
+    "no": "ei bot",
+    "en": "a fine",
+    "story": "Anders kjørte for fort og fikk ei bot på vei hjem fra jobben. Bota var på to tusen kroner, og han ble veldig irritert. Han fortalte Kari at han aldri har fått ei bot før. Kari lo og sa at bøter er noe alle som kjører for fort må betale. Neste gang skal Anders passe farten så han slipper en ny bot.",
+    "hash": "d3a0dbea",
+    "locked": false
+  },
+  "ei-leppe": {
+    "no": "ei leppe",
+    "en": "a lip",
+    "story": "Mari våknet med tørre lepper etter en lang natt. Hun fant en leppepomade i veska og smurte den over leppa. Ute var det kaldt, og vinden gjorde leppene enda tørrere. Hun la hånda over ei leppe for å beskytte den mot kulda på vei til bussen.",
+    "hash": "c49b9fef",
+    "locked": false
+  },
+  "ei-sak": {
+    "no": "ei sak",
+    "en": "a case",
+    "story": "Politiet åpnet ei sak mot naboen til Lars i forrige uke. Saka ble lagt vekk etter bare tre dager fordi det ikke fantes bevis. Lars syntes det var rart at en så alvorlig sak kunne forsvinne så fort. Han har lest om mange saker i avisen som tok mye lengre tid.",
+    "hash": "14d4e74a",
+    "locked": false
+  },
+  "ei-sending": {
+    "no": "ei sending",
+    "en": "a broadcast",
+    "story": "Kari satte seg ned foran fjernsynet for å se kveldens sending. Dagens sending handlet om varmebølgen som hadde rammet hele landet. Hun likte at sendingene på denne kanalen alltid var korte og enkle å forstå. Etter at sendinga var ferdig, gikk hun ut i hagen for å nyte solen.",
+    "hash": "adaef373",
+    "locked": false
+  },
+  "ei-tevling": {
+    "no": "ei tevling",
+    "en": "a competition",
+    "story": "Ida meldte seg på ei tevling i løping forrige helg. Tevlinga startet klokka ti om morgenen, og det var mange folk der. Hun hadde aldri vært med i slike tevlinger før, så hun var nervøs. Etter tevlinga var ferdig, fant hun ut at hun kom på tredjeplass, og hun smilte hele veien hjem.",
+    "hash": "ff9f1e60",
+    "locked": false
+  },
+  "ei-trapp": {
+    "no": "ei trapp",
+    "en": "a staircase",
+    "story": "Lars bar en tung eske opp ei trapp til andre etasje. Trappa i blokka var smal, så han måtte gå sakte. Halvveis oppe i trappa stoppet han for å puste. Han tenkte at trapper burde være bredere i gamle bygg. Til slutt nådde han toppen og satte esken ned med et sukk.",
+    "hash": "1dcef157",
+    "locked": false
+  },
+  "ekkel": {
+    "no": "ekkel",
+    "en": "nasty",
+    "story": "Lars fant en ekkel lukt i kjøleskapet. Maten inni var gammel og så ekkel ut at han nesten ble kvalm. Han kastet alt det ekle i søpla med én gang. Etterpå vasket han hyllene, og nå var det ikke noe ekkel lukt igjen.",
+    "hash": "71d2508b",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 3 ganger, trenger fire"
+    ]
+  },
+  "en-avgjoerelse": {
+    "no": "en avgjørelse",
+    "en": "a decision",
+    "story": "Lars sto foran kjøleskapet og måtte ta en avgjørelse. Skulle han lage pasta eller suppe til middag. Avgjørelsen var vanskelig fordi begge var gode valg. Han tenkte at små avgjørelser som dette ikke burde ta så lang tid. Til slutt tok han avgjørelsen og valgte pasta med ost.",
+    "hash": "70312ef9",
+    "locked": false
+  },
+  "en-avling": {
+    "no": "en avling",
+    "en": "a crop",
+    "story": "Lars stod på jordet og så på avlingen sin i juli. Det hadde ikke regnet på flere uker, og avlingene begynte å tørke. Han bestemte seg for å vanne hver kveld for å redde avlingen. Naboen hadde mistet hele sin avling året før på grunn av tørke. Nå så avlingene til Lars mye bedre ut, og han pustet lettet ut.",
+    "hash": "9cfe0260",
+    "locked": false
+  },
+  "en-beboer": {
+    "no": "en beboer",
+    "en": "a resident",
+    "story": "Lars er beboer i en liten blokk nær sentrum. I går klaget en annen beboer på støy fra tredje etasje. Beboerne hadde et møte i kveld for å snakke om problemet. Etter møtet var alle beboerne enige om nye regler for ro etter klokka ti.",
+    "hash": "45cd5c71",
+    "locked": false
+  },
+  "en-bonde": {
+    "no": "en bonde",
+    "en": "a farmer",
+    "story": "Lars er en bonde som bor like ved elva. Hver morgen står bonden opp klokka fem for å mate dyrene sine. I bygda finnes det mange bønder, men Lars har den største gården. Forrige uke solgte bonden melk og ost på torget i sentrum. Han er stolt av å være bonde, akkurat som faren hans var.",
+    "hash": "32f6a7fc",
+    "locked": false
+  },
+  "en-bydel": {
+    "no": "en bydel",
+    "en": "a district",
+    "story": "Lars flyttet til en ny bydel på østsiden av byen i fjor. Bydelen har mange små kafeer og en fin park. Han liker å gå rundt i bydelen etter jobb og se på de gamle husene. Noen bydeler er rolige, men hans bydel er alltid full av folk og musikk.",
+    "hash": "5d00f53d",
+    "locked": false
+  },
+  "en-doedsaarsak": {
+    "no": "en dødsårsak",
+    "en": "a cause of death",
+    "story": "Politiet undersøker dødsårsaken etter at en eldre mann ble funnet i leiligheten sin. Legen sa at en dødsårsak ikke alltid er enkel å fastslå. De ventet på svar fra laboratoriet for å bekrefte dødsårsaken. Etter tre dager fant de endelig den riktige dødsårsaken, og familien ble informert.",
+    "hash": "470b9bce",
+    "locked": false
+  },
+  "en-drift": {
+    "no": "en drift",
+    "en": "operation",
+    "story": "Lars jobbet med driften av et lite sykehus i mange år. Hver dag tenkte han på hvordan han kunne gjøre driften bedre. Det kostet mye penger å holde en drift i gang uten nok ansatte. Til slutt fikk han mer penger fra kommunen, og driften gikk mye lettere etter det.",
+    "hash": "31f286d4",
+    "locked": false
+  },
+  "en-fare": {
+    "no": "en fare",
+    "en": "a danger",
+    "story": "Lars så et skilt som advarte om en fare ved elva. Det er fare for flom når det regner mye, sa han til Kari. I går var faren så stor at veien ble stengt. De gikk hjem en annen vei fordi farene langs elva var for mange.",
+    "hash": "e663956e",
+    "locked": false
+  },
+  "en-forsker": {
+    "no": "en forsker",
+    "en": "a researcher",
+    "story": "Lars er en forsker som jobber ved universitetet i Oslo. Hver dag sitter forskeren på kontoret sitt og leser artikler om klima. I går møtte han to andre forskere fra Bergen for å diskutere et nytt prosjekt. Mari spurte hva en forsker egentlig gjør hele dagen, og Lars lo og sa at han mest drikker kaffe og tenker.",
+    "hash": "ddd08f59",
+    "locked": false
+  },
+  "en-grensekrangel": {
+    "no": "en grensekrangel",
+    "en": "a border dispute",
+    "story": "Lars og naboen hadde en grensekrangel om gjerdet mellom tomtene. Grensekrangelen varte i flere måneder, og begge ble slitne av den. Kommunen sa at slike grensekrangler er ganske vanlige mellom naboer. Til slutt løste de grensekrangelen med hjelp fra en advokat, og nå snakker de sammen igjen.",
+    "hash": "10447302",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 3 ganger, trenger fire"
+    ]
+  },
+  "en-hendelse": {
+    "no": "en hendelse",
+    "en": "an incident",
+    "story": "Lars jobbet som vakt på et hotell da en hendelse skjedde sent på kvelden. En gjest hadde mistet nøkkelen sin, og hendelsen skapte mye stress i resepsjonen. Slike hendelser var ikke uvanlige, men denne gangen tok det lang tid å løse problemet. Dagen etter skrev Lars en rapport om hendelsen og sendte den til sjefen sin.",
+    "hash": "ec5feb8e",
+    "locked": false
+  },
+  "en-heteboelge": {
+    "no": "en hetebølge",
+    "en": "a heatwave",
+    "story": "Forrige sommer kom en hetebølge til Oslo, og alle åpnet vinduene. Hetebølgen varte i nesten to uker, og folk satt i skyggen hele dagen. Lars husker at hetebølger var sjeldne da han var liten. Etter hetebølgen kom endelig regnet, og alle var glade igjen.",
+    "hash": "102d5177",
+    "locked": false
+  },
+  "en-innenriksminister": {
+    "no": "en innenriksminister",
+    "en": "a minister of the interior",
+    "story": "Lars så på nyhetene og hørte at en innenriksminister hadde holdt en tale om sikkerhet. Innenriksministeren snakket om nye regler for politiet. Mari spurte hva en innenriksminister egentlig gjør, og Lars forklarte at det handler om ting inne i landet. Senere på kvelden leste de mer om innenriksministeren på nettet.",
+    "hash": "2b71998c",
+    "locked": false
+  },
+  "en-innhoesting": {
+    "no": "en innhøsting",
+    "en": "a harvest",
+    "story": "Lars sto opp tidlig fordi en innhøsting ventet på gården. Alle naboene snakket om innhøstingen denne uka. I fjor var innhøstingen sen på grunn av regnet. Nå var kornet klart, og Lars gledet seg til å starte sin beste innhøsting på mange år.",
+    "hash": "37bd57ed",
+    "locked": false
+  },
+  "en-kraftmangel": {
+    "no": "en kraftmangel",
+    "en": "a power shortage",
+    "story": "Lars våknet tidlig fordi varmen hadde slått seg av i natt. På nyhetene sa de at en kraftmangel rammet hele byen. Han husket at det var fare for kraftmangel til vinteren, men han trodde ikke det ville skje så snart. Naboen Ida banket på døra og spurte om han også merket kraftmangelen. De satte seg sammen med tepper og stearinlys og håpet at kraftmangelen snart ville være over.",
+    "hash": "431d87e0",
+    "locked": false
+  },
+  "en-kreftsykdom": {
+    "no": "en kreftsykdom",
+    "en": "a cancer",
+    "story": "Lars hadde en kreftsykdom som ble oppdaget tidlig. Legen sa at kreftsykdommen kunne behandles med medisin. På sykehuset møtte han andre med kreftsykdommer, og de snakket sammen hver dag. Etter et halvt år var kreftsykdommen borte, og Lars kunne endelig gå tilbake til jobben sin.",
+    "hash": "c80bdcda",
+    "locked": false
+  },
+  "en-lettelse": {
+    "no": "en lettelse",
+    "en": "relief",
+    "story": "Mari ventet på svar fra legen i flere dager. Da telefonen endelig ringte, følte hun en stor lettelse. Lettelsen var så sterk at hun begynte å gråte. Hun ringte moren sin og sa at lettelsen hun kjente var vanskelig å beskrive. Moren svarte at slike lettelser kommer når man har vært redd lenge.",
+    "hash": "35d15d6a",
+    "locked": false
+  },
+  "en-medelev": {
+    "no": "en medelev",
+    "en": "a fellow student",
+    "story": "Lars satt på bussen og så en medelev fra klassen sin. Medeleven vinket og satte seg ved siden av ham. De snakket om prøven de skulle ha senere, og Lars var glad for at medelever kunne hjelpe hverandre. På skolen møtte de enda en medelev som hadde glemt boka si, så Lars lånte henne sin.",
+    "hash": "f5b1ec07",
+    "locked": false
+  },
+  "en-myndighet": {
+    "no": "en myndighet",
+    "en": "an authority",
+    "story": "Lars jobbet i en myndighet som hadde ansvar for matsikkerhet. Hver dag måtte han svare på spørsmål fra folk som ikke forsto hva myndigheten bestemte. Andre myndigheter i landet sendte ham lange brev om nye regler. Han tenkte ofte at det var vanskelig å jobbe for en myndighet når alle var uenige med deg.",
+    "hash": "76e3d5e2",
+    "locked": false
+  },
+  "en-noedetat": {
+    "no": "en nødetat",
+    "en": "an emergency service",
+    "story": "Lars så en ulykke på veien og ringte en nødetat med en gang. Alle nødetatene kom raskt til stedet, både politi og ambulanse. Han hadde aldri trengt å ringe en nødetat før, så hendene skalv litt. Nødetaten på telefonen var rolig og ba ham vente ved bilen.",
+    "hash": "6b99aaff",
+    "locked": false
+  },
+  "en-oppmerksomhet": {
+    "no": "en oppmerksomhet",
+    "en": "attention",
+    "story": "Lars satt i klasserommet og prøvde å gi læreren sin fulle oppmerksomhet. Det var vanskelig fordi telefonen lyste, og oppmerksomheten hans gled bort hele tiden. Læreren sa at oppmerksomheter er som muskler, de blir sterkere med trening. Etter pausen klarte Lars å holde oppmerksomheten på tavla helt til timen var ferdig.",
+    "hash": "c2811f5c",
+    "locked": false
+  },
+  "en-paatalemyndighet": {
+    "no": "en påtalemyndighet",
+    "en": "a prosecuting authority",
+    "story": "Påtalemyndigheten tok ut tiltale mot mannen i forrige uke. Lars leste om saken i avisen og lurte på hva en påtalemyndighet egentlig gjør. Kari forklarte at påtalemyndigheten bestemmer hvem som skal stilles for retten. I Norge har vi en påtalemyndighet som jobber tett med politiet hver dag.",
+    "hash": "9e4facef",
+    "locked": false
+  },
+  "en-sannsynlighet": {
+    "no": "en sannsynlighet",
+    "en": "probability",
+    "story": "Det var stor sannsynlighet for regn, så Kari tok med seg paraplyen. Hun sjekket appen og så at sannsynligheten for sol var veldig lav. Anders sa at sannsynligheter ikke alltid stemmer, men i dag hadde appen rett. Regnet kom etter lunsj, akkurat som sannsynligheten tilsa.",
+    "hash": "201308cc",
+    "locked": false
+  },
+  "en-sats": {
+    "no": "en sats",
+    "en": "a rate",
+    "story": "Lars jobbet i banken og måtte forklare den nye satsen til kundene. En kunde spurte hvorfor satsen hadde gått opp siden forrige måned. Lars forklarte at satser endrer seg når økonomien endrer seg. Kunden var ikke fornøyd med den høye satsen, men Lars kunne ikke gjøre noe med det.",
+    "hash": "7b2c2900",
+    "locked": false
+  },
+  "en-seier": {
+    "no": "en seier",
+    "en": "a victory",
+    "story": "Lars så kampen på TV og håpet på en seier for laget sitt. Etter nitti minutter kom seieren endelig, og han jublet høyt i stua. Det var lagets tredje seier denne sesongen. Ida sa at en slik seier fortjente feiring, så de bestilte pizza.",
+    "hash": "71e941a8",
+    "locked": false
+  },
+  "en-sjanger": {
+    "no": "en sjanger",
+    "en": "a genre",
+    "story": "Mari liker å lese, men hun har aldri funnet en sjanger hun elsker mest. I går spurte Lars hvilken sjanger hun foretrakk, og hun svarte at krim var spennende. Sjangeren har mange forskjellige forfattere å velge mellom. På biblioteket fant hun en hel hylle med bøker i samme sjanger, og hun lånte tre stykker med hjem.",
+    "hash": "ede9e923",
+    "locked": false
+  },
+  "en-skaal": {
+    "no": "en skål",
+    "en": "a bowl",
+    "story": "Lars tok en skål fra skapet og fylte den med varm suppe. Skålen var stor nok til to porsjoner. Han satte skålen på bordet og hentet en skje. Ida ville også ha suppe, så han fant fram enda en skål til henne. De hadde fire skåler hjemme, men de to andre var i oppvaskmaskinen.",
+    "hash": "baf6f75e",
+    "locked": false
+  },
+  "en-slokking": {
+    "no": "en slokking",
+    "en": "an extinguishing",
+    "story": "Brannbilen kom til huset like etter klokka sju. En slokking av en liten brann i garasjen var allerede i gang. Slokkingen tok lengre tid enn brannfolkene hadde trodd. Naboen stod og så på mens slokkingen pågikk. Til slutt var slokkingen ferdig, og alle kunne puste ut.",
+    "hash": "3f28ebf2",
+    "locked": false
+  },
+  "en-sorg": {
+    "no": "en sorg",
+    "en": "grief",
+    "story": "Lars mistet katten sin i forrige uke, og sorgen var tung å bære. Hver morgen kjente han en sorg i brystet når han så den tomme kurven. Vennene hans forsto sorgen og kom på besøk med mat og varme ord. Etter noen dager ble sorgene lettere, og Lars begynte å smile igjen når han så bilder av katten.",
+    "hash": "0a84488d",
+    "locked": false
+  },
+  "en-statsborger": {
+    "no": "en statsborger",
+    "en": "a citizen",
+    "story": "Lars ble norsk statsborger i fjor etter mange år i Norge. Han var så stolt da han fikk brevet om at han var statsborger. Kona hans har vært statsborger hele livet, så hun lo litt av gleden hans. Nå er de begge statsborgere i samme land, og det gjør hverdagen enklere.",
+    "hash": "4fc12684",
+    "locked": false
+  },
+  "en-strandkos": {
+    "no": "en strandkos",
+    "en": "beach fun",
+    "story": "Mari pakket en bag med håndklær fordi det skulle bli strandkos i helga. Hele familien gledet seg til strandkosen ved hytta. Barna snakket om strandkos hver dag den uka. Da sola endelig kom fram på lørdag, sa Lars at dette var den beste strandkosen de hadde hatt på lenge.",
+    "hash": "8e7a85ff",
+    "locked": false
+  },
+  "en-takknemlighet": {
+    "no": "en takknemlighet",
+    "en": "gratitude",
+    "story": "Lars kjente en stor takknemlighet da naboen hjalp ham med å flytte sofaen. Han sa at takknemligheten hans var vanskelig å uttrykke med ord. Dagen etter bakte han en kake for å vise sin takknemlighet. Naboen smilte og sa at slike takknemligheter gjorde hverdagen finere for alle.",
+    "hash": "0421d5b2",
+    "locked": false
+  },
+  "en-uforutsigbarhet": {
+    "no": "en uforutsigbarhet",
+    "en": "unpredictability",
+    "story": "Lars jobbet som bonde og var vant til værets uforutsigbarhet. Hver vår klaget han over at en slik uforutsigbarhet gjorde det vanskelig å planlegge. Naboene hans snakket også om uforutsigbarheten når de møttes på butikken. I går sa Lars at han hadde lært å leve med denne uforutsigbarheten etter mange år på gården.",
+    "hash": "ace67513",
+    "locked": false
+  },
+  "en-vaar": {
+    "no": "en vår",
+    "en": "a spring",
+    "story": "Etter en lang og kald vår var Kari glad for at solen endelig kom. Denne våren hadde det regnet nesten hver dag i april. Hun husket at våren i fjor var mye varmere og tørrere. Nå plantet hun blomster i hagen fordi vårer i Norge kan være korte.",
+    "hash": "e493de36",
+    "locked": false
+  },
+  "en-vannfoering": {
+    "no": "en vannføring",
+    "en": "water flow",
+    "story": "Lars stod ved elva og så at vannføringen var mye høyere enn vanlig. Etter all regnet i forrige uke hadde vannføringen økt kraftig. Han ringte kommunen for å spørre om de ville gjøre noe for å øke vannføringen videre ned mot jordet. En stor vannføring kunne være farlig for broen, så de bestemte seg for å sjekke den hver dag.",
+    "hash": "10fb9ce9",
+    "locked": false
+  },
+  "en-varmeboelge": {
+    "no": "en varmebølge",
+    "en": "a heatwave",
+    "story": "Forrige sommer kom en varmebølge til Norge som varte i to uker. Varmebølgen gjorde at alle i nabolaget satt ute med is og vann. Lars sa han aldri hadde opplevd en varmebølge så sterk før. Denne uka fortsetter varmebølgen, så Mari har kjøpt tre nye vifter til huset.",
+    "hash": "050ab5ad",
+    "locked": false
+  },
+  "en-vekker": {
+    "no": "en vekker",
+    "en": "a wake-up call",
+    "story": "Lars sov alltid lenge og kom for sent på jobb. En dag sa sjefen at dette var siste sjanse, og det ble en vekker for ham. Naboens hus brant forrige uke, og det var en vekker for hele gata om brannvarsler. Nå sjekker Lars røykvarsleren hver måned fordi han trengte den vekkeren. Slike vekkere gjør at folk tar livet litt mer alvorlig.",
+    "hash": "f13984cf",
+    "locked": false
+  },
+  "en-vending": {
+    "no": "en vending",
+    "en": "a turn",
+    "story": "Lars syklet langs veien da han tok en skarp vending til høyre. Vendingen kom så brått at han nesten mistet balansen. Saken på jobben tok også en uventet vending i går, og sjefen ble veldig overrasket. Noen vendinger i livet er vanskelige, men denne gangen gikk alt bra til slutt.",
+    "hash": "c0c59ed8",
+    "locked": false
+  },
+  "en-voldshendelse": {
+    "no": "en voldshendelse",
+    "en": "an act of violence",
+    "story": "Politiet fikk melding om en voldshendelse i sentrum sent på kvelden. Lars hørte om voldshendelsen på nyhetene mens han spiste frokost. Han tenkte at slike voldshendelser skjer oftere nå enn før. Heldigvis ble ingen alvorlig skadet i voldshendelsen denne gangen.",
+    "hash": "02d83e5e",
+    "locked": false
+  },
+  "et-akuttmottak": {
+    "no": "et akuttmottak",
+    "en": "an emergency room",
+    "story": "Lars falt på isen utenfor huset og slo hodet sitt hardt. Naboen kjørte ham rett til akuttmottaket. De ventet i to timer på et akuttmottak fullt av folk. En lege på akuttmottaket sa at alt så bra ut. Lars håper han aldri trenger å besøke et akuttmottak igjen.",
+    "hash": "20ba60e4",
+    "locked": false
+  },
+  "et-budskap": {
+    "no": "et budskap",
+    "en": "a message",
+    "story": "Lars fant et budskap i postkassa fra naboen. Budskapet handlet om et møte i gården neste uke. Han syntes det var et viktig budskap og viste det til Kari. Hun sa at slike budskap bør deles med alle i oppgangen.",
+    "hash": "bd246112",
+    "locked": false
+  },
+  "et-fargeavvik": {
+    "no": "et fargeavvik",
+    "en": "a colour deviation",
+    "story": "Kari jobbet i en butikk som solgte maling. En kunde kom tilbake med en boks og sa at det var et fargeavvik mellom malingen og prøven på veggen. Kari så på boksen og fant fargeavviket med en gang. Hun hadde sett mange fargeavvik før, så hun visste hva hun skulle gjøre. Kunden fikk en ny boks uten noe fargeavvik denne gangen.",
+    "hash": "77db0268",
+    "locked": false
+  },
+  "et-lag": {
+    "no": "et lag",
+    "en": "a team",
+    "story": "Jonas spiller på et lag som trener hver tirsdag. Laget vant kampen forrige uke, og alle var glade etterpå. Det er fem lag i serien deres, men bare to kan gå videre. Han er stolt av laget sitt og vil ikke bytte til en annen klubb.",
+    "hash": "a513bd05",
+    "locked": false
+  },
+  "et-landsstevne": {
+    "no": "et landsstevne",
+    "en": "a national gathering",
+    "story": "Ida gleder seg til landsstevnet i sommer. Hun har vært på et landsstevne én gang før, og da møtte hun folk fra alle kanter av Norge. I år samler landsstevnet over tusen deltakere i en liten by ved sjøen. Faren hennes sier at landsstevner alltid gir gode minner og nye venner.",
+    "hash": "5d616659",
+    "locked": false
+  },
+  "et-sammenstoet": {
+    "no": "et sammenstøt",
+    "en": "a collision",
+    "story": "Lars så et sammenstøt mellom to biler på vei til jobb. Sammenstøtet skjedde rett foran lyskrysset, og alle stoppet opp. Heldigvis var det et lite sammenstøt, så ingen ble skadet. Politiet kom raskt og sa at slike sammenstøt ofte skjer på glatte veier.",
+    "hash": "b8ca71c9",
+    "locked": false
+  },
+  "et-skjelett": {
+    "no": "et skjelett",
+    "en": "a skeleton",
+    "story": "Mari fant et skjelett av en fugl i hagen. Skjelettet var hvitt og lite, og hun la det forsiktig i en eske. På skolen hadde læreren vist dem skjeletter av mange dyr. Mari tok med esken for å vise klassen sitt eget skjelett.",
+    "hash": "b0b25e6f",
+    "locked": false
+  },
+  "et-tap": {
+    "no": "et tap",
+    "en": "a loss",
+    "story": "Lars sitt fotballag hadde et stort tap i helgen. Tapet overrasket alle, fordi laget hadde vunnet fem kamper på rad. Etter kampen snakket treneren om tap og hvordan man kan lære av dem. Mari sa at slike tap gjør laget sterkere til neste gang.",
+    "hash": "06e2a780",
+    "locked": false
+  },
+  "et-utvalg": {
+    "no": "et utvalg",
+    "en": "a selection",
+    "story": "Mari gikk inn i den nye butikken og ble overrasket over utvalget av ost. Hun hadde aldri sett et utvalg så stort i en liten butikk før. Lars sa at utvalg er viktig når man skal velge middag. De valgte tre oster fra utvalget og gikk hjem for å lage pizza.",
+    "hash": "80ba0262",
+    "locked": false
+  },
+  "et-vippepunkt": {
+    "no": "et vippepunkt",
+    "en": "a tipping point",
+    "story": "Lars hadde ryddet garasjen i flere timer, men rotet bare ble verre. Til slutt nådde han et vippepunkt og bestemte seg for å kaste alt det gamle. Kari sa at hun også hadde nådd et vippepunkt med alle bøkene sine i stua. Vippepunktet kom da de ikke fant plass til skoene ved døra. Etter den dagen var huset mye ryddigere, og begge var glade for at de hadde passert vippepunktet sammen.",
+    "hash": "e3623595",
+    "locked": false
+  },
+  "fastklemt": {
+    "no": "fastklemt",
+    "en": "trapped",
+    "story": "En person satt fastklemt i bilen etter ulykken. Lars ringte nødnummeret og sa at sjåføren var fastklemt bak rattet. Brannmannskapet kom fort for å hjelpe den fastklemte mannen. Etter ti minutter var han ikke fastklemt lenger, og de kunne flytte ham til ambulansen.",
+    "hash": "14ef3e5f",
+    "locked": false
+  },
+  "forbundet-med": {
+    "no": "forbundet med",
+    "en": "associated with",
+    "story": "Lars visste at røyking er forbundet med helseproblemer. Likevel tenkte han ikke så mye på det før legen sa at smertene hans var forbundet med stress på jobben. Mangel på søvn er også forbundet med dårlig konsentrasjon, forklarte legen. Nå prøver Lars å unngå alt som er forbundet med for mye press i hverdagen.",
+    "hash": "92059dfc",
+    "locked": false
+  },
+  "foreloepig": {
+    "no": "foreløpig",
+    "en": "preliminary",
+    "story": "Lars fikk en foreløpig rapport fra legen etter blodprøven. Resultatene var bare foreløpige, så han måtte vente på de endelige svarene. Han ringte kona og sa at den foreløpige beskjeden var god. Neste uke skulle de få vite mer, men foreløpig kunne de slappe av.",
+    "hash": "4a2fc402",
+    "locked": false
+  },
+  "gjev": {
+    "no": "gjev",
+    "en": "prestigious",
+    "story": "Anders søkte på en gjev stilling ved universitetet i Oslo. Jobben var den gjeveste i hele avdelingen, og mange ville ha den. Kari sa at prisen de delte ut i fjor også var svært gjev. Til slutt fikk Anders tilbudet, og han følte seg stolt over å ha fått en så gjev posisjon.",
+    "hash": "30228728",
+    "locked": false
+  },
+  "i-fjor": {
+    "no": "i fjor",
+    "en": "last year",
+    "story": "Lars solgte bilen sin i fjor. Han kjøpte en sykkel i stedet, og i fjor syklet han til jobben hver dag. Kari begynte også å trene i fjor, og de to ble gode venner på sykkelstien. Nå snakker de ofte om hvor mye som forandret seg i fjor.",
+    "hash": "3ee7f537",
+    "locked": false
+  },
+  "kjaerkommen": {
+    "no": "kjærkommen",
+    "en": "welcome",
+    "story": "Etter en lang og kald vinter var sola svært kjærkommen i byen. Lars satte seg ute med en kopp kaffe, og varmen var kjærkommen mot ansiktet hans. Naboen Ida kom med ei kjærkommen flaske brus til ham. Selv den lille vinden som kom om ettermiddagen føltes kjærkommen etter så mange grå uker.",
+    "hash": "682659e0",
+    "locked": false
+  },
+  "kjekk": {
+    "no": "kjekk",
+    "en": "nice",
+    "story": "Anders er en kjekk fyr som alle liker på jobben. Det var kjekt å møte ham for første gang på festen i fjor. Kollegaene sier at han alltid er kjekk mot alle, selv på travle dager. Ida synes det er kjekt å jobbe sammen med ham fordi han smiler så mye.",
+    "hash": "c54536fa",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 2 ganger, trenger fire"
+    ]
+  },
+  "kjoelig": {
+    "no": "kjølig",
+    "en": "cool",
+    "story": "Det er kjølig ute i dag, så Mari tar på seg en tykk jakke. Hun liker ikke når været er så kjølig om morgenen. På bussen merker hun at lufta fra vinduet også er kjølig. Senere på dagen blir det varmere, men kvelden blir kjølig igjen, og hun er glad hun tok med jakka.",
+    "hash": "7474d470",
+    "locked": false
+  },
+  "kred": {
+    "no": "kred",
+    "en": "credit",
+    "story": "Treneren ga kred til spillerne etter kampen. Alle på laget fortjener kred for den gode innsatsen. Jonas fikk spesiell kred fordi han scoret to mål. Uten kred fra treneren ville ingen følt seg sett.",
+    "hash": "d8a48b79",
+    "locked": false
+  },
+  "mest-sannsynlig": {
+    "no": "mest sannsynlig",
+    "en": "most likely",
+    "story": "Anders så at bussen ikke kom til vanlig tid. Den er mest sannsynlig forsinket på grunn av snøen, tenkte han. Kari ringte og sa at veien var stengt, så bussen kommer mest sannsynlig ikke i det hele tatt. De bestemte seg for å gå, og mest sannsynlig var det raskere enn å vente. Da de kom fram, så de at bussen sto fast i en bakke, og det var mest sannsynlig derfor den aldri dukket opp.",
+    "hash": "f77f32fd",
+    "locked": false
+  },
+  "noensinne": {
+    "no": "noensinne",
+    "en": "ever",
+    "story": "Har du noensinne smakt brunost, spurte Mari venninnen sin på kjøkkenet. Ida sa at hun ikke noensinne hadde prøvd det før. Mari mente det var den beste osten hun noensinne hadde spist. Ida tok en bit og sa at hun noensinne måtte komme tilbake for å få mer.",
+    "hash": "a07e5d27",
+    "locked": false
+  },
+  "oedelagt": {
+    "no": "ødelagt",
+    "en": "broken",
+    "story": "Lars ødela telefonen sin da han mistet den på gulvet. Nå er skjermen helt ødelagt, og han kan ikke lese meldinger. Han ødelegger alltid ting når han har det travelt. Mari sa at han har ødelagt tre telefoner bare i år. Hun vil ikke låne ham sin, for han kommer til å ødelegge den også.",
+    "hash": "691891de",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 0 ganger, trenger fire",
+      "bare 0 av fire bøyningsformer brukt"
+    ]
+  },
+  "omfattende": {
+    "no": "omfattende",
+    "en": "far-reaching",
+    "story": "Brannen i nabolaget førte til omfattende skader på tre hus. Lars så at taket var helt ødelagt, og skadene var mer omfattende enn noen hadde trodd. Forsikringsselskapet sa at så omfattende ødeleggelser ville ta mange måneder å reparere. Hele familien måtte flytte, fordi arbeidet med huset ble svært omfattende.",
+    "hash": "d10469f1",
+    "locked": false
+  },
+  "omtrent": {
+    "no": "omtrent",
+    "en": "almost",
+    "story": "Lars skulle møte Kari klokka fem, men han var omtrent ti minutter forsinket. Hun hadde ventet omtrent like lenge forrige gang også. Det var omtrent tjue personer i køen foran kafeen. De brukte omtrent en time på å spise før de gikk hjem.",
+    "hash": "263c57e8",
+    "locked": false
+  },
+  "regjerende": {
+    "no": "regjerende",
+    "en": "reigning",
+    "story": "Lars så på TV da de viste de regjerende mesterne i curling. Han fortalte Kari at de regjerende vinnerne hadde spilt sammen i mange år. Kari lurte på om det regjerende laget ville vinne igjen i år. De så kampen ferdig, og de regjerende mesterne vant nok en gang.",
+    "hash": "67c4dea2",
+    "locked": false
+  },
+  "savnet": {
+    "no": "savnet",
+    "en": "missing",
+    "story": "Katten til Mari har vært savnet siden forrige uke. Hun savner den lille katten hver eneste kveld. Naboene hjalp henne å lete, og alle savnet dyret like mye som henne. I går fant de katten bak garasjen, og Mari sa at hun aldri har savnet noe så mye i hele sitt liv.",
+    "hash": "e3ce929d",
+    "locked": false
+  },
+  "skyldig": {
+    "no": "skyldig",
+    "en": "guilty",
+    "story": "Lars visste at han var skyldig. Han hadde spist den siste sjokoladen som tilhørte Ida. Da Ida spurte hvem som var skyldig, ble ansiktet hans rødt. Han følte seg skyldig hele kvelden og til slutt sa han sannheten. Ida lo og sa at den skyldige måtte kjøpe ny sjokolade neste dag.",
+    "hash": "92f1f20b",
+    "locked": false
+  },
+  "straalende": {
+    "no": "strålende",
+    "en": "brilliant",
+    "story": "Ida våknet og så ut av vinduet. Det var strålende vær, og himmelen var helt blå. Hun ringte Mari og sa at dagen var strålende for en tur i fjellet. De møttes ved bussen, og humøret var strålende hos begge to. Turen ble lang og fin, og de kom hjem med strålende smil.",
+    "hash": "e9ed0272",
+    "locked": false
+  },
+  "svaert": {
+    "no": "svært",
+    "en": "very",
+    "story": "Lars syklet svært fort nedover bakken i dag. Det var svært kaldt ute, så han hadde på seg lue og votter. Fingene hans ble svært kalde likevel, og han stoppet ved butikken for å varme seg. Kaffen han kjøpte var svært varm, og det føltes godt.",
+    "hash": "3860f977",
+    "locked": false
+  },
+  "til-sammen": {
+    "no": "til sammen",
+    "en": "in total",
+    "story": "Lars kjøpte tre skjorter og to bukser, og til sammen kostet det åtte hundre kroner. Familien hans har fem medlemmer til sammen. De spiste til sammen tolv brødskiver til frokost i dag. Kari regnet ut at de hadde gått femten kilometer til sammen etter helgens turer.",
+    "hash": "77f3ffee",
+    "locked": false
+  },
+  "uaktsom-forvoldelse": {
+    "no": "uaktsom forvoldelse",
+    "en": "negligent causing of death",
+    "story": "Lars leste i avisen om en sjåfør som var tiltalt for uaktsom forvoldelse av død. Saken handlet om en ulykke på motorveien i fjor. Politiet mente at uaktsom forvoldelse var riktig tiltale fordi sjåføren ikke hadde vært oppmerksom. Dommeren forklarte at uaktsom forvoldelse er noe av det mest alvorlige man kan bli dømt for. Lars la fra seg avisen og tenkte at han alltid måtte kjøre forsiktig, for uaktsom forvoldelse kan skje når man minst venter det.",
+    "hash": "d45fb566",
+    "locked": false
+  },
+  "ukurant-farge": {
+    "no": "ukurant farge",
+    "en": "a hard-to-sell colour",
+    "story": "Lars jobbet i en klesbutikk og hadde mange gensere i ukurant farge på lageret. Ingen ville kjøpe dem fordi en ukurant farge er vanskelig å selge. Sjefen sa at de måtte sette ned prisen på alt i ukurant farge før sommeren. Til slutt solgte de alle genserne med femti prosent rabatt, men ukurant farge var fortsatt et problem hver sesong.",
+    "hash": "a3bb4bc4",
+    "locked": false
+  },
+  "vel-moett": {
+    "no": "vel møtt",
+    "en": "welcome",
+    "story": "Vel møtt til alle som kom til møtet i dag. Lars åpnet døra og sa vel møtt til hver eneste gjest. Det var hyggelig å høre vel møtt da vi kom inn fra regnet. Etter middagen reiste Kari seg og sa vel møtt neste gang også.",
+    "hash": "ec301db2",
+    "locked": false
+  },
+  "verneverdig": {
+    "no": "verneverdig",
+    "en": "worthy of preservation",
+    "story": "Anders gikk forbi det gamle huset i sentrum og stoppet. Fasaden var verneverdig, men noen hadde satt inn nye vinduer likevel. Kommunen sa at bygningen var verneverdig allerede for ti år siden. Mange verneverdige hus i byen har mistet de originale detaljene sine. Anders syntes det var trist at noe så verneverdig ikke ble tatt bedre vare på.",
+    "hash": "84b1b06e",
+    "locked": false
+  }
+}
