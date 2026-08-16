@@ -39,6 +39,16 @@
     "hash": "07798031",
     "locked": false
   },
+  "aa-blusse-opp": {
+    "no": "å blusse opp",
+    "en": "to flare up",
+    "story": "Lars satt ved peisen da flammene blusset opp plutselig. Hver gang vinden tar i skorsteinen, blusser ilden opp igjen. Kari sa at bålet har blusset opp tre ganger i kveld allerede. Lars ville ikke la det blusse opp mer, så han lukket spjeldet forsiktig.",
+    "hash": "3f5577ad",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 3 ganger, trenger fire"
+    ]
+  },
   "aa-dette": {
     "no": "å dette",
     "en": "to fall",
@@ -81,6 +91,13 @@
     "hash": "dfff1329",
     "locked": false
   },
+  "aa-foede": {
+    "no": "å føde",
+    "en": "to be born",
+    "story": "Mari ble født i en liten by ved kysten for tretti år siden. Moren hennes fødte henne tidlig på morgenen, mens det snødde ute. Sykehuset der Mari ble født har også født mange andre barn fra bygda. Å føde var ikke lett, men moren sier at alt gikk bra til slutt.",
+    "hash": "a5938415",
+    "locked": false
+  },
   "aa-gjenta": {
     "no": "å gjenta",
     "en": "to repeat",
@@ -102,6 +119,13 @@
     "hash": "3ca76cbe",
     "locked": false
   },
+  "aa-herje": {
+    "no": "å herje",
+    "en": "to ravage",
+    "story": "Stormen herjer langs kysten i kveld, og trærne bøyer seg i vinden. I går herjet en annen storm lenger nord og tok med seg flere tak. Vinden har herjet i dette området mange ganger før, sa Lars til naboen. De visste at stormer kunne herje i flere dager, så de lukket alle vinduene og ventet inne.",
+    "hash": "4bcaa775",
+    "locked": false
+  },
   "aa-heve": {
     "no": "å heve",
     "en": "to raise (increase)",
@@ -114,6 +138,13 @@
     "en": "to crush",
     "story": "Lars mistet et glass på kjøkkengulvet og knuste det i mange biter. Hver gang han tømmer oppvaskmaskinen, er han redd for å knuse noe. Ida ropte fra stua at hun har knust en vase ved et uhell. Det er lett å knuse ting når man har det travelt, sa moren deres.",
     "hash": "60f30699",
+    "locked": false
+  },
+  "aa-komme-seg-unna": {
+    "no": "å komme seg unna",
+    "en": "to get away",
+    "story": "Katten til Mari satt fast i garasjen, men den kom seg unna til slutt. Mari var glad fordi katten alltid kommer seg unna når det er fare. Forrige uke hadde katten har kommet seg unna en stor hund i nabolaget. Det er viktig å komme seg unna farlige situasjoner, tenkte Mari mens hun klappet katten.",
+    "hash": "3a911d72",
     "locked": false
   },
   "aa-lansere": {
@@ -190,6 +221,13 @@
     "hash": "8bf32bf4",
     "locked": false
   },
+  "aa-perse": {
+    "no": "å perse",
+    "en": "to set a personal best",
+    "story": "Ida løper hver morgen fordi hun vil perse på fem kilometer. I dag perser hun med ti sekunder, og hun smiler hele veien hjem. Forrige uke perset hun også, men bare med to sekunder. Treneren sa at hun har perset tre ganger denne måneden, og det er han veldig fornøyd med.",
+    "hash": "b3c06219",
+    "locked": false
+  },
   "aa-prege": {
     "no": "å prege",
     "en": "to characterize",
@@ -210,6 +248,23 @@
     "story": "Lars så at katten satt fast i treet, og han ville redde den med en gang. Han redder ofte dyr i nabolaget fordi han liker å hjelpe. I går reddet han en liten fugl som hadde falt fra redet. Naboen sa at Lars har reddet mange dyr gjennom årene, og katten kom trygt ned.",
     "hash": "82a96085",
     "locked": false
+  },
+  "aa-rekke": {
+    "no": "å rekke",
+    "en": "to make it in time",
+    "story": "Kari løp nedover gata fordi hun ville rekke bussen. Hun rekker den vanligvis, men i dag var hun sent ute. I går rakk hun den akkurat, men bare fordi sjåføren ventet. Denne gangen har hun ikke rukket fram, og bussen kjørte uten henne.",
+    "hash": "03e48b9a",
+    "locked": false
+  },
+  "aa-rykke-fra": {
+    "no": "å rykke fra",
+    "en": "to pull away",
+    "story": "Ida løp i parken sammen med vennene sine. Plutselig rykket hun fra de andre og var langt foran. Ingen klarte å rykke fra Ida når hun bestemte seg for å løpe fort. Nå rykker hun fra igjen, og alle ser ryggen hennes forsvinne. Etter løpet sa Jonas at Ida har rykket fra alle hver eneste gang denne våren.",
+    "hash": "e85eed48",
+    "locked": false,
+    "needsReview": [
+      "ordet forekommer 2 ganger, trenger fire"
+    ]
   },
   "aa-sikre": {
     "no": "å sikre",
@@ -239,6 +294,13 @@
     "hash": "0d33a79b",
     "locked": false
   },
+  "aa-slite": {
+    "no": "å slite",
+    "en": "to struggle",
+    "story": "Mari sliter med matteoppgavene hver kveld denne uka. I går slet hun i over en time før hun forstod svaret. Hun har slitt med dette emnet helt siden høsten begynte. Læreren sa at det er vanlig å slite litt før man plutselig forstår alt sammen.",
+    "hash": "70f2fd34",
+    "locked": false
+  },
   "aa-snu-paa-hodet": {
     "no": "å snu på hodet",
     "en": "to turn upside down",
@@ -251,6 +313,41 @@
     "en": "to punish",
     "story": "Læreren straffer aldri elevene uten grunn. I går straffet hun Jonas fordi han kastet papir på de andre barna. Hun har straffet ham før, men han glemmer reglene fort. Kari synes det er vanskelig å straffe hunden sin når den ser på henne med store øyne.",
     "hash": "7aea9c9d",
+    "locked": false
+  },
+  "aa-svi-av": {
+    "no": "å svi av",
+    "en": "to burn down",
+    "story": "Den gamle hytta til Anders svidde av en natt i juni. Brannen var så sterk at den svir av alt gress rundt også. Naboene sa at ilden har svidd av nesten hele skogen bak huset. Anders ønsket ikke å svi av noe mer, så han var veldig forsiktig med bålet etter det. Nå er det bare aske igjen der hytta sto.",
+    "hash": "b729eebd",
+    "locked": false
+  },
+  "aa-tilby": {
+    "no": "å tilby",
+    "en": "to offer",
+    "story": "Lars jobbet i en liten butikk som tilbød gratis levering til alle kunder. Hver dag tilbyr han også kaffe til de som venter. I går tilbød en kollega seg å hjelpe ham med de tunge boksene. Butikken har tilbudt denne tjenesten i over to år nå, og kundene er veldig fornøyde.",
+    "hash": "54e8661e",
+    "locked": false
+  },
+  "aa-tolke": {
+    "no": "å tolke",
+    "en": "to interpret",
+    "story": "Mari jobber som guide på et museum, og hver dag tolker hun gamle tekster for besøkende. I går tolket hun en vanskelig sang fra middelalderen for en skoleklasse. Barna syntes det var spennende å høre hvordan hun tolker ordene på nye måter. Hun har tolket mange ulike verk gjennom årene, og hun liker å tolke noe nytt hver uke.",
+    "hash": "b1adb45e",
+    "locked": false
+  },
+  "aa-tvinge": {
+    "no": "å tvinge",
+    "en": "to force",
+    "story": "Regnet tvinger alle inn fra hagen. I går tvang stormen Lars til å lukke alle vinduene med en gang. Ingen liker å tvinge barna inn når de leker ute, men været var for dårlig. Vannet har tvunget familien til å flytte møblene bort fra terrassen. Nå sitter de inne og venter på at sola skal komme tilbake.",
+    "hash": "61f571d9",
+    "locked": false
+  },
+  "aa-utestenge": {
+    "no": "å utestenge",
+    "en": "to exclude",
+    "story": "Lars ville ikke utestenge noen fra leken i skolegården. Men i går utestengte de eldste barna en ny gutt fra fotballkampen. Læreren sa at de har utestengt ham flere ganger før. Nå utestenger ingen ham lenger, for læreren passer på hver eneste friminutt.",
+    "hash": "2254f41d",
     "locked": false
   },
   "aa-utgi-seg-for": {
@@ -286,6 +383,13 @@
     "en": "to weigh",
     "story": "Lars skulle veie kofferten sin før han dro til flyplassen. Den veier vanligvis under tjue kilo, men denne gangen var han usikker. Han løftet den opp på badevekten og så at den veide tjuetre kilo. Ida har veid sin egen koffert mange ganger før, og hun lo da Lars måtte ta ut to gensere.",
     "hash": "4df34141",
+    "locked": false
+  },
+  "aa-vende": {
+    "no": "å vende",
+    "en": "to return",
+    "story": "Lars var på ferie i to uker, men han gledet seg til å vende hjem. Hver kveld vendte tankene hans tilbake til den lille leiligheten. I går vendte han endelig tilbake, og hunden løp mot døra. Nå har han vendt hjem for godt, og alt føles riktig igjen.",
+    "hash": "b7d8a775",
     "locked": false
   },
   "adskilt": {
@@ -324,6 +428,20 @@
     "en": "a fine",
     "story": "Anders kjørte for fort og fikk ei bot på vei hjem fra jobben. Bota var på to tusen kroner, og han ble veldig irritert. Han fortalte Kari at han aldri har fått ei bot før. Kari lo og sa at bøter er noe alle som kjører for fort må betale. Neste gang skal Anders passe farten så han slipper en ny bot.",
     "hash": "d3a0dbea",
+    "locked": false
+  },
+  "ei-kiste": {
+    "no": "ei kiste",
+    "en": "a coffin",
+    "story": "Lars fant ei gammel kiste på loftet hos bestemor. Kisten var tung og laget av mørkt tre. Han lurte på om det var vanlig å ha kister hjemme i gamle dager. Bestemor fortalte at bestefar hadde bygget kisten selv for mange år siden. De bar kisten ned trappen sammen og satte den i garasjen.",
+    "hash": "e9741a7a",
+    "locked": false
+  },
+  "ei-laat": {
+    "no": "ei låt",
+    "en": "a song",
+    "story": "Mari hørte ei låt på radioen mens hun lagde frokost. Låta var så fin at hun begynte å synge med. Hun spilte den samme låta tre ganger til før hun gikk på jobb. På bussen prøvde hun å huske teksten til låta, men bare refrenget satt. Etter jobb søkte hun opp låta på telefonen og la den i spillelista si.",
+    "hash": "199e85f8",
     "locked": false
   },
   "ei-leppe": {
@@ -383,6 +501,13 @@
     "en": "a crop",
     "story": "Lars stod på jordet og så på avlingen sin i juli. Det hadde ikke regnet på flere uker, og avlingene begynte å tørke. Han bestemte seg for å vanne hver kveld for å redde avlingen. Naboen hadde mistet hele sin avling året før på grunn av tørke. Nå så avlingene til Lars mye bedre ut, og han pustet lettet ut.",
     "hash": "9cfe0260",
+    "locked": false
+  },
+  "en-bauta": {
+    "no": "en bauta",
+    "en": "a milestone",
+    "story": "Lars leste en bok om norsk musikk og fant en bauta i jazzhistorien. Bautaen var en pianist som spilte i over femti år. Mari sa at byen deres også hadde en bauta, en gammel lærer som alle husket. De snakket om hvor mange bautaer som finnes i norsk kultur uten at folk vet om dem.",
+    "hash": "7d02d014",
     "locked": false
   },
   "en-beboer": {
@@ -472,6 +597,20 @@
     "hash": "37bd57ed",
     "locked": false
   },
+  "en-innvielse": {
+    "no": "en innvielse",
+    "en": "an inauguration",
+    "story": "Lars var spent på innvielsen av det nye biblioteket i byen. Flere hundre mennesker deltok under innvielsen, og ordføreren holdt en kort tale. Mari sa hun aldri hadde vært på en innvielse før, men hun likte stemningen. Etter innvielsen gikk de sammen til kafeen og drakk kaffe.",
+    "hash": "a24a9bd2",
+    "locked": false
+  },
+  "en-jomfru": {
+    "no": "en jomfru",
+    "en": "a virgin",
+    "story": "Mari så en statue av jomfru Maria utenfor den gamle kirken. Hun fortalte Lars at jomfruen var viktig i mange historier. Lars nikket og sa at han hadde lest om jomfruer i en bok på skolen. De sto stille foran statuen av jomfruen før de gikk videre hjem.",
+    "hash": "20fc60b6",
+    "locked": false
+  },
   "en-kraftmangel": {
     "no": "en kraftmangel",
     "en": "a power shortage",
@@ -491,6 +630,13 @@
     "en": "relief",
     "story": "Mari ventet på svar fra legen i flere dager. Da telefonen endelig ringte, følte hun en stor lettelse. Lettelsen var så sterk at hun begynte å gråte. Hun ringte moren sin og sa at lettelsen hun kjente var vanskelig å beskrive. Moren svarte at slike lettelser kommer når man har vært redd lenge.",
     "hash": "35d15d6a",
+    "locked": false
+  },
+  "en-makt": {
+    "no": "en makt",
+    "en": "power",
+    "story": "Lars leste i avisen om et land der en gruppe hadde hatt makten i fem år. Han tenkte at makt kan forandre mennesker på mange måter. På jobben snakket kollegaen hans om en sjef som misbrukte makten sin. Lars var glad for at ingen på hans kontor hadde for mye makt over andre.",
+    "hash": "8ddbd3f0",
     "locked": false
   },
   "en-medelev": {
@@ -526,6 +672,13 @@
     "en": "a prosecuting authority",
     "story": "Påtalemyndigheten tok ut tiltale mot mannen i forrige uke. Lars leste om saken i avisen og lurte på hva en påtalemyndighet egentlig gjør. Kari forklarte at påtalemyndigheten bestemmer hvem som skal stilles for retten. I Norge har vi en påtalemyndighet som jobber tett med politiet hver dag.",
     "hash": "9e4facef",
+    "locked": false
+  },
+  "en-regel": {
+    "no": "en regel",
+    "en": "a rule",
+    "story": "Lars lærte en ny regel på skolen i dag. Regelen sa at alle måtte ta av seg skoene i gangen. Han syntes det var rart, men læreren forklarte at regler finnes for at alle skal ha det bra. Hjemme fortalte han moren om regelen, og hun sa at de hadde samme regel der også.",
+    "hash": "9cccace4",
     "locked": false
   },
   "en-sannsynlighet": {
@@ -570,6 +723,13 @@
     "hash": "3f28ebf2",
     "locked": false
   },
+  "en-soldat": {
+    "no": "en soldat",
+    "en": "a soldier",
+    "story": "Lars så en soldat som sto utenfor leiren da han kjørte forbi. Soldaten hadde på seg grønn uniform og en stor sekk på ryggen. Det var mange soldater der den dagen fordi de hadde en stor øvelse. Lars husket at bestefaren hans også var soldat da han var ung.",
+    "hash": "9278cdf4",
+    "locked": false
+  },
   "en-sorg": {
     "no": "en sorg",
     "en": "grief",
@@ -596,6 +756,13 @@
     "en": "gratitude",
     "story": "Lars kjente en stor takknemlighet da naboen hjalp ham med å flytte sofaen. Han sa at takknemligheten hans var vanskelig å uttrykke med ord. Dagen etter bakte han en kake for å vise sin takknemlighet. Naboen smilte og sa at slike takknemligheter gjorde hverdagen finere for alle.",
     "hash": "0421d5b2",
+    "locked": false
+  },
+  "en-trompetist": {
+    "no": "en trompetist",
+    "en": "a trumpeter",
+    "story": "Lars er en trompetist som spiller i byens korps hver lørdag. I går hørte vi trompetisten øve i parken, og lyden fylte hele gata. Det finnes mange trompetister i Norge, men Lars er den beste i byen vår. Kari sa at hun aldri har møtt en trompetist som øver så mye som ham.",
+    "hash": "f556d2cc",
     "locked": false
   },
   "en-uforutsigbarhet": {
@@ -647,6 +814,13 @@
     "hash": "02d83e5e",
     "locked": false
   },
+  "enestaaende": {
+    "no": "enestående",
+    "en": "outstanding",
+    "story": "Lars hørte en enestående konsert i byen i går kveld. Musikeren på scenen var virkelig enestående, og alle i salen klappet lenge. Etterpå sa Kari at stemmen hennes også var enestående. Det er ikke ofte man opplever noe så enestående på en vanlig torsdag.",
+    "hash": "147fad43",
+    "locked": false
+  },
   "et-akuttmottak": {
     "no": "et akuttmottak",
     "en": "an emergency room",
@@ -661,11 +835,25 @@
     "hash": "bd246112",
     "locked": false
   },
+  "et-ektepar": {
+    "no": "et ektepar",
+    "en": "a married couple",
+    "story": "Et ektepar satt på benken i parken og spiste is. Kari så ekteparet og tenkte at de virket veldig glade sammen. Hun håpet at hun og Jonas ville bli et like fint ektepar en dag. Ekteparet reiste seg etter en stund og gikk videre hånd i hånd.",
+    "hash": "96cab210",
+    "locked": false
+  },
   "et-fargeavvik": {
     "no": "et fargeavvik",
     "en": "a colour deviation",
     "story": "Kari jobbet i en butikk som solgte maling. En kunde kom tilbake med en boks og sa at det var et fargeavvik mellom malingen og prøven på veggen. Kari så på boksen og fant fargeavviket med en gang. Hun hadde sett mange fargeavvik før, så hun visste hva hun skulle gjøre. Kunden fikk en ny boks uten noe fargeavvik denne gangen.",
     "hash": "77db0268",
+    "locked": false
+  },
+  "et-kjoenn": {
+    "no": "et kjønn",
+    "en": "a gender",
+    "story": "Lars jobbet med et skjema på nettet og måtte fylle inn kjønn. Han lurte på hvorfor kjønnet hans var viktig for en bokhandel. På skolen lærte barna at det finnes flere kjønn enn folk trodde før. Ida sa at kjønn ikke burde bestemme hva man kan bli når man er voksen.",
+    "hash": "eafd7353",
     "locked": false
   },
   "et-lag": {
@@ -696,11 +884,25 @@
     "hash": "b0b25e6f",
     "locked": false
   },
+  "et-stjernelag": {
+    "no": "et stjernelag",
+    "en": "an all-star team",
+    "story": "Lars drømte om å spille på et stjernelag da han var liten. I fjor ble han valgt til stjernelag i fotball for første gang. Alle på stjernelaget trente sammen hver onsdag. Han fortalte moren sin at stjernelag er det beste han har opplevd.",
+    "hash": "caffa6f6",
+    "locked": false
+  },
   "et-tap": {
     "no": "et tap",
     "en": "a loss",
     "story": "Lars sitt fotballag hadde et stort tap i helgen. Tapet overrasket alle, fordi laget hadde vunnet fem kamper på rad. Etter kampen snakket treneren om tap og hvordan man kan lære av dem. Mari sa at slike tap gjør laget sterkere til neste gang.",
     "hash": "06e2a780",
+    "locked": false
+  },
+  "et-unntak": {
+    "no": "et unntak",
+    "en": "an exception",
+    "story": "Lars stod opp tidlig hver dag, uten unntak. I dag var det et unntak fordi han var syk og ble liggende i sengen. Unntaket gjorde at kollegaen hans måtte åpne butikken alene. Det finnes ikke mange unntak fra rutinen hans, men noen ganger må selv Lars hvile.",
+    "hash": "28b3d97b",
     "locked": false
   },
   "et-utvalg": {
@@ -715,6 +917,13 @@
     "en": "a tipping point",
     "story": "Lars hadde ryddet garasjen i flere timer, men rotet bare ble verre. Til slutt nådde han et vippepunkt og bestemte seg for å kaste alt det gamle. Kari sa at hun også hadde nådd et vippepunkt med alle bøkene sine i stua. Vippepunktet kom da de ikke fant plass til skoene ved døra. Etter den dagen var huset mye ryddigere, og begge var glade for at de hadde passert vippepunktet sammen.",
     "hash": "e3623595",
+    "locked": false
+  },
+  "et-yrke": {
+    "no": "et yrke",
+    "en": "a profession",
+    "story": "Lars spurte læreren sin om hvilket yrke han burde velge etter skolen. Læreren sa at mange yrker krever lang utdanning, men at det finnes gode muligheter for alle. Moren til Lars hadde et yrke innen helse, og hun trivdes veldig godt. Lars tenkte lenge på hvilket yrke som passet ham best, og til slutt bestemte han seg for å bli elektriker.",
+    "hash": "3c698604",
     "locked": false
   },
   "fastklemt": {
@@ -743,6 +952,13 @@
     "en": "prestigious",
     "story": "Anders søkte på en gjev stilling ved universitetet i Oslo. Jobben var den gjeveste i hele avdelingen, og mange ville ha den. Kari sa at prisen de delte ut i fjor også var svært gjev. Til slutt fikk Anders tilbudet, og han følte seg stolt over å ha fått en så gjev posisjon.",
     "hash": "30228728",
+    "locked": false
+  },
+  "graa": {
+    "no": "grå",
+    "en": "grey",
+    "story": "Himmelen var grå da Ida våknet og så ut av vinduet. Hun tok på seg den grå jakken sin og gikk ut for å handle. Alt var grått ute, både husene og veien og skyene over fjorden. Ida tenkte at grå dager passer best til å drikke varm kakao inne.",
+    "hash": "d6b402b8",
     "locked": false
   },
   "i-fjor": {
@@ -776,11 +992,25 @@
     "hash": "7474d470",
     "locked": false
   },
+  "knapt": {
+    "no": "knapt",
+    "en": "hardly",
+    "story": "Mari hadde knapt sovet da alarmen ringte klokka seks. Hun kunne knapt holde øynene åpne på bussen til jobb. Kollegaen hennes la merke til det og sa at hun knapt så våken ut. Da hun kom hjem den kvelden, hadde hun knapt satt seg i sofaen før hun sovnet.",
+    "hash": "c5423d07",
+    "locked": false
+  },
   "kred": {
     "no": "kred",
     "en": "credit",
     "story": "Treneren ga kred til spillerne etter kampen. Alle på laget fortjener kred for den gode innsatsen. Jonas fikk spesiell kred fordi han scoret to mål. Uten kred fra treneren ville ingen følt seg sett.",
     "hash": "d8a48b79",
+    "locked": false
+  },
+  "maalloes": {
+    "no": "målløs",
+    "en": "speechless",
+    "story": "Ida åpnet døra og ble helt målløs da hun så alle vennene sine i stua. Hun hadde aldri vært så målløs før, og tårene begynte å renne. Anders lo og sa at han også ble målløs første gang noen overrasket ham på bursdagen. Ida sto der, fortsatt målløs, og klarte bare å smile.",
+    "hash": "f2df3ce8",
     "locked": false
   },
   "mest-sannsynlig": {
@@ -890,6 +1120,13 @@
     "en": "worthy of preservation",
     "story": "Anders gikk forbi det gamle huset i sentrum og stoppet. Fasaden var verneverdig, men noen hadde satt inn nye vinduer likevel. Kommunen sa at bygningen var verneverdig allerede for ti år siden. Mange verneverdige hus i byen har mistet de originale detaljene sine. Anders syntes det var trist at noe så verneverdig ikke ble tatt bedre vare på.",
     "hash": "84b1b06e",
+    "locked": false
+  },
+  "voldsom": {
+    "no": "voldsom",
+    "en": "violent",
+    "story": "Lars våknet av et voldsomt tordenvær midt på natten. Vinden var så voldsom at trærne bøyde seg helt ned mot bakken. Han hadde aldri opplevd et så voldsomt uvær før. Neste morgen så han at den voldsomme stormen hadde knekt et stort tre i hagen.",
+    "hash": "d41ac76e",
     "locked": false
   }
 }
