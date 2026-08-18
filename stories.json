@@ -25,12 +25,7 @@
     "en": "to prepare oneself for",
     "story": "Aleksandra belager seg på mye regn i morgen, så hun pakker sekken med ekstra klær. I går belaget hun seg på en lang tur til hytta, men bussen ble forsinket. Damian har belaget seg på kulde hele uka og kjøpte ny jakke. De vil begge belage seg på dårlig vær resten av høsten.",
     "hash": "e60c16ec",
-    "locked": false,
-    "needsReview": [
-      "inneholder forkortelse",
-      "ordet forekommer 3 ganger, trenger fire",
-      "bare 0 av fire bøyningsformer brukt"
-    ]
+    "locked": false
   },
   "aa-beregne": {
     "no": "å beregne",
@@ -44,10 +39,7 @@
     "en": "to flare up",
     "story": "Damian satt ved peisen da flammene blusset opp plutselig. Hver gang vinden tar i skorsteinen, blusser ilden opp igjen. Aleksandra sa at bålet har blusset opp tre ganger i kveld allerede. Damian ville ikke la det blusse opp mer, så han lukket spjeldet forsiktig.",
     "hash": "3f5577ad",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 3 ganger, trenger fire"
-    ]
+    "locked": false
   },
   "aa-dette": {
     "no": "å dette",
@@ -208,11 +200,7 @@
     "en": "to increase",
     "story": "Damian ville øke farten sin på jogging, så han begynte å trene hver dag. Etter to uker økte han tempoet med ett minutt per kilometer. Nå øker han litt hver uke, og det føles bra. Treneren sa at han har økt utholdenheten sin mye siden i fjor.",
     "hash": "cf11b1f9",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 0 ganger, trenger fire",
-      "bare 0 av fire bøyningsformer brukt"
-    ]
+    "locked": false
   },
   "aa-omkomme": {
     "no": "å omkomme",
@@ -282,10 +270,7 @@
     "en": "to pull away",
     "story": "Aleksandra løp i parken sammen med vennene sine. Plutselig rykket hun fra de andre og var langt foran. Ingen klarte å rykke fra Aleksandra når hun bestemte seg for å løpe fort. Nå rykker hun fra igjen, og alle ser ryggen hennes forsvinne. Etter løpet sa Damian at Aleksandra har rykket fra alle hver eneste gang denne våren.",
     "hash": "e85eed48",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 2 ganger, trenger fire"
-    ]
+    "locked": false
   },
   "aa-sikre": {
     "no": "å sikre",
@@ -446,7 +431,7 @@
     "en": "it's heartbreaking",
     "story": "Aleksandra så den gamle hunden sitte alene i regnet, og det skar i hjertet hennes. Det skjærer i hjertet hver gang hun tenker på dyr som ingen vil ha. Hun fortalte Damian om hunden, og han sa at det skar i hjertet hans også. Nå har de hentet hunden hjem, men det skjærer i hjertet å vite at mange andre fortsatt venter.",
     "hash": "580abb35",
-    "locked": false,
+    "locked": true,
     "needsReview": [
       "ordet forekommer 2 ganger, trenger fire"
     ]
@@ -512,10 +497,7 @@
     "en": "nasty",
     "story": "Damian fant en ekkel lukt i kjøleskapet. Maten inni var gammel og så ekkel ut at han nesten ble kvalm. Han kastet alt det ekle i søpla med én gang. Etterpå vasket han hyllene, og nå var det ikke noe ekkel lukt igjen.",
     "hash": "71d2508b",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 3 ganger, trenger fire"
-    ]
+    "locked": false
   },
   "en-avgjoerelse": {
     "no": "en avgjørelse",
@@ -613,10 +595,7 @@
     "en": "a border dispute",
     "story": "Damian og naboen hadde en grensekrangel om gjerdet mellom tomtene. Grensekrangelen varte i flere måneder, og begge ble slitne av den. Kommunen sa at slike grensekrangler er ganske vanlige mellom naboer. Til slutt løste de grensekrangelen med hjelp fra en advokat, og nå snakker de sammen igjen.",
     "hash": "10447302",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 3 ganger, trenger fire"
-    ]
+    "locked": false
   },
   "en-hendelse": {
     "no": "en hendelse",
@@ -1050,10 +1029,7 @@
     "en": "nice",
     "story": "Damian er en kjekk fyr som alle liker på jobben. Det var kjekt å møte ham for første gang på festen i fjor. Kollegaene sier at han alltid er kjekk mot alle, selv på travle dager. Aleksandra synes det er kjekt å jobbe sammen med ham fordi han smiler så mye.",
     "hash": "c54536fa",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 2 ganger, trenger fire"
-    ]
+    "locked": false
   },
   "kjoelig": {
     "no": "kjølig",
@@ -1109,11 +1085,7 @@
     "en": "broken",
     "story": "Damian ødela telefonen sin da han mistet den på gulvet. Nå er skjermen helt ødelagt, og han kan ikke lese meldinger. Han ødelegger alltid ting når han har det travelt. Aleksandra sa at han har ødelagt tre telefoner bare i år. Hun vil ikke låne ham sin, for han kommer til å ødelegge den også.",
     "hash": "691891de",
-    "locked": false,
-    "needsReview": [
-      "ordet forekommer 0 ganger, trenger fire",
-      "bare 0 av fire bøyningsformer brukt"
-    ]
+    "locked": false
   },
   "omfattende": {
     "no": "omfattende",

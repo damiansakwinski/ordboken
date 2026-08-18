@@ -67,6 +67,7 @@ const opts = {
   prune: flag('prune'),
   perWord: flag('per-word'),
   syncApp: flag('sync-app'),
+  revalidate: flag('revalidate'),
   force: flag('force'),
   fakeAudio: flag('fake-audio'),
   only: value('only', null),
@@ -95,6 +96,7 @@ if (flag('help')) {
     --episodes-only   bare steg 2
     --per-word        én mp3 per ord i ord/ i stedet for sammensydde episoder
     --sync-app        skriv historiene inn i index.html så de vises på kortene
+    --revalidate      kjør sjekken på nytt mot historiene du har, uten API-kall
     --with-example    les også bokeksempelet, ikke bare historien
     --pause=<ms>      tenkepause før den engelske oversettelsen (standard 1500)
     --gap=<ms>        stillhet mellom ord i en episode (standard 1000)
@@ -287,13 +289,48 @@ function entryHash(entry) {
 
 // --- validering: kjøres i kode, ikke overlatt til modellen ---------------
 
-const BANNED_ABBREV = /\b(f\.eks|osv|bl\.a|dvs|ca|kl|m\.m|jf|ift|pga)\b\.?/i;
+// \b i JavaScript er ASCII-only: æ, ø og å regnes som ordskille. Det gir feil i
+// begge retninger på norsk — «klær» treffer \bkl\b, og \bpå\b treffer aldri
+// «på». Derfor egne grenser bygd på \p{L}, som krever u-flagget.
+const WB0 = '(?<![\\p{L}\\p{N}_])';
+const WB1 = '(?![\\p{L}\\p{N}_])';
+
+// Mellom leddene i et flerordsuttrykk kan det stå ett ord. Ved inversjon havner
+// subjektet der: «belaget hun seg på» er samme uttrykk som «belaget seg på».
+const GAP = '\\s+(?:[\\p{L}]+\\s+)?';
+
+// Bygger et mønster for en frase, med plass til innskutte ord mellom leddene.
+function phrasePattern(phrase) {
+  return phrase.trim().split(/\s+/).map(esc).join(GAP);
+}
+
+const BANNED_ABBREV = new RegExp(
+  `${WB0}(f\\.eks|osv|bl\\.a|dvs|ca|kl|m\\.m|jf|ift|pga)${WB1}\\.?`, 'iu'
+);
 const BANNED_CHARS = /[()«»"“”:;*_#\[\]{}<>|/\\]/;
 
 function stemOf(word) {
   const bare = word.replace(/^(å|en|ei|et|har)\s+/i, '').trim().toLowerCase();
   if (bare.includes(' ')) return null; // flerordsuttrykk håndteres som hel frase
   return bare.length >= 4 && bare.endsWith('e') ? bare.slice(0, -1) : bare;
+}
+
+// Norsk synkope: ord på trykklett -el, -en, -er mister e-en når det kommer en
+// endelse etter (en grensekrangel → grensekrangler), og en dobbel konsonant
+// forenkles i samme slengen (ekkel → ekle, kjekk → kjekt). Prefiksmatching på
+// grunnformen finner ikke de formene, så variantene legges til her. Verre å
+// telle for lavt enn for høyt: et bomtreff koster tre nye kall til modellen og
+// benker deretter en historie som er helt i orden.
+function stemVariants(stem) {
+  // Grunnformen skal alltid med, uansett hvor kort den er — «å nå» har stammen
+  // «nå». Lengdekravet gjelder bare de avledede variantene, som er gjetninger.
+  const out = new Set([stem]);
+  const add = (s) => { if (s && s.length >= 3) out.add(s); };
+
+  add(stem.replace(/([^aeiouyæøå])e([lnr])$/, '$1$2'));
+  for (const s of [...out]) add(s.replace(/([bdfgklmnprst])\1/g, '$1'));
+
+  return out;
 }
 
 function surfaceForms(entry) {
@@ -314,12 +351,18 @@ function countTarget(story, entry) {
     const needles = [...new Set([bare, ...surfaceForms(entry).map((f) => f.toLowerCase())])]
       .map((f) => f.replace(/\s+/g, ' '))
       .sort((a, b) => b.length - a.length);
-    return (text.match(new RegExp(`\\b(?:${needles.map(esc).join('|')})`, 'g')) || []).length;
+    const alt = needles.map(phrasePattern).join('|');
+    return (text.match(new RegExp(`${WB0}(?:${alt})`, 'gu')) || []).length;
   }
 
-  const stems = new Set([stemOf(entry.no), ...surfaceForms(entry).map(stemOf)].filter(Boolean));
+  const stems = new Set();
+  for (const s of [stemOf(entry.no), ...surfaceForms(entry).map(stemOf)].filter(Boolean)) {
+    for (const v of stemVariants(s)) stems.add(v);
+  }
+  // Lengste først, ellers spiser den korte varianten treffet til den lange og
+  // to former på rad telles som én.
   const alt = [...stems].sort((a, b) => b.length - a.length).map(esc).join('|');
-  return (text.match(new RegExp(`\\b(?:${alt})\\w*`, 'g')) || []).length;
+  return (text.match(new RegExp(`${WB0}(?:${alt})[\\p{L}\\p{N}]*`, 'gu')) || []).length;
 }
 
 function esc(s) {
@@ -329,7 +372,7 @@ function esc(s) {
 function formsPresent(story, entry) {
   const text = story.toLowerCase();
   return surfaceForms(entry).filter((f) =>
-    new RegExp(`\\b${esc(f.toLowerCase())}\\b`).test(text)
+    new RegExp(`${WB0}${phrasePattern(f.toLowerCase())}${WB1}`, 'u').test(text)
   ).length;
 }
 
@@ -613,6 +656,18 @@ function clipPathFor(ssml, key) {
   return path.join(CLIPS, `${key}-${hash(ssml)}.mp3`);
 }
 
+// Én definisjon på «historien er klar til bruk», brukt både av lydsteget og av
+// --sync-app. Ellers spriker de: før ble flagga historier lest inn likevel, så
+// ordet fikk en mp3 appen aldri viste fram.
+//
+// locked betyr at et menneske har sett på historien og godkjent den. Da veier
+// det tyngre enn valideringen, som ikke kan norsk morfologi godt nok til å ha
+// siste ord — se stemVariants.
+function usableStory(record) {
+  if (!record?.story) return false;
+  return record.locked || !(record.needsReview?.length);
+}
+
 async function stageClips(entries, store, render) {
   await fs.mkdir(CLIPS, { recursive: true });
 
@@ -621,6 +676,10 @@ async function stageClips(entries, store, render) {
     const record = store[entry.key];
     if (!record?.story) {
       console.log(`  – hopper over ${entry.no} (ingen historie ennå)`);
+      continue;
+    }
+    if (!usableStory(record)) {
+      console.log(`  – hopper over ${entry.no} (trenger gjennomsyn)`);
       continue;
     }
     const ssml = buildSsml(entry, record.story);
@@ -737,6 +796,44 @@ async function scanWordAudio() {
   return out;
 }
 
+// Kjører valideringen på nytt mot historiene som allerede ligger i
+// stories.json, uten å røre noe API. needsReview i fila er dommen fra den
+// gangen historien ble skrevet, så når selve sjekken rettes står det gamle
+// flagg igjen og benker historier som er helt i orden.
+async function revalidate() {
+  const store = await readJson(STORIES, {});
+  const byKey = new Map((await extract()).map((e) => [e.key, e]));
+
+  let cleared = 0;
+  let flagged = 0;
+  let orphan = 0;
+
+  for (const [key, record] of Object.entries(store)) {
+    if (!record.story) continue;
+
+    const entry = byKey.get(key);
+    if (!entry) { orphan++; continue; }
+
+    const problems = validateStory(record.story, entry);
+    const had = record.needsReview?.length > 0;
+
+    if (problems.length) {
+      record.needsReview = problems;
+      flagged++;
+      if (!had) console.log(`  ! ${record.no} — ${problems.join('; ')}`);
+    } else {
+      delete record.needsReview;
+      if (had) { cleared++; console.log(`  ✓ ${record.no}`); }
+    }
+  }
+
+  await fs.writeFile(STORIES, JSON.stringify(sortKeys(store), null, 2) + '\n');
+  console.log(
+    `validering: ${cleared} historier renset, ${flagged} står fortsatt med flagg` +
+    (orphan ? `, ${orphan} nøkler uten ord i index.html` : '')
+  );
+}
+
 async function syncApp() {
   const store = await readJson(STORIES, {});
   const audio = await scanWordAudio();
@@ -750,7 +847,7 @@ async function syncApp() {
   const lineEnd = src.indexOf('\n', src.indexOf('\n', end) - 1);
 
   const usable = Object.entries(store)
-    .filter(([, v]) => v.story && !(v.needsReview?.length))
+    .filter(([, v]) => usableStory(v))
     .sort(([a], [b]) => a.localeCompare(b, 'no'));
 
   const body = usable.length
@@ -919,6 +1016,7 @@ async function main() {
   await fs.mkdir(CACHE, { recursive: true });
 
   if (opts.listVoices) return listVoices();
+  if (opts.revalidate) return revalidate();
   if (opts.syncApp) return syncApp();
 
   const all = await extract();
