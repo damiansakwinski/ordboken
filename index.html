@@ -2,451 +2,613 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#E4E0D8">
 <title>Ordkort – Tur-retur Norge</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,400&display=swap');
 
   :root{
-    --fjord-900:#0f2a3b;
-    --fjord-700:#1c4a63;
-    --fjord-500:#3d7591;
-    --mist:#dce8ea;
-    --paper:#f6f3ec;
-    --ember:#c2694a;
-    --moss:#5c7457;
+    /* Lys papir — varm off-white, serif-ord, grønn aksent */
+    --canvas:#E4E0D8;
+    --paper:#F6F4EF;
+    --card:#FFFFFF;
+    --ink:#23211E;
+    --ink-2:#3A3833;
+    --ink-3:#5C574E;
+    --muted:#8A857C;
+    --faint:#A8A296;
+    --hair:#E6E2D9;
+    --hair-2:#F0EDE6;
+    --green:#4C7A5B;
+    --green-dark:#3C6349;
+    --green-tint:#E8F0E9;
+    --green-hair:#D9E2DB;
+    --green-wash:#F2F7F3;
+    --ui:'Figtree', system-ui, -apple-system, sans-serif;
+    --serif:'Lora', Georgia, serif;
   }
 
-  *{box-sizing:border-box;}
+  *{ box-sizing:border-box; }
+  [hidden]{ display:none !important; }
 
   body{
     margin:0;
-    min-height:100vh;
-    background:
-      radial-gradient(ellipse at 20% -10%, rgba(255,255,255,0.10), transparent 45%),
-      linear-gradient(180deg, var(--fjord-900) 0%, var(--fjord-700) 55%, var(--fjord-500) 100%);
-    font-family:'Inter', sans-serif;
-    color:var(--paper);
+    min-height:100dvh;
+    background:var(--canvas);
+    font-family:var(--ui);
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px 16px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Telefonen: en varm papirflate som ligger på lerretet. På smale skjermer
+     legger den seg helt ut til kanten og blir selve siden. */
+  .shell{
+    width:100%;
+    max-width:430px;
+    height:min(880px, calc(100dvh - 48px));
+    background:var(--paper);
+    border-radius:44px;
+    overflow:hidden;
+    position:relative;
     display:flex;
     flex-direction:column;
+    box-shadow:0 40px 80px -34px rgba(35,33,30,.45), 0 0 0 1px rgba(35,33,30,.06);
+  }
+
+  @media (max-width:540px){
+    body{ padding:0; align-items:stretch; }
+    .shell{
+      max-width:none;
+      height:100dvh;
+      border-radius:0;
+      box-shadow:none;
+      padding-top:env(safe-area-inset-top);
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+  }
+
+  .topbar{
+    display:flex;
     align-items:center;
-    padding:32px 16px 64px;
-    position:relative;
-    overflow-x:hidden;
-  }
-
-  /* fjelltopper i bakgrunnen */
-  body::before{
-    content:"";
-    position:absolute;
-    bottom:0; left:0; right:0;
-    height:38vh;
-    clip-path: polygon(0% 100%, 0% 62%, 12% 40%, 22% 58%, 34% 22%, 48% 52%, 58% 30%, 70% 55%, 82% 18%, 92% 46%, 100% 30%, 100% 100%);
-    background-color: rgba(255,255,255,0.045);
-    pointer-events:none;
-  }
-
-  header{
-    text-align:center;
-    max-width:560px;
-    margin-bottom:8px;
-    z-index:1;
-  }
-
-  .eyebrow{
+    justify-content:space-between;
+    padding:20px 24px 0;
     font-size:12px;
-    letter-spacing:0.16em;
-    text-transform:uppercase;
-    color:var(--mist);
-    opacity:0.75;
-    margin-bottom:10px;
+    color:var(--muted);
+    flex:none;
+  }
+  .topbar .kilde{ letter-spacing:.08em; text-transform:uppercase; }
+
+  .titlebar{
+    padding:12px 24px 0;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    flex:none;
   }
 
   h1{
-    font-family:'Fraunces', serif;
+    font-family:var(--serif);
     font-weight:600;
-    font-size:clamp(32px, 6vw, 46px);
-    margin:0 0 10px;
-    letter-spacing:-0.01em;
-  }
-
-  header p{
-    color:var(--mist);
-    opacity:0.85;
-    font-size:15px;
-    line-height:1.5;
+    font-size:28px;
     margin:0;
+    letter-spacing:-.01em;
   }
 
-  .stage{
-    margin-top:34px;
+  .meta{ font-size:13px; color:var(--muted); white-space:nowrap; }
+
+  /* faner */
+  .tabs{
     display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:20px;
-    z-index:1;
-    width:100%;
-    max-width:460px;
+    gap:24px;
+    padding:14px 24px 0;
+    border-bottom:1px solid var(--hair);
+    flex:none;
+    overflow-x:auto;
+    scrollbar-width:none;
   }
+  .tabs::-webkit-scrollbar{ display:none; }
 
-  .progress{
-    font-size:13px;
-    color:var(--mist);
-    opacity:0.8;
-    letter-spacing:0.04em;
+  .tab{
+    background:none;
+    border:none;
+    padding:0 0 11px;
+    margin-bottom:-1px;
+    font:inherit;
+    font-size:14px;
+    font-weight:500;
+    color:var(--faint);
+    white-space:nowrap;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    transition:color .15s ease;
   }
+  .tab:hover{ color:var(--ink-3); }
+  .tab.active{ color:var(--ink); font-weight:600; border-bottom-color:var(--ink); }
 
+  .view{ display:none; flex:1; min-height:0; flex-direction:column; }
+  .view.active{ display:flex; }
+
+  /* søk */
+  .searchwrap{ padding:14px 24px 0; flex:none; }
   .search{
     width:100%;
-    max-width:460px;
-    padding:12px 16px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,0.25);
-    background:rgba(255,255,255,0.08);
-    color:var(--paper);
-    font-family:'Inter', sans-serif;
+    height:44px;
+    border-radius:14px;
+    border:1px solid var(--hair);
+    background:var(--card);
+    padding:0 16px;
+    font:inherit;
     font-size:14px;
+    color:var(--ink);
     outline:none;
+    transition:border-color .15s ease;
   }
-  .search::placeholder{ color:var(--mist); opacity:0.6; }
-  .search:focus{ border-color:var(--paper); background:rgba(255,255,255,0.12); }
+  .search::placeholder{ color:var(--faint); }
+  .search:focus{ border-color:var(--green); }
+  .search::-webkit-search-cancel-button{ -webkit-appearance:none; }
 
-  .catbar{
+  /* kilder */
+  .chiprow{
     display:flex;
-    flex-wrap:wrap;
     gap:8px;
-    justify-content:center;
-    width:100%;
-    max-width:460px;
+    padding:12px 24px 0;
+    overflow-x:auto;
+    flex:none;
+    scrollbar-width:none;
   }
+  .chiprow::-webkit-scrollbar{ display:none; }
+
   .catbtn{
     flex:none;
-    border:1px solid rgba(255,255,255,0.22);
-    background:rgba(255,255,255,0.06);
-    color:var(--mist);
-    padding:7px 14px;
+    padding:9px 14px;
     border-radius:999px;
-    font-family:'Inter', sans-serif;
+    border:1px solid var(--hair);
+    background:var(--card);
+    color:var(--ink-3);
+    font:inherit;
     font-size:13px;
-    font-weight:500;
+    white-space:nowrap;
     cursor:pointer;
-    transition:background 0.2s ease, color 0.2s ease;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
-  .catbtn:hover{ background:rgba(255,255,255,0.12); }
-  .catbtn.active{ background:var(--paper); color:var(--fjord-900); border-color:var(--paper); }
+  .catbtn:hover{ border-color:var(--faint); }
+  .catbtn.active{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
 
-  .lbl{ font-size:12px; color:var(--mist); opacity:0.7; align-self:center; }
-  .lbtn{
+  /* vis-filter + framdrift */
+  .filterrow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 24px 0;
     flex:none;
-    border:1px solid rgba(255,255,255,0.22);
-    background:rgba(255,255,255,0.06);
-    color:var(--mist);
-    padding:6px 12px;
+  }
+  .lbtns{ display:flex; gap:6px; }
+  .lbtn{
+    padding:7px 12px;
     border-radius:999px;
-    font-family:'Inter', sans-serif;
-    font-size:12.5px;
+    border:1px solid var(--hair);
+    background:var(--card);
+    color:var(--muted);
+    font:inherit;
+    font-size:12px;
     cursor:pointer;
-    transition:background 0.2s ease, color 0.2s ease;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
-  .lbtn:hover{ background:rgba(255,255,255,0.12); }
-  .lbtn.active{ background:var(--moss); color:var(--paper); border-color:var(--moss); }
+  .lbtn:hover{ border-color:var(--faint); }
+  .lbtn.active{ border-color:var(--green); background:var(--green-tint); color:var(--green-dark); }
 
-  #knownBtn.known{ background:var(--moss); border-color:var(--moss); color:var(--paper); }
+  .track{
+    width:74px;
+    height:3px;
+    flex:none;
+    border-radius:2px;
+    background:var(--hair);
+    overflow:hidden;
+  }
+  .track > i{ display:block; height:100%; width:0; background:var(--green); border-radius:2px; transition:width .3s ease; }
 
-  #dirBtn.active-dir{ background:var(--fjord-500); border-color:var(--fjord-500); color:var(--paper); }
-
-  .card.is-known .front::after{
-    content:"✓ lært";
-    position:absolute;
-    top:12px; right:14px;
-    font-size:11px;
-    letter-spacing:0.06em;
-    color:var(--moss);
-    font-weight:600;
+  /* kortet */
+  .cardwrap{
+    flex:1;
+    min-height:0;
+    padding:16px 24px 0;
+    display:flex;
   }
 
-  .card{
-    width:100%;
-    height:330px;
+  /* Kortet strekker seg med skjermen, men ikke i det uendelige — på en høy
+     skjerm blir det liggende midt i feltet i stedet for å bli et tomt ark. */
+  .cardpos{
+    position:relative;
+    flex:1;
+    height:100%;
+    max-height:540px;
+    align-self:center;
     perspective:1400px;
-    cursor:pointer;
   }
+
+  .card{ width:100%; height:100%; cursor:pointer; }
 
   .card-inner{
     position:relative;
     width:100%;
     height:100%;
-    transition:transform 0.55s cubic-bezier(.4,.2,.2,1);
     transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.4,0,.2,1);
   }
-
-  .card.flipped .card-inner{
-    transform:rotateY(180deg);
-  }
+  .card.flipped .card-inner{ transform:rotateY(180deg); }
 
   .face{
     position:absolute;
     inset:0;
-    border-radius:18px;
+    backface-visibility:hidden;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    background:var(--card);
+    border-radius:26px;
+    border:1px solid var(--hair);
+    box-shadow:0 18px 34px -26px rgba(35,33,30,.55);
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:28px;
-    backface-visibility:hidden;
-    box-shadow:0 18px 40px rgba(6,20,28,0.35);
-  }
-
-  .front{
-    background:linear-gradient(160deg, var(--paper), #ece6d8);
-    color:var(--fjord-900);
-  }
-
-  .back{
-    background:linear-gradient(160deg, var(--ember), #a24f34);
-    color:var(--paper);
-    transform:rotateY(180deg);
-  }
-
-  .face .tag{
-    font-size:11px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    opacity:0.6;
-    margin-bottom:14px;
-  }
-
-  .face .word{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size:clamp(24px, 5vw, 32px);
+    justify-content:safe center;   /* så toppen ikke blir uleselig når kortet er lavt */
+    gap:14px;
+    padding:34px 28px 56px;
     text-align:center;
-    line-height:1.15;
+  }
+  .back{ transform:rotateY(180deg); }
+
+
+  .tag{
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--faint);
+    font-weight:600;
   }
 
-  .face .hint{
-    margin-top:16px;
-    font-size:12.5px;
-    opacity:0.65;
+  .word{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(23px, 7.4vw, 30px);
+    line-height:1.2;
+    letter-spacing:-.01em;
+    overflow-wrap:break-word;
+    max-width:100%;
+    text-wrap:pretty;
+  }
+
+  .hint{
+    position:absolute;
+    left:0; right:0; bottom:24px;
+    font-size:13px;
+    color:var(--faint);
   }
 
   .conj{
     display:none;
     grid-template-columns:auto 1fr;
-    gap:3px 14px;
-    margin-top:14px;
+    gap:4px 14px;
     width:100%;
     max-width:250px;
     text-align:left;
   }
   .conj .cl{
     font-size:10px;
-    letter-spacing:0.08em;
+    letter-spacing:.08em;
     text-transform:uppercase;
-    opacity:0.6;
+    color:var(--faint);
+    font-weight:600;
     align-self:center;
   }
-  .conj .cv{
-    font-size:14px;
-    font-weight:600;
-  }
+  .conj .cv{ font-size:14px; font-weight:600; color:var(--ink); }
 
   .example{
-    margin-top:14px;
-    font-size:13.5px;
-    line-height:1.45;
-    text-align:center;
-    opacity:0.92;
+    margin:0;
+    max-width:300px;
+    font-family:var(--serif);
     font-style:italic;
-    max-width:340px;
+    font-weight:400;
+    font-size:16px;
+    line-height:1.5;
+    color:var(--ink-3);
+    text-wrap:pretty;
   }
 
-  /* Historien legger seg over hele baksiden i stedet for å presse kortet
-     større — alle kort er like høye. Rulles innvendig hvis teksten er lang. */
-  .story{
+  .storyBtn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid var(--green-hair);
+    background:var(--green-wash);
+    font:inherit;
+    font-size:13px;
+    font-weight:500;
+    color:var(--green-dark);
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .storyBtn:hover{ background:var(--green-tint); }
+
+  .srcpill{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--faint);
+    border:1px solid var(--hair);
+    border-radius:999px;
+    padding:5px 12px;
+    white-space:nowrap;
+  }
+
+  .card.is-known .front::after{
+    content:"✓ lært";
+    position:absolute;
+    top:18px; right:20px;
+    font-size:11px;
+    letter-spacing:.06em;
+    font-weight:600;
+    color:var(--green);
+  }
+
+  /* historien legger seg over kortet — samme flate, ikke et nytt vindu */
+  .storypanel{
     position:absolute;
     inset:0;
-    display:none;
-    border-radius:18px;
-    /* Toppen holdes av til knappene, som ligger oppå historien. */
-    padding:48px 24px 26px;
-    background:linear-gradient(160deg, var(--ember), #a24f34);
-    font-size:14px;
-    line-height:1.6;
-    text-align:left;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
+    z-index:3;
+    background:var(--card);
+    border-radius:26px;
+    border:1px solid var(--hair);
+    box-shadow:0 18px 34px -26px rgba(35,33,30,.55);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
   }
 
-  .story.vis{ display:block; }
+  .storyhead{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--hair-2);
+    flex:none;
+  }
 
-  /* Knappene ligger utenfor .story så de er synlige i begge tilstandene. */
-  .storyBtn, .playBtn{
-    position:absolute;
-    top:12px;
-    z-index:2;
-    border:1px solid rgba(255,255,255,0.28);
-    background:rgba(0,0,0,0.16);
+  .playBtn{
+    width:44px; height:44px;
+    flex:none;
+    border-radius:50%;
+    border:none;
+    background:var(--green);
     color:var(--paper);
     font:inherit;
-    font-size:11.5px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    padding:5px 11px;
-    border-radius:999px;
+    font-size:13px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .playBtn:hover{ background:var(--green-dark); }
+  .playBtn.spiller{ font-size:11px; letter-spacing:2px; text-indent:2px; }
+
+  .storymeta{ flex:1; min-width:0; display:flex; flex-direction:column; gap:7px; }
+  .storymetatop{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
+  .bar{ height:3px; border-radius:2px; background:var(--hair); overflow:hidden; }
+  .bar > i{ display:block; height:100%; width:0; background:var(--green); border-radius:2px; }
+
+  .closeBtn{
+    background:none;
+    border:none;
+    padding:0 2px;
+    font:inherit;
+    font-size:13px;
+    color:var(--muted);
     cursor:pointer;
   }
+  .closeBtn:hover{ color:var(--ink); }
 
-  .storyBtn{ right:14px; }
-  .playBtn{ left:14px; }
+  .storybody{
+    flex:1;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:20px 20px 24px;
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.7;
+    color:var(--ink-2);
+    text-wrap:pretty;
+  }
 
-  .storyBtn:hover, .playBtn:hover{ background:rgba(0,0,0,0.28); }
-  .playBtn.spiller{ background:rgba(0,0,0,0.34); border-color:rgba(255,255,255,0.5); }
-  .storyBtn[hidden], .playBtn[hidden]{ display:none; }
+  /* ord uten lydklipp: bare teksten, ingen spiller */
+  .storypanel.noaudio .playBtn,
+  .storypanel.noaudio .bar,
+  .storypanel.noaudio .tid{ display:none; }
 
+  /* knapperad */
   .controls{
     display:flex;
-    gap:12px;
-    width:100%;
-    max-width:460px;
+    align-items:center;
+    gap:10px;
+    padding:18px 24px 0;
+    flex:none;
   }
 
-  button{
-    flex:1;
-    border:1px solid rgba(255,255,255,0.25);
-    background:rgba(255,255,255,0.06);
-    color:var(--paper);
-    padding:13px 16px;
-    border-radius:12px;
-    font-family:'Inter', sans-serif;
-    font-size:14px;
-    font-weight:500;
+  .navbtn{
+    width:52px; height:52px;
+    flex:none;
+    border-radius:16px;
+    border:1px solid var(--hair);
+    background:var(--card);
+    color:var(--ink);
+    font:inherit;
+    font-size:17px;
     cursor:pointer;
-    transition:background 0.2s ease, transform 0.15s ease;
+    transition:background .15s ease;
+  }
+  .navbtn:hover{ background:#FBFAF7; }
+
+  .mainbtn{
+    flex:1;
+    height:52px;
+    border-radius:16px;
+    border:1px solid transparent;
+    background:var(--green);
+    color:var(--paper);
+    font:inherit;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .mainbtn:hover{ background:var(--green-dark); }
+  .mainbtn.known{ background:var(--green-tint); border-color:var(--green); color:var(--green-dark); }
+
+  .footrow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:16px 26px 0;
+    flex:none;
   }
 
-  button:hover{ background:rgba(255,255,255,0.14); }
-  button:active{ transform:scale(0.97); }
-  button:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
-
-  button.primary{
-    background:var(--moss);
-    border-color:var(--moss);
+  .linkbtn{
+    background:none;
+    border:none;
+    padding:0;
+    font:inherit;
+    font-size:14px;
+    color:var(--ink-3);
+    cursor:pointer;
   }
-  button.primary:hover{ background:#6c8865; }
+  .linkbtn:hover{ color:var(--ink); }
+
+  .switchbtn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:none;
+    border:none;
+    padding:0;
+    font:inherit;
+    font-size:14px;
+    color:var(--ink-3);
+    cursor:pointer;
+  }
+  .switch{
+    width:38px; height:22px;
+    flex:none;
+    border-radius:999px;
+    padding:2px;
+    display:flex;
+    justify-content:flex-start;
+    background:#D6D1C6;
+    transition:background .18s ease, justify-content .18s ease;
+  }
+  .switch > i{ display:block; width:18px; height:18px; border-radius:50%; background:#FFFFFF; }
+  .switchbtn.on{ color:var(--ink); }
+  .switchbtn.on .switch{ background:var(--green); justify-content:flex-end; }
 
   .footnote{
-    margin-top:26px;
-    font-size:12px;
-    color:var(--mist);
-    opacity:0.55;
+    padding:14px 24px 22px;
+    font-size:11.5px;
+    letter-spacing:.02em;
+    color:var(--faint);
     text-align:center;
-    z-index:1;
+    flex:none;
+  }
+
+  /* notater */
+  .notes{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:18px 22px 4px; }
+
+  .note{
+    background:var(--card);
+    border:1px solid var(--hair);
+    border-radius:22px;
+    padding:22px;
+    margin-bottom:16px;
+    box-shadow:0 14px 30px -26px rgba(35,33,30,.5);
+  }
+
+  .note h3{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:-.01em;
+    margin:0 0 12px;
+  }
+
+  .note p{ font-size:14.5px; line-height:1.65; margin:0 0 12px; color:var(--ink-2); }
+  .note p:last-child{ margin-bottom:0; }
+  .note ul{ margin:0 0 12px; padding-left:20px; }
+  .note li{ font-size:14.5px; line-height:1.7; margin-bottom:5px; color:var(--ink-2); }
+  .note .ex{ font-family:var(--serif); font-style:italic; color:var(--ink-3); }
+  .note strong{ color:var(--ink); font-weight:600; }
+  .note .arrow{ color:var(--green); font-weight:600; }
+  .note .rule{
+    background:var(--green-wash);
+    border-left:3px solid var(--green);
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:14.5px;
+    line-height:1.6;
+    margin:0 0 14px;
+    color:var(--ink-2);
+  }
+
+  button:focus-visible, .search:focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
+  .navbtn:active, .mainbtn:active{ transform:scale(.985); }
+
+  /* Lave skjermer: kortet får mindre luft så baksiden ikke renner ut. */
+  @media (max-height:760px){
+    .face{ padding:20px 20px; gap:10px; }
+    .conj{ gap:2px 12px; }
+    .example{ font-size:15px; }
+    /* Hintet og kildemerket går inn i flyten — de har ikke plass til å
+       ligge og flyte nederst når kortet er lavt. */
+    .hint, .srcpill{ position:static; transform:none; }
+    /* … og resten av skjermen strammes inn så kortet får det den kan få. */
+    .topbar{ padding-top:12px; }
+    .titlebar{ padding-top:8px; }
+    h1{ font-size:24px; }
+    .searchwrap, .chiprow, .filterrow, .cardwrap{ padding-top:10px; }
+    .controls{ padding-top:12px; }
+    .footrow{ padding-top:10px; }
+    .footnote{ padding:10px 24px 14px; }
   }
 
   @media (prefers-reduced-motion: reduce){
     .card-inner{ transition:none; }
   }
-
-  /* faner / navigasjon */
-  .tabs{
-    display:flex;
-    gap:8px;
-    margin-top:22px;
-    z-index:1;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.15);
-    border-radius:14px;
-    padding:5px;
-  }
-
-  .tab{
-    border:none;
-    background:transparent;
-    color:var(--mist);
-    padding:9px 20px;
-    border-radius:10px;
-    font-family:'Inter', sans-serif;
-    font-size:14px;
-    font-weight:500;
-    cursor:pointer;
-    flex:none;
-    transition:background 0.2s ease, color 0.2s ease;
-  }
-  .tab:hover{ background:rgba(255,255,255,0.10); }
-  .tab.active{
-    background:var(--paper);
-    color:var(--fjord-900);
-  }
-
-  .view{ display:none; width:100%; align-items:center; flex-direction:column; }
-  .view.active{ display:flex; }
-
-  /* notater */
-  .notes{
-    width:100%;
-    max-width:560px;
-    margin-top:30px;
-    z-index:1;
-  }
-
-  .note{
-    background:linear-gradient(160deg, var(--paper), #ece6d8);
-    color:var(--fjord-900);
-    border-radius:16px;
-    padding:24px 26px;
-    box-shadow:0 14px 34px rgba(6,20,28,0.30);
-    margin-bottom:18px;
-  }
-
-  .note h3{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size:20px;
-    margin:0 0 12px;
-  }
-
-  .note p{
-    font-size:14.5px;
-    line-height:1.6;
-    margin:0 0 12px;
-  }
-  .note p:last-child{ margin-bottom:0; }
-
-  .note ul{
-    margin:0 0 12px;
-    padding-left:20px;
-  }
-  .note li{
-    font-size:14.5px;
-    line-height:1.7;
-    margin-bottom:4px;
-  }
-
-  .note .ex{ font-style:italic; }
-
-  .note strong{ color:var(--ember); font-weight:600; }
-
-  .note .rule{
-    background:rgba(28,74,99,0.08);
-    border-left:3px solid var(--fjord-500);
-    border-radius:8px;
-    padding:12px 16px;
-    font-size:14.5px;
-    line-height:1.6;
-    margin:0 0 14px;
-  }
-
-  .note .arrow{ color:var(--moss); font-weight:600; }
 </style>
 </head>
 <body>
 
-  <header>
-    <div class="eyebrow">Tur–retur Norge · Ordtrening</div>
+<div class="shell">
+
+  <div class="topbar">
+    <span>Ordboken</span>
+    <span class="kilde">Tur–retur Norge</span>
+  </div>
+
+  <div class="titlebar">
     <h1>Ordkort</h1>
-    <p>Trykk på kortet for å se det norske ordet og eksempelet fra boken.</p>
-  </header>
+    <span class="meta" id="meta">Kort 1 av 312</span>
+  </div>
 
   <div class="tabs">
     <button class="tab active" id="tabCards">Ordkort</button>
@@ -455,53 +617,78 @@
   </div>
 
   <div class="view active" id="viewCards">
-    <div class="stage">
-      <input type="search" id="search" class="search" placeholder="Søk etter ord (norsk eller engelsk)…" autocomplete="off">
-      <div class="catbar">
-        <button class="catbtn active" data-cat="Alle">Alle</button>
-        <button class="catbtn" data-cat="Tur-retur">Tur-retur</button>
-        <button class="catbtn" data-cat="Peppa Pig">Peppa Pig</button>
-        <button class="catbtn" data-cat="Distriktsnyheter Rogaland">Distriktsnyheter</button>
-        <button class="catbtn" data-cat="finn.no">finn.no</button>
-        <button class="catbtn" data-cat="Andre">Andre</button>
-      </div>
-      <div class="catbar">
-        <span class="lbl">Vis:</span>
+
+    <div class="searchwrap">
+      <input type="search" id="search" class="search" placeholder="Søk etter ord — norsk eller engelsk" autocomplete="off">
+    </div>
+
+    <div class="chiprow">
+      <button class="catbtn active" data-cat="Alle">Alle</button>
+      <button class="catbtn" data-cat="Tur-retur">Tur-retur</button>
+      <button class="catbtn" data-cat="Peppa Pig">Peppa Pig</button>
+      <button class="catbtn" data-cat="Distriktsnyheter Rogaland">Distriktsnyheter</button>
+      <button class="catbtn" data-cat="finn.no">finn.no</button>
+      <button class="catbtn" data-cat="Andre">Andre</button>
+    </div>
+
+    <div class="filterrow">
+      <div class="lbtns">
         <button class="lbtn active" data-learn="alle">Alle</button>
         <button class="lbtn" data-learn="ikke">Ikke lært</button>
         <button class="lbtn" data-learn="lart">Lært</button>
       </div>
-      <div class="progress" id="progress">Kort 1 av 312</div>
+      <div class="track"><i id="progFill"></i></div>
+    </div>
 
+    <div class="cardwrap">
+     <div class="cardpos">
       <div class="card" id="card">
         <div class="card-inner">
           <div class="face front">
-            <div class="tag" id="frontTag">Engelsk</div>
-            <div class="word" id="frontWord">still</div>
-            <div class="hint">trykk for å snu</div>
+            <span class="tag" id="frontTag">Engelsk</span>
+            <span class="word" id="frontWord">still</span>
+            <span class="hint">trykk for å snu</span>
           </div>
           <div class="face back">
-            <div class="tag" id="backTag">Norsk</div>
-            <div class="word" id="backWord">fremdeles</div>
+            <span class="tag" id="backTag">Norsk</span>
+            <span class="word" id="backWord">fremdeles</span>
             <div class="conj" id="backConj"></div>
-            <div class="example" id="backExample">"...det kiler fremdeles like mye i magen..."</div>
-            <button type="button" class="storyBtn" id="storyBtn" hidden>Historie</button>
-            <button type="button" class="playBtn" id="playBtn" hidden>▶ Spill</button>
-            <div class="story" id="backStory"></div>
+            <p class="example" id="backExample">«...det kiler fremdeles like mye i magen...»</p>
+            <button type="button" class="storyBtn" id="storyBtn" hidden>Les historien</button>
+            <span class="srcpill" id="srcPill" hidden></span>
           </div>
         </div>
       </div>
 
-      <div class="controls">
-        <button id="prevBtn">← Forrige</button>
-        <button id="shuffleBtn" class="primary">Stokk kortene</button>
-        <button id="nextBtn">Neste →</button>
+      <div class="storypanel" id="storyPanel" hidden>
+        <div class="storyhead">
+          <button type="button" class="playBtn" id="playBtn">▶</button>
+          <div class="storymeta">
+            <div class="storymetatop">
+              <span>Kort historie</span>
+              <span class="tid" id="storyTime">0:00 / 0:00</span>
+            </div>
+            <div class="bar"><i id="audioFill"></i></div>
+          </div>
+          <button type="button" class="closeBtn" id="closeStory">Lukk</button>
+        </div>
+        <div class="storybody" id="backStory"></div>
       </div>
+     </div>
+    </div>
 
-      <div class="controls" style="margin-top:-8px;">
-        <button id="dirBtn">🔁 Norsk først</button>
-        <button id="knownBtn">✓ Marker som lært</button>
-      </div>
+    <div class="controls">
+      <button type="button" class="navbtn" id="prevBtn" aria-label="Forrige kort">←</button>
+      <button type="button" class="mainbtn" id="knownBtn">Marker som lært</button>
+      <button type="button" class="navbtn" id="nextBtn" aria-label="Neste kort">→</button>
+    </div>
+
+    <div class="footrow">
+      <button type="button" class="linkbtn" id="shuffleBtn">Stokk kortene</button>
+      <button type="button" class="switchbtn" id="dirBtn" aria-pressed="false">
+        <span>Norsk først</span>
+        <span class="switch"><i></i></span>
+      </button>
     </div>
 
     <div class="footnote">312 ord · «Tur–retur Norge» og andre kilder</div>
@@ -624,33 +811,36 @@
   </div>
 
   <div class="view" id="viewVerbs">
-    <div class="stage">
-      <div class="progress" id="progressV">Kort 1 av 150</div>
 
+    <div class="cardwrap">
+     <div class="cardpos">
       <div class="card" id="cardV">
         <div class="card-inner">
           <div class="face front">
-            <div class="tag">Engelsk</div>
-            <div class="word" id="frontWordV">to be</div>
-            <div class="hint">trykk for å snu</div>
+            <span class="tag">Engelsk</span>
+            <span class="word" id="frontWordV">to be</span>
+            <span class="hint">trykk for å snu</span>
           </div>
           <div class="face back">
-            <div class="tag">Norsk · uregelrett verb</div>
-            <div class="word" id="backWordV">å være</div>
+            <span class="tag">Norsk · uregelrett verb</span>
+            <span class="word" id="backWordV">å være</span>
             <div class="conj" id="backConjV"></div>
           </div>
         </div>
       </div>
+     </div>
+    </div>
 
-      <div class="controls">
-        <button id="prevBtnV">← Forrige</button>
-        <button id="shuffleBtnV" class="primary">Stokk kortene</button>
-        <button id="nextBtnV">Neste →</button>
-      </div>
+    <div class="controls">
+      <button type="button" class="navbtn" id="prevBtnV" aria-label="Forrige kort">←</button>
+      <button type="button" class="mainbtn" id="shuffleBtnV">Stokk kortene</button>
+      <button type="button" class="navbtn" id="nextBtnV" aria-label="Neste kort">→</button>
     </div>
 
     <div class="footnote">150 uregelrette verb i bokmål · sortert etter frekvens</div>
   </div>
+
+</div>
 
 <script>
   const words = [
@@ -967,9 +1157,9 @@
     { en: "grey", no: "grå", ex: "«Ganske grått i Finnmark i dag.»", cat: "Distriktsnyheter Rogaland" },
     { en: "an exception", no: "et unntak", ex: "«Unntaket er kanskje vest i Finnmark.»", cat: "Distriktsnyheter Rogaland" }
   ];
-
   let order = words.map((_, i) => i);
   let pos = 0;
+  let activeTab = 'tabCards';
 
   const card = document.getElementById('card');
   const frontWord = document.getElementById('frontWord');
@@ -978,76 +1168,123 @@
   const backTag = document.getElementById('backTag');
   const backConj = document.getElementById('backConj');
   const backExample = document.getElementById('backExample');
-  const backStory = document.getElementById('backStory');
+  const srcPill = document.getElementById('srcPill');
   const storyBtn = document.getElementById('storyBtn');
+
+  // Historiepanelet ligger over kortet, ikke inni det — derfor slipper det
+  // også unna sveipe- og vendehåndtererne, som henger på .card.
+  const storyPanel = document.getElementById('storyPanel');
+  const backStory = document.getElementById('backStory');
   const playBtn = document.getElementById('playBtn');
+  const storyTime = document.getElementById('storyTime');
+  const audioFill = document.getElementById('audioFill');
+  const closeStoryBtn = document.getElementById('closeStory');
+
   const player = new Audio();
   player.preload = 'none';
   let clipSrc = null;
 
-  // Kortet snus på pointerup (se addSwipe), ikke på click. Derfor må pointer-
-  // hendelsene stoppes her — en click-handler kommer for sent til å hindre
-  // vendingen, og et strøk over historien skal heller ikke bla videre.
-  for(const el of [storyBtn, playBtn, backStory]){
-    for(const type of ['pointerdown','pointerup','pointermove','pointercancel']){
-      el.addEventListener(type, (e) => e.stopPropagation());
-    }
+  // Kortet snus på pointerup (se addSwipe), ikke på click. En click-handler
+  // kommer for sent til å hindre vendingen, så knappen på baksiden må stoppe
+  // pointer-hendelsene sine selv.
+  for(const type of ['pointerdown','pointerup','pointermove','pointercancel']){
+    storyBtn.addEventListener(type, (e) => e.stopPropagation());
+  }
+
+  const klokke = (s) => {
+    s = Math.max(0, Math.floor(s || 0));
+    return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  };
+
+  function paintTime(){
+    const d = isFinite(player.duration) ? player.duration : 0;
+    storyTime.textContent = klokke(player.currentTime) + ' / ' + klokke(d);
+    audioFill.style.width = (d ? (player.currentTime / d) * 100 : 0) + '%';
   }
 
   function stopClip(){
     player.pause();
     player.currentTime = 0;
     playBtn.classList.remove('spiller');
-    playBtn.textContent = '▶ Spill';
+    playBtn.textContent = '▶';
+    paintTime();
   }
 
   player.addEventListener('ended', stopClip);
+  player.addEventListener('timeupdate', paintTime);
+  player.addEventListener('loadedmetadata', paintTime);
   player.addEventListener('error', () => {
     stopClip();
-    playBtn.textContent = 'Fant ikke lyd';
+    storyTime.textContent = 'fant ikke lyd';
   });
+
+  function play(){
+    playBtn.classList.add('spiller');
+    playBtn.textContent = '❚❚';
+    const p = player.play();
+    if(p && p.catch) p.catch(() => { playBtn.classList.remove('spiller'); playBtn.textContent = '▶'; });
+  }
+  function pause(){
+    player.pause();
+    playBtn.classList.remove('spiller');
+    playBtn.textContent = '▶';
+  }
 
   playBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if(player.paused){
-      player.play();
-      playBtn.classList.add('spiller');
-      playBtn.textContent = '❚❚ Pause';
-    } else {
-      player.pause();
-      playBtn.classList.remove('spiller');
-      playBtn.textContent = '▶ Spill';
-    }
+    if(player.paused) play(); else pause();
   });
 
-  storyBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const open = backStory.classList.toggle('vis');
-    storyBtn.textContent = open ? 'Lukk' : 'Historie';
-    // Spilleknappen hører til historien: den vises bare når historien er åpen,
-    // og bare når ordet faktisk har et klipp i ord/.
-    playBtn.hidden = !open || !clipSrc;
-    if(open) backStory.scrollTop = 0;
-    else stopClip();
-  });
-  const progress = document.getElementById('progress');
+  function openStory(){
+    storyPanel.hidden = false;
+    // Uten klipp er det bare teksten — spilleren gjemmes bort.
+    storyPanel.classList.toggle('noaudio', !clipSrc);
+    backStory.scrollTop = 0;
+    if(clipSrc){ paintTime(); play(); }
+  }
+
+  function closeStory(){
+    storyPanel.hidden = true;
+    stopClip();
+  }
+
+  storyBtn.addEventListener('click', (e) => { e.stopPropagation(); openStory(); });
+  closeStoryBtn.addEventListener('click', () => closeStory());
+
+  const meta = document.getElementById('meta');
+  const progFill = document.getElementById('progFill');
   let direction = 'en'; // 'en' = engelsk først, 'no' = norsk først
 
+  // Telleren i tittelraden deles av begge kortstokkene.
+  function syncMeta(){
+    if(activeTab === 'tabVerbs'){ meta.textContent = `Kort ${posV + 1} av ${verbs.length}`; return; }
+    if(activeTab !== 'tabCards'){ meta.textContent = ''; return; }
+    if(order.length === 0){ meta.textContent = 'Ingen treff'; return; }
+    meta.textContent = order.length === words.length
+      ? `Kort ${pos + 1} av ${words.length}`
+      : `Kort ${pos + 1} av ${order.length} · filtrert`;
+  }
+
   function render(){
+    closeStory();
     if(order.length === 0){
+      frontTag.textContent = direction === 'no' ? 'Norsk' : 'Engelsk';
+      backTag.textContent  = direction === 'no' ? 'Engelsk' : 'Norsk';
       frontWord.textContent = 'Ingen treff';
       backWord.textContent = 'Ingen treff';
       backConj.style.display = 'none';
       backConj.innerHTML = '';
-      backExample.textContent = 'Prøv et annet søk';
+      backExample.textContent = 'Juster søket eller filtrene for å se flere kort.';
       backStory.textContent = '';
-      backStory.classList.remove('vis');
       storyBtn.hidden = true;
-      stopClip();
+      srcPill.hidden = true;
       clipSrc = null;
-      playBtn.hidden = true;
-      progress.textContent = '0 treff';
-      card.classList.remove('flipped');
+      player.removeAttribute('src');
+      card.classList.remove('flipped', 'is-known');
+      knownBtn.textContent = 'Marker som lært';
+      knownBtn.classList.remove('known');
+      progFill.style.width = '0%';
+      syncMeta();
       return;
     }
     const w = words[order[pos]];
@@ -1074,31 +1311,29 @@
       backConj.innerHTML = '';
     }
     backExample.textContent = w.ex;
-    // Historien starter alltid skjult, også når man blar videre.
+    srcPill.hidden = !w.cat;
+    srcPill.textContent = w.cat || '';
+
+    // Historien starter alltid lukket, også når man blar videre.
     const key = storyKey(w.no);
     const story = stories[key];
     backStory.textContent = story || '';
-    backStory.classList.remove('vis');
-    backStory.scrollTop = 0;
     storyBtn.hidden = !story;
-    storyBtn.textContent = 'Historie';
 
     // Klippet lastes først når man trykker spill — src settes nå, men preload
     // er «none», så det koster ingenting å bla forbi et ord man ikke hører på.
-    stopClip();
     clipSrc = clips[key] || null;
+    storyBtn.textContent = clipSrc ? '▶ Hør historien' : 'Les historien';
     if(clipSrc) player.src = encodeURI(clipSrc);
     else player.removeAttribute('src');
-    playBtn.hidden = true;
-    progress.textContent = order.length === words.length
-      ? `Kort ${pos + 1} av ${words.length}`
-      : `Kort ${pos + 1} av ${order.length} (filtrert)`;
+
     card.classList.remove('flipped');
-    // lært-tilstand
-    const isKnown = known.has(w.no);
+    const isKnown = known.has(keyOf(w));
     card.classList.toggle('is-known', isKnown);
-    knownBtn.textContent = isKnown ? '✓ Lært (trykk for å angre)' : '✓ Marker som lært';
+    knownBtn.textContent = isKnown ? 'Lært' : 'Marker som lært';
     knownBtn.classList.toggle('known', isKnown);
+    progFill.style.width = ((pos + 1) / order.length) * 100 + '%';
+    syncMeta();
   }
 
   function shuffleOrder(){
@@ -1126,7 +1361,7 @@
     render();
   }
 
-  // søk + kategori + lært
+  // søk + kilde + lært
   const searchInput = document.getElementById('search');
   let currentCat = 'Alle';
   let learnFilter = 'alle';
@@ -1181,8 +1416,8 @@
   const dirBtn = document.getElementById('dirBtn');
   dirBtn.addEventListener('click', () => {
     direction = (direction === 'en') ? 'no' : 'en';
-    dirBtn.textContent = (direction === 'no') ? '🔁 Engelsk først' : '🔁 Norsk først';
-    dirBtn.classList.toggle('active-dir', direction === 'no');
+    dirBtn.classList.toggle('on', direction === 'no');
+    dirBtn.setAttribute('aria-pressed', String(direction === 'no'));
     render();
   });
 
@@ -1238,7 +1473,6 @@
   document.getElementById('nextBtn').addEventListener('click', next);
   document.getElementById('prevBtn').addEventListener('click', prev);
   document.getElementById('shuffleBtn').addEventListener('click', shuffle);
-
 
 
   // ── Uregelrette verb-stokk ──
@@ -1394,7 +1628,6 @@
     { en: "to ooze / seep", no: "å tyte", conj: {inf:"å tyte", pres:"tyter", fort:"tøt", perf:"har tytt"} },
     { en: "to stride / proceed", no: "å skride", conj: {inf:"å skride", pres:"skrider", fort:"skred", perf:"har skredet"} }
   ];
-
   // ── historier: generert, ikke rediger for hånd ───────────────────────────
   // Skriv om med:  node tools/build-podcast.mjs --sync-app
   // Kilden er stories.json; rett teksten der og kjør kommandoen på nytt.
@@ -1751,7 +1984,6 @@
   const frontWordV = document.getElementById('frontWordV');
   const backWordV = document.getElementById('backWordV');
   const backConjV = document.getElementById('backConjV');
-  const progressV = document.getElementById('progressV');
 
   function renderV(){
     const w = verbs[orderV[posV]];
@@ -1763,8 +1995,8 @@
       '<span class="cl">presens</span><span class="cv">' + w.conj.pres + '</span>' +
       '<span class="cl">fortid</span><span class="cv">' + w.conj.fort + '</span>' +
       '<span class="cl">perfektum</span><span class="cv">' + w.conj.perf + '</span>';
-    progressV.textContent = `Kort ${posV + 1} av ${verbs.length}`;
     cardV.classList.remove('flipped');
+    syncMeta();
   }
   function nextV(){ posV = (posV + 1) % verbs.length; renderV(); }
   function prevV(){ posV = (posV - 1 + verbs.length) % verbs.length; renderV(); }
@@ -1779,28 +2011,24 @@
   document.getElementById('nextBtnV').addEventListener('click', nextV);
   document.getElementById('prevBtnV').addEventListener('click', prevV);
   document.getElementById('shuffleBtnV').addEventListener('click', shuffleV);
-  renderV();
 
   // faner
   const h1 = document.querySelector('h1');
-  const subtitle = document.querySelector('header p');
   const tabDefs = [
-    { tab: 'tabCards', view: 'viewCards', title: 'Ordkort',
-      sub: 'Trykk på kortet for å se det norske ordet og eksempelet fra boken.' },
-    { tab: 'tabNotes', view: 'viewNotes', title: 'Notater',
-      sub: 'Grammatikk og forklaringer jeg samler underveis.' },
-    { tab: 'tabVerbs', view: 'viewVerbs', title: 'Uregelrette verb',
-      sub: '150 vanlige uregelrette verb — engelsk på forsiden, bøyning på baksiden.' }
+    { tab: 'tabCards', view: 'viewCards', title: 'Ordkort' },
+    { tab: 'tabNotes', view: 'viewNotes', title: 'Notater' },
+    { tab: 'tabVerbs', view: 'viewVerbs', title: 'Uregelrette verb' }
   ];
-  let activeTab = 'tabCards';
   function showTab(id){
     activeTab = id;
+    if(id !== 'tabCards') closeStory();
     tabDefs.forEach(d => {
       const on = d.tab === id;
       document.getElementById(d.tab).classList.toggle('active', on);
       document.getElementById(d.view).classList.toggle('active', on);
-      if(on){ h1.textContent = d.title; subtitle.textContent = d.sub; }
+      if(on) h1.textContent = d.title;
     });
+    syncMeta();
   }
   tabDefs.forEach(d => document.getElementById(d.tab).addEventListener('click', () => showTab(d.tab)));
 
@@ -1809,6 +2037,18 @@
     const verbsActive = activeTab === 'tabVerbs';
     const cardsActive = activeTab === 'tabCards';
     if(!verbsActive && !cardsActive) return;
+    if(!storyPanel.hidden){
+      // Historien er åpen: den eier tastene til den lukkes.
+      if(e.key === 'Escape') closeStory();
+      return;
+    }
+    // Skriver man i søkefeltet, eier feltet tastene — ellers blir mellomrom
+    // til en kortvending i stedet for et mellomrom.
+    const el = document.activeElement;
+    if(el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA')){
+      if(e.key === 'Escape') el.blur();
+      return;
+    }
     if(e.key === 'ArrowRight'){ verbsActive ? nextV() : next(); }
     if(e.key === 'ArrowLeft'){ verbsActive ? prevV() : prev(); }
     if(e.key === ' '){
@@ -1817,6 +2057,7 @@
     }
   });
 
+  renderV();
   render();
 </script>
 

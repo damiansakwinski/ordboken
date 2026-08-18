@@ -89,9 +89,9 @@ node tools/build-podcast.mjs --sync-app
 ```
 
 Skriver historiene fra `stories.json` og stiene til klippene i `ord/` inn i den
-merkede blokka i `index.html`. Kortene får da en **Historie**-knapp som legger
-teksten over baksiden, og en **Spill**-knapp for de ordene som har lyd. Blokka er
-generert — rett i `stories.json` og kjør kommandoen på nytt i stedet for å
+merkede blokka i `index.html`. Baksiden av kortet får da en **Hør historien**-knapp
+som legger historien over kortet med avspiller og tidslinje. Ord uten lydklipp får
+**Les historien** og bare teksten. Blokka er generert — rett i `stories.json` og kjør kommandoen på nytt i stedet for å
 redigere `index.html` for hånd.
 
 `ord/` ligger i git, så lyden følger med på GitHub Pages. Det er rundt 25 MB, og
