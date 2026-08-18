@@ -574,7 +574,7 @@
   .navbtn:active, .mainbtn:active{ transform:scale(.985); }
 
   /* Lave skjermer: kortet får mindre luft så baksiden ikke renner ut. */
-  @media (max-height:760px){
+  @media (max-height:780px){
     .face{ padding:20px 20px; gap:10px; }
     .conj{ gap:2px 12px; }
     .example{ font-size:15px; }
@@ -589,6 +589,61 @@
     .controls{ padding-top:12px; }
     .footrow{ padding-top:10px; }
     .footnote{ padding:10px 24px 14px; }
+  }
+
+  /* Telefon med nettleserlinje — rundt 545pt igjen til siden. Der er kortet
+     det eneste som betyr noe, så rammeteksten går ut og alt annet strammes
+     inn til det minste som fortsatt er komfortabelt å treffe med tommelen. */
+  @media (max-height:660px){
+    .topbar, .footnote{ display:none; }
+
+    .titlebar{ padding:14px 22px 0; }
+    h1{ font-size:20px; }
+    .meta{ font-size:12px; }
+
+    .tabs{ gap:20px; padding:10px 22px 0; }
+    .tab{ padding-bottom:9px; font-size:13.5px; }
+
+    .searchwrap{ padding:10px 22px 0; }
+    .search{ height:40px; border-radius:12px; font-size:13.5px; }
+
+    .chiprow{ gap:7px; padding:9px 22px 0; }
+    .catbtn{ padding:7px 12px; font-size:12.5px; }
+
+    .filterrow{ padding:9px 22px 0; }
+    .lbtn{ padding:6px 11px; font-size:11.5px; }
+
+    .cardwrap{ padding:10px 22px 0; }
+    .face{ padding:15px 16px; gap:6px; }
+    .word{ font-size:clamp(21px, 6.6vw, 26px); }
+    .example{ font-size:14px; }
+    .storyBtn{ padding:7px 14px; }
+    /* Kildemerket mister rammen og blir en ren undertekst — pilleformen
+       koster ti piksler høyde vi ikke har på denne skjermen. */
+    .srcpill{ border-color:transparent; padding:0; font-size:10px; }
+    .hint{ font-size:12px; }
+
+    /* Bøyningen blir to og to, med merkelappen over formen — fire rader
+       flate ut til to uten at par som «fortid / skiftet ut» blir røket opp. */
+    .conj{ grid-template-columns:1fr 1fr; gap:1px 16px; max-width:270px; }
+    .conj .cl{ align-self:end; }
+    .conj .cv{ font-size:13.5px; line-height:1.25; }
+    .conj > :nth-child(1){ grid-area:1 / 1; }
+    .conj > :nth-child(2){ grid-area:2 / 1; }
+    .conj > :nth-child(3){ grid-area:1 / 2; }
+    .conj > :nth-child(4){ grid-area:2 / 2; }
+    .conj > :nth-child(5){ grid-area:3 / 1; }
+    .conj > :nth-child(6){ grid-area:4 / 1; }
+    .conj > :nth-child(7){ grid-area:3 / 2; }
+    .conj > :nth-child(8){ grid-area:4 / 2; }
+    .conj > :nth-child(5), .conj > :nth-child(7){ margin-top:7px; }
+
+    .controls{ gap:9px; padding:12px 22px 0; }
+    .navbtn{ width:46px; height:46px; border-radius:14px; }
+    .mainbtn{ height:46px; border-radius:14px; font-size:14.5px; }
+
+    .footrow{ padding:11px 24px 14px; }
+    .linkbtn, .switchbtn{ font-size:13px; }
   }
 
   @media (prefers-reduced-motion: reduce){
