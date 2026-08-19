@@ -3,6 +3,26 @@
 Ordkort for norsk gloseøving. Hele appen er `index.html` — én fil, ingen bygg,
 åpne den i en nettleser.
 
+Kortene har to moduser, som byttes øverst til høyre:
+
+| Modus | Forside | Bakside |
+|---|---|---|
+| **Ord** | ordet | oversettelse, bøyning, eksempel |
+| **Setning** | eksempelet med ordet fjernet — du skriver det inn selv | setningen fylt inn, med bøyningen under |
+
+Feltet retter mens du skriver: det blir grønt i det svaret er riktig, og Enter
+snur kortet. Skrev du feil, står forsøket ditt under fasiten.
+
+Setningsmodus har ikke noe eget datafelt: ordet gjenfinnes i eksempelet ved
+oppslag på bøyde former og deretter på stammen. Det virker for de fleste
+kildesitatene, men ikke alle — noen har ordet som sammensetning
+(«saueflokken»), med delt partikkel («legger *dem* på») eller i en form for
+langt unna oppslagsordet («bøndene»). De ordene har fått en egen øvingssetning
+i feltet `cl`, som *bare* brukes i setningsmodus; ordkortet viser fortsatt
+sitatet fra kilden. Alle 312 ordene kan nå fylles ut.
+
+Legger du til nye ord og eksempelet ikke lar seg fylle ut, sett `cl` på det ordet.
+
 ## Podkast
 
 `tools/build-podcast.mjs` lager en lyttepodkast av de samme ordene: for hvert ord

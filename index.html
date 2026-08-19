@@ -25,6 +25,7 @@
     --green-tint:#E8F0E9;
     --green-hair:#D9E2DB;
     --green-wash:#F2F7F3;
+    --warn:#B4553C;
     --ui:'Figtree', system-ui, -apple-system, sans-serif;
     --serif:'Lora', Georgia, serif;
   }
@@ -86,7 +87,7 @@
   .titlebar{
     padding:12px 24px 0;
     display:flex;
-    align-items:baseline;
+    align-items:center;
     justify-content:space-between;
     gap:12px;
     flex:none;
@@ -100,7 +101,37 @@
     letter-spacing:-.01em;
   }
 
-  .meta{ font-size:13px; color:var(--muted); white-space:nowrap; }
+  /* Ord ↔ Setning */
+  .modes{
+    display:flex;
+    gap:4px;
+    flex:none;
+    background:#EDEAE2;
+    border-radius:999px;
+    padding:3px;
+  }
+  .modebtn{
+    padding:6px 14px;
+    border-radius:999px;
+    border:none;
+    background:transparent;
+    font:inherit;
+    font-size:12px;
+    font-weight:500;
+    color:var(--muted);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .modebtn.active{
+    background:#FFFFFF;
+    color:var(--ink);
+    font-weight:600;
+    box-shadow:0 1px 2px rgba(35,33,30,.12);
+  }
+
+  .countwrap{ display:flex; align-items:center; gap:9px; }
+  .count{ font-size:12px; color:var(--muted); white-space:nowrap; }
+  .verbmeter{ justify-content:flex-end; }
 
   /* faner */
   .tabs{
@@ -205,7 +236,7 @@
   .lbtn.active{ border-color:var(--green); background:var(--green-tint); color:var(--green-dark); }
 
   .track{
-    width:74px;
+    width:52px;
     height:3px;
     flex:none;
     border-radius:2px;
@@ -291,6 +322,58 @@
     font-size:13px;
     color:var(--faint);
   }
+
+  /* Ord- og setningsvarianten deler .face-oppsettet: display:contents gjør
+     barna til flex-elementer i kortet, og hidden tar hele gruppa vekk. */
+  .cardbody{ display:contents; }
+
+  .sentence{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(18px, 5.6vw, 23px);
+    line-height:1.5;
+    max-width:100%;
+    overflow-wrap:break-word;
+    text-wrap:pretty;
+  }
+  /* Luka er et skrivefelt, ikke bare en strek — det er hele poenget med
+     modusen. Den arver setningens skrift så den sitter i linja. */
+  .blankin{
+    font:inherit;
+    color:var(--green-dark);
+    font-weight:600;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid var(--green);
+    border-radius:0;
+    padding:0 3px;
+    min-width:78px;
+    max-width:100%;
+    text-align:center;
+    outline:none;
+    -webkit-appearance:none;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .blankin:focus{ background:var(--green-wash); }
+  .blankin.riktig{ background:var(--green-tint); }
+  .blankin.feil{ color:var(--warn); border-bottom-color:var(--warn); background:transparent; }
+
+  .attempt{ font-size:12px; color:var(--faint); }
+  .attempt b{ font-weight:600; color:var(--warn); }
+  .answer{
+    font-weight:600;
+    color:var(--green-dark);
+    box-shadow:inset 0 -8px 0 var(--green-tint);
+  }
+  .gloss{ font-size:14px; color:var(--muted); }
+  .forms{
+    font-size:12px;
+    line-height:1.6;
+    letter-spacing:.01em;
+    color:var(--muted);
+    max-width:250px;
+  }
+  .saylabel{ font-size:14px; color:var(--faint); }
 
   .conj{
     display:none;
@@ -638,6 +721,13 @@
     .conj > :nth-child(8){ grid-area:4 / 2; }
     .conj > :nth-child(5), .conj > :nth-child(7){ margin-top:7px; }
 
+    .modebtn{ padding:5px 11px; font-size:11.5px; }
+    .sentence{ font-size:clamp(17px, 5.2vw, 20px); line-height:1.45; }
+    .gloss{ font-size:13px; }
+    .forms{ font-size:11.5px; }
+    .attempt{ font-size:11.5px; }
+    .blankin{ min-width:66px; }
+    .saylabel{ font-size:13px; }
     .controls{ gap:9px; padding:12px 22px 0; }
     .navbtn{ width:46px; height:46px; border-radius:14px; }
     .mainbtn{ height:46px; border-radius:14px; font-size:14.5px; }
@@ -662,7 +752,10 @@
 
   <div class="titlebar">
     <h1>Ordkort</h1>
-    <span class="meta" id="meta">Kort 1 av 312</span>
+    <div class="modes" id="modes">
+      <button type="button" class="modebtn active" data-mode="word">Ord</button>
+      <button type="button" class="modebtn" data-mode="cloze">Setning</button>
+    </div>
   </div>
 
   <div class="tabs">
@@ -692,7 +785,10 @@
         <button class="lbtn" data-learn="ikke">Ikke lært</button>
         <button class="lbtn" data-learn="lart">Lært</button>
       </div>
-      <div class="track"><i id="progFill"></i></div>
+      <div class="countwrap">
+        <span class="count" id="meta">1 / 312</span>
+        <div class="track"><i id="progFill"></i></div>
+      </div>
     </div>
 
     <div class="cardwrap">
@@ -700,15 +796,33 @@
       <div class="card" id="card">
         <div class="card-inner">
           <div class="face front">
-            <span class="tag" id="frontTag">Engelsk</span>
-            <span class="word" id="frontWord">still</span>
-            <span class="hint">trykk for å snu</span>
+            <div class="cardbody" id="frontWordBody">
+              <span class="tag" id="frontTag">Engelsk</span>
+              <span class="word" id="frontWord">still</span>
+            </div>
+            <div class="cardbody" id="frontClozeBody" hidden>
+              <span class="tag">Fyll inn</span>
+              <span class="sentence"><span id="clozePre"></span><input
+                class="blankin" id="clozeInput" type="text" autocomplete="off"
+                autocapitalize="none" autocorrect="off" spellcheck="false"
+                enterkeyhint="done" aria-label="Skriv det ordet som mangler"><span id="clozePost"></span></span>
+              <span class="gloss" id="frontGloss"></span>
+            </div>
+            <span class="hint" id="cardHint">trykk for å snu</span>
           </div>
           <div class="face back">
-            <span class="tag" id="backTag">Norsk</span>
-            <span class="word" id="backWord">fremdeles</span>
-            <div class="conj" id="backConj"></div>
-            <p class="example" id="backExample">«...det kiler fremdeles like mye i magen...»</p>
+            <div class="cardbody" id="backWordBody">
+              <span class="tag" id="backTag">Norsk</span>
+              <span class="word" id="backWord">fremdeles</span>
+              <div class="conj" id="backConj"></div>
+              <p class="example" id="backExample">«...det kiler fremdeles like mye i magen...»</p>
+            </div>
+            <div class="cardbody" id="backClozeBody" hidden>
+              <span class="tag" id="backClozeTag">Svar</span>
+              <span class="sentence" id="backSentence"></span>
+              <span class="forms" id="backForms"></span>
+              <span class="attempt" id="attempt" hidden></span>
+            </div>
             <button type="button" class="storyBtn" id="storyBtn" hidden>Les historien</button>
             <span class="srcpill" id="srcPill" hidden></span>
           </div>
@@ -744,6 +858,7 @@
         <span>Norsk først</span>
         <span class="switch"><i></i></span>
       </button>
+      <span class="saylabel" id="sayLabel" hidden>Si svaret høyt først</span>
     </div>
 
     <div class="footnote">312 ord · «Tur–retur Norge» og andre kilder</div>
@@ -867,6 +982,13 @@
 
   <div class="view" id="viewVerbs">
 
+    <div class="filterrow verbmeter">
+      <div class="countwrap">
+        <span class="count" id="metaV">1 / 150</span>
+        <div class="track"><i id="progFillV"></i></div>
+      </div>
+    </div>
+
     <div class="cardwrap">
      <div class="cardpos">
       <div class="card" id="cardV">
@@ -915,7 +1037,7 @@
     { en: "to climb", no: "klatre", ex: "«...enten man vil klatre Norges nasjonalfjell Stetind...»", conj: {inf:"å klatre", pres:"klatrer", fort:"klatret", perf:"har klatret"}, cat: "Tur-retur" },
     { en: "a village", no: "ei bygd", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»", cat: "Tur-retur" },
     { en: "a valley", no: "en dal", ex: "«Dype daler, bygd og by, trange fjorder og vidder...»", cat: "Tur-retur" },
-    { en: "a sheep", no: "en sau", ex: "«...kjører kolonne forbi saueflokken som vandrer midt i veien.»", cat: "Tur-retur" },
+    { en: "a sheep", no: "en sau", ex: "«...kjører kolonne forbi saueflokken som vandrer midt i veien.»", cl: "«Det står en sau midt i veien.»", cat: "Tur-retur" },
     { en: "mighty / powerful", no: "mektige", ex: "«...mektige fossefall, fire sesonger og en kyst man bare kan drømme om.»", cat: "Tur-retur" },
     { en: "to greet", no: "å hilse", ex: "«...med et smil rundt munnen og hilser på alle vi møter.»", conj: {inf:"å hilse", pres:"hilser", fort:"hilste", perf:"har hilst"}, cat: "Tur-retur" },
     { en: "a towel", no: "et håndkle", ex: "«...hvis håndkleet har rukket å tørke etter det iskalde badet...»", cat: "Tur-retur" },
@@ -931,7 +1053,7 @@
     { en: "to exchange", no: "å bytte", ex: "«Jeg måtte bytte genseren i en større størrelse.»", conj: {inf:"å bytte", pres:"bytter", fort:"byttet", perf:"har byttet"}, cat: "Andre" },
     { en: "a sweater", no: "en genser", ex: "«Han tok på seg en varm genser før turen.»", cat: "Andre" },
     { en: "a face", no: "et ansikt", ex: "«Hun hadde et fornøyd ansikt etter fjellturen.»", cat: "Andre" },
-    { en: "an ant", no: "en maur", ex: "Peppa Gris S12E09", cat: "Peppa Pig" },
+    { en: "an ant", no: "en maur", ex: "Peppa Gris S12E09", cl: "«Vi så en maur på kjøkkenbenken.»", cat: "Peppa Pig" },
     { en: "a huge TV", no: "en diger TV", ex: "«De hadde en diger TV på hytteveggen.»", cat: "Peppa Pig" },
     { en: "a mirror", no: "et speil", ex: "«Innsjøen lå blank som et speil.»", cat: "Peppa Pig" },
     { en: "a whale", no: "en hval", ex: "«Vi så en hval blåse ute i fjorden.»", cat: "Peppa Pig" },
@@ -939,7 +1061,7 @@
     { en: "a relationship", no: "et forhold", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»", cat: "Andre" },
     { en: "a size", no: "en størrelse", ex: "«Maur er blant de sterkeste dyrene i verden i forhold til størrelsen sin.»", cat: "Andre" },
     { en: "to feed (an animal)", no: "å fore", ex: "«Vi må fore dyrene før vi drar på tur.»", conj: {inf:"å fore", pres:"forer", fort:"foret", perf:"har foret"}, cat: "Peppa Pig" },
-    { en: "to put", no: "å legge på", ex: "«Vi legger dem på gulvet.»", conj: {inf:"å legge på", pres:"legger på", fort:"la på", perf:"har lagt på"}, cat: "Peppa Pig" },
+    { en: "to put", no: "å legge på", ex: "«Vi legger dem på gulvet.»", cl: "«Vi legger på lokket før vi koker.»", conj: {inf:"å legge på", pres:"legger på", fort:"la på", perf:"har lagt på"}, cat: "Peppa Pig" },
     { en: "to decide", no: "å bestemme", ex: "«Vi må bestemme hvor vi skal på tur i morgen.»", conj: {inf:"å bestemme", pres:"bestemmer", fort:"bestemte", perf:"har bestemt"}, cat: "Andre" },
     { en: "a transition", no: "en overgang", ex: "«Overgangen fra sommer til høst går fort i fjellet.»", cat: "Andre" },
     { en: "put on hold, shelved", no: "stilt", ex: "«Stupetårnet i Stavanger var ferdig tegna, så ble det stilt.»", conj: {inf:"å stille", pres:"stiller", fort:"stilte", perf:"har stilt"}, cat: "Andre" },
@@ -947,7 +1069,7 @@
     { en: "a hydropower reservoir", no: "et kraftmagasin", ex: "«Kraftmagasinene har den laveste fyllingsgraden på 16 år.»", cat: "Andre" },
     { en: "worst", no: "verst", ex: "«Verst er det i sørvest med halvfulle magasin.»", cat: "Andre" },
     { en: "properly, really", no: "skikkelig", ex: "«Vi ble skikkelig våte på turen.»", cat: "Andre" },
-    { en: "a mood", no: "en stemning", ex: "«Nå meldes det om sydenstemning i Sirdal.»", cat: "Andre" },
+    { en: "a mood", no: "en stemning", ex: "«Nå meldes det om sydenstemning i Sirdal.»", cl: "«Det var god stemning på festen.»", cat: "Andre" },
     { en: "to report", no: "å melde", ex: "«Eierne meldte selv fra om brannen.»", conj: {inf:"å melde", pres:"melder", fort:"meldte", perf:"har meldt"}, cat: "Andre" },
     { en: "to join", no: "å føye seg inn i", ex: "«2026 føyer seg inn i rekka av de tørreste somrene.»", conj: {inf:"å føye seg", pres:"føyer seg", fort:"føyde seg", perf:"har føyd seg"}, cat: "Andre" },
     { en: "a row", no: "ei rekke", ex: "«...i rekka av de tre tørreste somrene på 20 år.»", cat: "Andre" },
@@ -964,7 +1086,7 @@
     { en: "just now", no: "nettopp", ex: "«Vi kom nettopp fram til hytta.»", cat: "Andre" },
     { en: "a range", no: "en rekkevidde", ex: "«Toppen var endelig innen rekkevidde.»", cat: "Andre" },
     { en: "access", no: "en adgang", ex: "«Turister har adgang til hytta hele sommeren.»", cat: "Andre" },
-    { en: "to be included in", no: "å være med i", ex: "«Nord-Norge var ikke med i den første boka.»", conj: {inf:"å være med i", pres:"er med i", fort:"var med i", perf:"har vært med i"}, cat: "Tur-retur" },
+    { en: "to be included in", no: "å være med i", ex: "«Nord-Norge var ikke med i den første boka.»", cl: "«Jeg vil gjerne være med i koret.»", conj: {inf:"å være med i", pres:"er med i", fort:"var med i", perf:"har vært med i"}, cat: "Tur-retur" },
     { en: "to cover", no: "å dekke", ex: "«Jeg har konsentrert meg om å dekke landet opp til Troms.»", conj: {inf:"å dekke", pres:"dekker", fort:"dekket", perf:"har dekket"}, cat: "Tur-retur" },
     { en: "adapted", no: "tilrettelagt", ex: "«...steder som er mest tilrettelagt for turisme.»", conj: {inf:"å tilrettelegge", pres:"tilrettelegger", fort:"tilrettela", perf:"har tilrettelagt"}, cat: "Tur-retur" },
     { en: "a distance", no: "en avstand", ex: "«Det er store avstander i nord.»", cat: "Tur-retur" },
@@ -989,7 +1111,7 @@
     { en: "dead calm", no: "vindstille", ex: "«...melisdryss på fjellene og vindstille.»", cat: "Tur-retur" },
     { en: "a power outage", no: "et strømbrudd", ex: "«...stengte veier, strømbrudd i ukevis.»", cat: "Tur-retur" },
     { en: "an everyday struggle", no: "en hverdagskamp", ex: "«Gåturen til butikken ble en hverdagskamp.»", cat: "Tur-retur" },
-    { en: "to appreciate", no: "å sette pris på", ex: "«Da satte man litt ekstra pris på den fine uka.»", conj: {inf:"å sette pris på", pres:"setter pris på", fort:"satte pris på", perf:"har satt pris på"}, cat: "Tur-retur" },
+    { en: "to appreciate", no: "å sette pris på", ex: "«Da satte man litt ekstra pris på den fine uka.»", cl: "«Jeg setter pris på hjelpen din.»", conj: {inf:"å sette pris på", pres:"setter pris på", fort:"satte pris på", perf:"har satt pris på"}, cat: "Tur-retur" },
     { en: "to climb", no: "å bestige", ex: "«Bestige en 2000-meters fjelltopp.»", conj: {inf:"å bestige", pres:"bestiger", fort:"besteg", perf:"har besteget"}, cat: "Tur-retur" },
     { en: "a Norwegian griddle pancake", no: "ei svele", ex: "«Spise svele i en liten bygd på Vestlandet.»", cat: "Tur-retur" },
     { en: "a bag", no: "en sekk", ex: "«Gå en langtur til fots med tung sekk.»", cat: "Tur-retur" },
@@ -1014,9 +1136,9 @@
     { en: "a swing", no: "en huske", ex: "«Barna leker på husken.»", cat: "Peppa Pig" },
     { en: "very", no: "særlig", ex: "«Denne husken ser ikke særlig huskete ut.»", cat: "Peppa Pig" },
     { en: "a slide", no: "en skli", ex: "«Barna sklir ned sklien.»", cat: "Peppa Pig" },
-    { en: "a leg", no: "et ben", ex: "«...som gjør bena hennes sterke.»", cat: "Peppa Pig" },
+    { en: "a leg", no: "et ben", ex: "«...som gjør bena hennes sterke.»", cl: "«Hunden brakk et ben i fjor.»", cat: "Peppa Pig" },
     { en: "to shout", no: "å rope", ex: "«Peppa ropte på George.»", conj: {inf:"å rope", pres:"roper", fort:"ropte", perf:"har ropt"}, cat: "Peppa Pig" },
-    { en: "to step it up a gear", no: "å legge inn et gir", ex: "«Legg inn et ekstra gir!»", conj: {inf:"å legge inn et gir", pres:"legger inn et gir", fort:"la inn et gir", perf:"har lagt inn et gir"}, cat: "Peppa Pig" },
+    { en: "to step it up a gear", no: "å legge inn et gir", ex: "«Legg inn et ekstra gir!»", cl: "«Vi må legge inn et gir før innspurten.»", conj: {inf:"å legge inn et gir", pres:"legger inn et gir", fort:"la inn et gir", perf:"har lagt inn et gir"}, cat: "Peppa Pig" },
     { en: "excellent", no: "knallbra", ex: "«Det var en knallbra innsats!»", cat: "Peppa Pig" },
     { en: "a frog jump", no: "et froskehopp", ex: "«Nå tar vi froskehopp!»", cat: "Peppa Pig" },
     { en: "to bend", no: "å bøye", ex: "«Bøy knærne og hopp.»", conj: {inf:"å bøye", pres:"bøyer", fort:"bøyde", perf:"har bøyd"}, cat: "Peppa Pig" },
@@ -1095,14 +1217,14 @@
     { en: "welcome", no: "vel møtt", ex: "«Vel møtt til sending!»", cat: "Distriktsnyheter Rogaland" },
     { en: "a wake-up call", no: "en vekker", ex: "«Storbrannen i Drammen ble en vekker for beboerne i gamle Stavanger.»", cat: "Distriktsnyheter Rogaland" },
     { en: "a district", no: "en bydel", ex: "«Gamle Stavanger er en gammel bydel.»", cat: "Distriktsnyheter Rogaland" },
-    { en: "nasty", no: "ekkel", ex: "«Bare ekle tanker.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "nasty", no: "ekkel", ex: "«Bare ekle tanker.»", cl: "«Det var en ekkel lukt i kjelleren.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to weigh", no: "å veie", ex: "«Hvor mye veier den?»", conj: {inf:"å veie", pres:"veier", fort:"veide", perf:"har veid"}, cat: "Distriktsnyheter Rogaland" },
     { en: "a staircase", no: "ei trapp", ex: "«Gå opp trappa.»", cat: "Distriktsnyheter Rogaland" },
     { en: "a resident", no: "en beboer", ex: "«Beboerne i gamle Stavanger.»", cat: "Distriktsnyheter Rogaland" },
     { en: "worrying", no: "bekymringsfull", ex: "«En bekymringsfull utvikling.»", cat: "Distriktsnyheter Rogaland" },
     { en: "far-reaching", no: "omfattende", ex: "«Omfattende skader etter brannen.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to clean", no: "å gjøre reint", ex: "«Det er nylig gjort reint.»", conj: {inf:"å gjøre reint", pres:"gjør reint", fort:"gjorde reint", perf:"har gjort reint"}, cat: "Distriktsnyheter Rogaland" },
-    { en: "nice", no: "kjekk", ex: "«Det er kjempekjekt!»", cat: "Distriktsnyheter Rogaland" },
+    { en: "nice", no: "kjekk", ex: "«Det er kjempekjekt!»", cl: "«Han er en kjekk fyr.»", cat: "Distriktsnyheter Rogaland" },
     { en: "credit", no: "kred", ex: "«Kred og utrolig takknemlighet til Uefas ledelse.»", cat: "Distriktsnyheter Rogaland" },
     { en: "gratitude", no: "en takknemlighet", ex: "«Kred og utrolig takknemlighet til Uefas ledelse.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to acknowledge", no: "å erkjenne", ex: "«Vi må erkjenne at styringsmekanismene er gode.»", conj: {inf:"å erkjenne", pres:"erkjenner", fort:"erkjente", perf:"har erkjent"}, cat: "Distriktsnyheter Rogaland" },
@@ -1117,7 +1239,7 @@
     { en: "to create", no: "å skape", ex: "«...kan ha skapt kaoset med vilje.»", conj: {inf:"å skape", pres:"skaper", fort:"skapte", perf:"har skapt"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to characterize", no: "å prege", ex: "«Været har preget sommeren i store deler av Europa.»", conj: {inf:"å prege", pres:"preger", fort:"preget", perf:"har preget"}, cat: "Distriktsnyheter Rogaland" },
     { en: "a harvest", no: "en innhøsting", ex: "«Har bøndene startet innhøstingen?»", cat: "Distriktsnyheter Rogaland" },
-    { en: "a farmer", no: "en bonde", ex: "«Har bøndene startet innhøstingen?»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a farmer", no: "en bonde", ex: "«Har bøndene startet innhøstingen?»", cl: "«Naboen er bonde og har tjue kyr.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to save", no: "å redde", ex: "«Å redde avlinger mot tørke.»", conj: {inf:"å redde", pres:"redder", fort:"reddet", perf:"har reddet"}, cat: "Distriktsnyheter Rogaland" },
     { en: "a crop", no: "en avling", ex: "«Å redde avlinger mot tørke.»", cat: "Distriktsnyheter Rogaland" },
     { en: "a spring", no: "en vår", ex: "«Etter en våt og kald vår.»", cat: "Distriktsnyheter Rogaland" },
@@ -1173,11 +1295,11 @@
     { en: "most likely", no: "mest sannsynlig", ex: "«Det er mest sannsynlig en ulykke.»", cat: "Distriktsnyheter Rogaland" },
     { en: "cool", no: "kjølig", ex: "«Det er kjølig ute.»", cat: "Distriktsnyheter Rogaland" },
     { en: "separated", no: "adskilt", ex: "«Familien ble adskilt.»", conj: {inf:"å adskille", pres:"adskiller", fort:"adskilte", perf:"har adskilt"}, cat: "Distriktsnyheter Rogaland" },
-    { en: "to be occupied with", no: "å drive med", ex: "«Hva driver du med?»", conj: {inf:"å drive med", pres:"driver med", fort:"drev med", perf:"har drevet med"}, cat: "Distriktsnyheter Rogaland" },
+    { en: "to be occupied with", no: "å drive med", ex: "«Hva driver du med?»", cl: "«Broren min driver med friidrett.»", conj: {inf:"å drive med", pres:"driver med", fort:"drev med", perf:"har drevet med"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to launch", no: "å lansere", ex: "«De lanserte en ny app.»", conj: {inf:"å lansere", pres:"lanserer", fort:"lanserte", perf:"har lansert"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to raise (increase)", no: "å heve", ex: "«Å heve renta.»", conj: {inf:"å heve", pres:"hever", fort:"hevet", perf:"har hevet"}, cat: "Distriktsnyheter Rogaland" },
-    { en: "a rate", no: "en sats", ex: "«Rentesatsen ble satt opp.»", cat: "Distriktsnyheter Rogaland" },
-    { en: "to turn upside down", no: "å snu på hodet", ex: "«Funnet snudde hele saken på hodet.»", conj: {inf:"å snu på hodet", pres:"snur på hodet", fort:"snudde på hodet", perf:"har snudd på hodet"}, cat: "Distriktsnyheter Rogaland" },
+    { en: "a rate", no: "en sats", ex: "«Rentesatsen ble satt opp.»", cl: "«Vi betaler en fast sats per time.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "to turn upside down", no: "å snu på hodet", ex: "«Funnet snudde hele saken på hodet.»", cl: "«Alt ble snudd på hodet etter valget.»", conj: {inf:"å snu på hodet", pres:"snur på hodet", fort:"snudde på hodet", perf:"har snudd på hodet"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to offer", no: "å tilby", ex: "«De tilbyr gratis levering.»", conj: {inf:"å tilby", pres:"tilbyr", fort:"tilbød", perf:"har tilbudt"}, cat: "Distriktsnyheter Rogaland" },
     { en: "violent", no: "voldsom", ex: "«En voldsom eksplosjon.»", cat: "Distriktsnyheter Rogaland" },
     { en: "hardly", no: "knapt", ex: "«Kvinner får knapt jobbe i Afghanistan.»", cat: "Distriktsnyheter Rogaland" },
@@ -1192,13 +1314,13 @@
     { en: "to return", no: "å vende", ex: "«Et hjem å vende tilbake til.»", conj: {inf:"å vende", pres:"vender", fort:"vendte", perf:"har vendt"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to ravage", no: "å herje", ex: "«Brannen herjer i området.»", conj: {inf:"å herje", pres:"herjer", fort:"herjet", perf:"har herjet"}, cat: "Distriktsnyheter Rogaland" },
     { en: "to flare up", no: "å blusse opp", ex: "«Flammene blusset opp igjen i natt.»", conj: {inf:"å blusse opp", pres:"blusser opp", fort:"blusset opp", perf:"har blusset opp"}, cat: "Distriktsnyheter Rogaland" },
-    { en: "a gender", no: "et kjønn", ex: "«FN kaller det kjønnsapartheid.»", cat: "Distriktsnyheter Rogaland" },
-    { en: "a rule", no: "en regel", ex: "«Etter Taliban sine reglar.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a gender", no: "et kjønn", ex: "«FN kaller det kjønnsapartheid.»", cl: "«Vi vet ikke hvilket kjønn valpen har.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a rule", no: "en regel", ex: "«Etter Taliban sine reglar.»", cl: "«Det er en enkel regel å huske.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to exclude", no: "å utestenge", ex: "«Kvinner er utestengde frå dei fleste yrke.»", conj: {inf:"å utestenge", pres:"utestenger", fort:"utestengte", perf:"har utestengt"}, cat: "Distriktsnyheter Rogaland" },
     { en: "a profession", no: "et yrke", ex: "«Kvinner er utestengde frå dei fleste yrke.»", cat: "Distriktsnyheter Rogaland" },
     { en: "a virgin", no: "en jomfru", ex: "«Statue av jomfru Maria.»", cat: "Distriktsnyheter Rogaland" },
     { en: "an inauguration", no: "en innvielse", ex: "«Flere hundre deltok under innvielsen.»", cat: "Distriktsnyheter Rogaland" },
-    { en: "a married couple", no: "et ektepar", ex: "«Bak statuen står et milliardærektepar.»", cat: "Distriktsnyheter Rogaland" },
+    { en: "a married couple", no: "et ektepar", ex: "«Bak statuen står et milliardærektepar.»", cl: "«Et eldre ektepar bor i første etasje.»", cat: "Distriktsnyheter Rogaland" },
     { en: "a coffin", no: "ei kiste", ex: "«Kisten til artisten ble fraktet gjennom gatene.»", cat: "Distriktsnyheter Rogaland" },
     { en: "a song", no: "ei låt", ex: "«Best kjent for låta Total Eclipse of the Heart.»", cat: "Distriktsnyheter Rogaland" },
     { en: "to be born", no: "å føde", ex: "«100 år siden Miles Davis ble født.»", conj: {inf:"å føde", pres:"føder", fort:"fødte", perf:"har født"}, cat: "Distriktsnyheter Rogaland" },
@@ -1226,6 +1348,21 @@
   const srcPill = document.getElementById('srcPill');
   const storyBtn = document.getElementById('storyBtn');
 
+  const frontWordBody = document.getElementById('frontWordBody');
+  const frontClozeBody = document.getElementById('frontClozeBody');
+  const backWordBody = document.getElementById('backWordBody');
+  const backClozeBody = document.getElementById('backClozeBody');
+  const clozePre = document.getElementById('clozePre');
+  const clozePost = document.getElementById('clozePost');
+  const clozeInput = document.getElementById('clozeInput');
+  const frontGloss = document.getElementById('frontGloss');
+  const backSentence = document.getElementById('backSentence');
+  const backForms = document.getElementById('backForms');
+  const backClozeTag = document.getElementById('backClozeTag');
+  const attempt = document.getElementById('attempt');
+  const sayLabel = document.getElementById('sayLabel');
+  const cardHint = document.getElementById('cardHint');
+
   // Historiepanelet ligger over kortet, ikke inni det — derfor slipper det
   // også unna sveipe- og vendehåndtererne, som henger på .card.
   const storyPanel = document.getElementById('storyPanel');
@@ -1244,6 +1381,115 @@
   // pointer-hendelsene sine selv.
   for(const type of ['pointerdown','pointerup','pointermove','pointercancel']){
     storyBtn.addEventListener(type, (e) => e.stopPropagation());
+  }
+
+  // ── setningsmodus ────────────────────────────────────────────────────────
+  // Kortene har ikke noe felt for «hvilket ord skal skjules» — det må
+  // gjenfinnes i eksempelet. Ordet står sjelden i oppslagsform der: «å rekke»
+  // dukker opp som «rakk», «ei høne» som «Høna». Vi prøver derfor først
+  // oppslagsordet og alle bøyde formene vi har, og faller så tilbake på
+  // stammen, som får treffe et helt ord som starter likt. Finner vi ingenting,
+  // vises kortet som vanlig ordkort.
+  const STRIP_HEAD = /^(å|en|ei|et|den|det|de)\s+/i;
+  const STRIP_AUX  = /^(å|har|hadde)\s+/i;
+  const escRe = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escHtml = (t) => t.replace(/[&<>]/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+
+  function blankCandidates(w){
+    const out = [];
+    const push = (t) => { t = (t || '').trim(); if(t) out.push(t); };
+    push(w.no);
+    push(w.no.replace(STRIP_HEAD, ''));
+    if(w.conj){
+      for(const v of [w.conj.inf, w.conj.pres, w.conj.fort, w.conj.perf]){
+        push(v);
+        push((v || '').replace(STRIP_AUX, ''));
+      }
+    }
+    // lengste først, så «bestemme seg» vinner over «bestemme»
+    return [...new Set(out)].sort((a, b) => b.length - a.length);
+  }
+
+  // Noen kildesitat lar seg ikke fylle ut — ordet står der som sammensetning
+  // («saueflokken»), med delt partikkel («legger dem på») eller i en form for
+  // langt fra oppslagsordet («bøndene»). De ordene har fått en egen
+  // øvingssetning i `cl`; ordkortet viser fortsatt sitatet fra kilden.
+  const sentenceOf = (w) => w.cl || w.ex || '';
+
+  const blankCache = new Map();
+  function blankOf(w){
+    if(blankCache.has(w)) return blankCache.get(w);
+    const ex = sentenceOf(w);
+    let found = null;
+    for(const c of blankCandidates(w)){
+      const m = new RegExp('(?:^|[^\\p{L}])(' + escRe(c) + ')(?!\\p{L})', 'iu').exec(ex);
+      if(m){ found = m[1]; break; }
+    }
+    if(!found){
+      for(const c of blankCandidates(w)){
+        const head = c.split(/\s+/)[0];
+        const stem = head.replace(/(er|et|en|e|a)$/i, '');
+        if(stem.length < 3) continue;
+        const rest = c.slice(head.length);
+        const m = new RegExp('(?:^|[^\\p{L}])(' + escRe(stem) + '\\p{L}{0,4}' + escRe(rest) + ')(?!\\p{L})', 'iu').exec(ex);
+        if(m){ found = m[1]; break; }
+      }
+    }
+    blankCache.set(w, found);
+    return found;
+  }
+
+  // Linja under svaret: bøyningen når vi har den, ellers oppslagsformen —
+  // den er poenget når luka viste en bøyd form.
+  function formsOf(w, blank){
+    if(w.conj) return [w.conj.inf, w.conj.pres, w.conj.fort, w.conj.perf].join(' · ');
+    if(blank && blank.toLowerCase() !== w.no.toLowerCase()) return w.no;
+    return '';
+  }
+
+  let answer = '';   // formen som står i setningen — det er den som skal skrives
+
+  const norm = (t) => (t || '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+  // Retter mens du skriver: feltet blir grønt i det svaret er riktig. «Feil»
+  // settes bare når du selv sier deg ferdig (Enter) — ikke mens du leter.
+  function gradeLive(){
+    const ok = answer && norm(clozeInput.value) === norm(answer);
+    clozeInput.classList.toggle('riktig', !!ok);
+    if(ok) clozeInput.classList.remove('feil');
+    const typed = clozeInput.value.trim();
+    const wrong = typed && !ok;
+    attempt.hidden = !wrong;
+    if(wrong){
+      attempt.textContent = '';
+      attempt.append('du skrev ');
+      const b = document.createElement('b');
+      b.textContent = typed;
+      attempt.append(b);
+    }
+    backClozeTag.textContent = ok ? 'Riktig' : 'Svar';
+    return ok;
+  }
+
+  function resetCloze(){
+    clozeInput.value = '';
+    clozeInput.classList.remove('riktig', 'feil');
+    attempt.hidden = true;
+    backClozeTag.textContent = 'Svar';
+  }
+
+  clozeInput.addEventListener('input', gradeLive);
+  clozeInput.addEventListener('keydown', (e) => {
+    if(e.key !== 'Enter') return;
+    e.preventDefault();
+    const ok = gradeLive();
+    if(!ok && clozeInput.value.trim()) clozeInput.classList.add('feil');
+    clozeInput.blur();
+    card.classList.add('flipped');
+  });
+  // Et trykk i feltet skal skrive, ikke snu kortet.
+  for(const type of ['pointerdown','pointerup','pointermove','pointercancel']){
+    clozeInput.addEventListener(type, (e) => e.stopPropagation());
   }
 
   const klokke = (s) => {
@@ -1308,21 +1554,39 @@
 
   const meta = document.getElementById('meta');
   const progFill = document.getElementById('progFill');
+  const modesBar = document.getElementById('modes');
   let direction = 'en'; // 'en' = engelsk først, 'no' = norsk først
+  let mode = 'word';    // 'word' = ordkort, 'cloze' = fyll inn i setningen
 
-  // Telleren i tittelraden deles av begge kortstokkene.
   function syncMeta(){
-    if(activeTab === 'tabVerbs'){ meta.textContent = `Kort ${posV + 1} av ${verbs.length}`; return; }
-    if(activeTab !== 'tabCards'){ meta.textContent = ''; return; }
-    if(order.length === 0){ meta.textContent = 'Ingen treff'; return; }
-    meta.textContent = order.length === words.length
-      ? `Kort ${pos + 1} av ${words.length}`
-      : `Kort ${pos + 1} av ${order.length} · filtrert`;
+    meta.textContent = order.length ? `${pos + 1} / ${order.length}` : '0 / 0';
+  }
+
+  modesBar.querySelectorAll('.modebtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mode = btn.dataset.mode;
+      modesBar.querySelectorAll('.modebtn').forEach(b => b.classList.toggle('active', b === btn));
+      render();
+    });
+  });
+
+  // Bytter mellom de to kortvariantene, og mellom retningsbryteren og
+  // «Si svaret høyt først» i bunnraden.
+  function setCloze(on){
+    resetCloze();
+    cardHint.textContent = on ? 'skriv svaret · Enter for å snu' : 'trykk for å snu';
+    frontWordBody.hidden = on;
+    backWordBody.hidden = on;
+    frontClozeBody.hidden = !on;
+    backClozeBody.hidden = !on;
+    dirBtn.hidden = on;
+    sayLabel.hidden = !on;
   }
 
   function render(){
     closeStory();
     if(order.length === 0){
+      setCloze(false);
       frontTag.textContent = direction === 'no' ? 'Norsk' : 'Engelsk';
       backTag.textContent  = direction === 'no' ? 'Engelsk' : 'Norsk';
       frontWord.textContent = 'Ingen treff';
@@ -1343,6 +1607,29 @@
       return;
     }
     const w = words[order[pos]];
+
+    // Setningsmodus krever at vi finner ordet igjen i eksempelet. Gjør vi
+    // ikke det, vises kortet som vanlig ordkort.
+    const blank = mode === 'cloze' ? blankOf(w) : null;
+    setCloze(!!blank);
+    if(blank){
+      const sentence = sentenceOf(w);
+      const at = sentence.indexOf(blank);
+      answer = blank;
+      clozePre.textContent = sentence.slice(0, at);
+      clozePost.textContent = sentence.slice(at + blank.length);
+      clozeInput.style.width = Math.max(6, blank.length + 2) + 'ch';
+      backSentence.innerHTML = escHtml(sentence.slice(0, at)) +
+        '<span class="answer">' + escHtml(blank) + '</span>' +
+        escHtml(sentence.slice(at + blank.length));
+      frontGloss.textContent = w.en;
+      const forms = formsOf(w, blank);
+      backForms.textContent = forms;
+      backForms.hidden = !forms;
+    } else {
+      answer = '';
+    }
+
     if(direction === 'no'){
       frontTag.textContent = 'Norsk';
       backTag.textContent = 'Engelsk';
@@ -2048,6 +2335,8 @@
   const frontWordV = document.getElementById('frontWordV');
   const backWordV = document.getElementById('backWordV');
   const backConjV = document.getElementById('backConjV');
+  const metaV = document.getElementById('metaV');
+  const progFillV = document.getElementById('progFillV');
 
   function renderV(){
     const w = verbs[orderV[posV]];
@@ -2060,7 +2349,8 @@
       '<span class="cl">fortid</span><span class="cv">' + w.conj.fort + '</span>' +
       '<span class="cl">perfektum</span><span class="cv">' + w.conj.perf + '</span>';
     cardV.classList.remove('flipped');
-    syncMeta();
+    metaV.textContent = `${posV + 1} / ${verbs.length}`;
+    progFillV.style.width = ((posV + 1) / verbs.length) * 100 + '%';
   }
   function nextV(){ posV = (posV + 1) % verbs.length; renderV(); }
   function prevV(){ posV = (posV - 1 + verbs.length) % verbs.length; renderV(); }
@@ -2085,6 +2375,7 @@
   ];
   function showTab(id){
     activeTab = id;
+    modesBar.hidden = id !== 'tabCards';
     if(id !== 'tabCards') closeStory();
     tabDefs.forEach(d => {
       const on = d.tab === id;
@@ -2092,7 +2383,6 @@
       document.getElementById(d.view).classList.toggle('active', on);
       if(on) h1.textContent = d.title;
     });
-    syncMeta();
   }
   tabDefs.forEach(d => document.getElementById(d.tab).addEventListener('click', () => showTab(d.tab)));
 
